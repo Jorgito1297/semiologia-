@@ -1,0 +1,53 @@
+# ============================================================
+# .gitignore — Study With Me SaaS
+# ¡CRÍTICO! Este archivo protege tus secrets de subir a GitHub
+# ============================================================
+
+# --- SECRETS Y VARIABLES DE ENTORNO (NUNCA subir al repo) ---
+.env
+.env.*
+!.env.example
+
+# --- PYTHON ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# --- FIREBASE ---
+.firebase/
+firebase-debug.log
+.firebaserc.local
+
+# --- NODE / NPM ---
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# --- SUPABASE ---
+supabase/.temp/
+supabase/functions/.cache/
+
+# --- TESTSPRITE ---
+testsprite_tests/tmp/
+testsprite_tests/tmp/config.json
+
+# --- ARCHIVOS TEMPORALES Y DEL SISTEMA ---
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- MATERIAL DESCARGADO (no subir PDFs al repo) ---
+material_moodle/
+teams_recordings/
+public/*.pdf
+testsprite_tests\tmp\config.json

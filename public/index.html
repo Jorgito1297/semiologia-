@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy - Academia Inteligente Multi-Curso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CONFIGURACIÓN DE SUPABASE — La anon key es pública y segura de incluir aquí -->
+    <script>
+      window.SUPABASE_URL = localStorage.getItem('SUPABASE_URL') || "https://xbtrryflwesqdwqfbqtr.supabase.co";
+      window.SUPABASE_ANON_KEY = localStorage.getItem('SUPABASE_ANON_KEY') || "sb_publishable_SqVtyvgm3npF4jldXXB7CQ_v44V9B8N";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+        .glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        .premium-card {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            perspective: 1000px;
+        }
+        .premium-card:hover {
+            transform: translateY(-6px) rotateX(2deg) rotateY(1deg);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+        }
+        /* Barra de desplazamiento personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen pb-16">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- ENCABEZADO PRINCIPAL -->
+        <header class="glass rounded-3xl p-6 md:p-8 mb-8 relative overflow-hidden shadow-2xl border-l-4 border-l-blue-500">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span id="universityBadge" class="px-3 py-1 text-xs font-bold bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30 tracking-wider">UNIVERSIDAD CENTRAL DEL ESTE</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-indigo-500/20 text-indigo-400 rounded-full border border-indigo-500/30">ÁREA DE MEDICINA</span>
+                        <span id="modeBadge" class="px-3 py-1 text-xs font-bold bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30 uppercase">Modo Demo</span>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold mt-3 tracking-tight bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent">
+                        Portal Académico Inteligente
+                    </h1>
+                    <p class="text-gray-400 text-sm mt-1">Multi-Curso de Repasos y Autoevaluación Clínica en Tiempo Real</p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                    <div class="bg-gray-800/50 border border-gray-700/50 rounded-2xl px-5 py-3 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30">
+                            🩺
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium">Estudiante</p>
+                            <p id="studentName" class="text-sm font-bold text-gray-200">Cargando...</p>
+                        </div>
+                    </div>
+                    <button onclick="handleLogout()" class="px-4 py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 text-red-400 text-sm font-bold rounded-2xl transition-all flex items-center justify-center gap-2" title="Cerrar Sesión">
+                        <span>🚪</span> <span>Cerrar Sesión</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PROGRESO GLOBAL -->
+            <div class="mt-8 border-t border-gray-800 pt-6">
+                <div class="flex justify-between text-xs text-gray-400 font-semibold mb-2">
+                    <span id="globalProgressText">PROGRESO ACADÉMICO GLOBAL</span>
+                    <span class="text-blue-400">7 CURSOS DETECTADOS</span>
+                </div>
+                <div class="w-full h-3 bg-gray-900 rounded-full overflow-hidden p-0.5 border border-gray-800">
+                    <div id="globalProgressBar" class="h-full bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400 rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECCIÓN DE CURSOS -->
+        <h2 class="text-2xl font-bold mb-6 text-gray-100 flex items-center gap-2">
+            <span>📚</span> Selecciona un Curso para Estudiar
+        </h2>
+        
+        <div id="coursesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cursos cargados dinámicamente mediante JS -->
+        </div>
+        
+        <!-- INSTRUCCIONES DEL PORTAL -->
+        <div class="mt-12 glass rounded-3xl p-6 shadow-xl">
+            <h3 class="text-lg font-bold text-gray-200 mb-3">⚙️ ¿Cómo funciona el Guardián Multi-Curso?</h3>
+            <div class="text-sm text-gray-400 space-y-2">
+                <p>1. Coloca las grabaciones de clases de Teams (.vtt, .srt, .mp4, .mp3, etc.) dentro de la subcarpeta del curso correspondiente en <code class="text-blue-400">teams_recordings/&lt;curso&gt;/</code>.</p>
+                <p>2. El Guardián procesará automáticamente el archivo, generará las notas sanitizadas en <code class="text-blue-400">public/&lt;curso&gt;/notas_clase.txt</code>, y producirá el repaso interactivo (<code class="text-blue-400">repaso.html</code> y <code class="text-blue-400">repaso.md</code>) alineado al syllabus del curso.</p>
+                <p>3. El panel de arriba se mantendrá actualizado con los enlaces para que puedas estudiar directamente.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BACKDROP PARA EL PANEL DE DETALLES -->
+    <div id="detailBackdrop" class="fixed inset-0 bg-[#060913]/70 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300" onclick="closeCourseDetails()"></div>
+
+    <!-- PANEL DE DETALLES DESLIZANTE -->
+    <div id="detailPanel" class="fixed top-0 right-0 h-full w-full sm:w-[500px] bg-[#0b0f19]/95 border-l border-gray-800/80 shadow-2xl z-50 transform translate-x-full transition-transform duration-350 ease-out flex flex-col">
+        <!-- Encabezado del Panel -->
+        <div class="p-6 border-b border-gray-800/80 flex items-center justify-between bg-gray-950/40">
+            <div>
+                <span id="detailCourseCode" class="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded">Código</span>
+                <h3 id="detailCourseName" class="text-xl font-bold text-gray-100 mt-2">Nombre del Curso</h3>
+            </div>
+            <button onclick="closeCourseDetails()" class="p-2 rounded-xl bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-gray-200 border border-gray-850 transition-colors">
+                ✕
+            </button>
+        </div>
+
+        <!-- Contenido Desplazable -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            
+            <!-- Barra de Progreso del Curso -->
+            <div class="bg-gray-900/40 border border-gray-800/60 rounded-2xl p-4">
+                <div class="flex justify-between text-xs text-gray-400 font-semibold mb-2">
+                    <span>PROGRESO DE LA ASIGNATURA</span>
+                    <span id="detailProgressVal" class="text-blue-400">0%</span>
+                </div>
+                <div class="w-full h-2 bg-gray-950 rounded-full overflow-hidden p-0.5 border border-gray-900">
+                    <div id="detailProgressBar" class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <!-- Objetivos del Syllabus -->
+            <div>
+                <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">🎯 Objetivos del Syllabus</h4>
+                <ul id="detailObjectives" class="space-y-2 bg-gray-900/20 border border-gray-800/60 p-4 rounded-2xl text-xs text-gray-300">
+                    <!-- Dinámico -->
+                </ul>
+            </div>
+
+            <!-- Tareas/Asignaciones -->
+            <div>
+                <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">📝 Deberes y Tareas</h4>
+                <div id="detailAssignments" class="space-y-3">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+
+            <!-- Exámenes -->
+            <div>
+                <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">📅 Exámenes y Evaluaciones</h4>
+                <div id="detailExams" class="space-y-3">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie del Panel -->
+        <div class="p-6 border-t border-gray-800/80 bg-gray-950/40 text-center">
+            <p class="text-[10px] text-gray-500 uppercase tracking-wider">Técnicas de Aprendizaje Activo (Active Recall)</p>
+        </div>
+    </div>
+
+    <!-- RUNTIME JAVASCRIPT DE DOBLE MODO -->
+    <script>
+        // Estructura maestra predeterminada de asignaturas
+        const defaultCourses = {
+            semiologia: {
+                code: "MED-228",
+                shortname: "Semiología",
+                fullname: "Semiología Médica",
+                icon: "🩺",
+                color: "blue",
+                status: "Activo",
+                description: "Método clínico, anamnesis, pilares de exploración (inspección, palpación, percusión, auscultación) y síndromes clínicos.",
+                syllabusLink: "semiologia/programa_clase_MED228.md",
+                notesLink: "semiologia/notas_clase.txt",
+                repasoLink: "semiologia/repaso.html",
+                objectives: [
+                    "Dominar el método clínico para realizar un diagnóstico sindrómico.",
+                    "Desarrollar destreza en la anamnesis e interrogatorio.",
+                    "Dominar los cuatro pilares: inspección, palpación, percusión y auscultación.",
+                    "Redactar de forma ordenada e integrada la Historia Clínica."
+                ],
+                assignments: [
+                    { id: 101, title: "Elaborar Historia Clínica Completa de Paciente Simulado", due: "15 de Junio, 2026", status: "pendiente" },
+                    { id: 102, title: "Reporte Escrito de Maniobras de Palpación Hepática", due: "22 de Junio, 2026", status: "pendiente" },
+                    { id: 103, title: "Análisis de Focos y Soplos Cardíacos en Simulador", due: "29 de Junio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 1001, title: "Evaluación Práctica de Examen Físico Cardiovascular", date: "18 de Junio, 2026", status: "pendiente" },
+                    { id: 1002, title: "Examen Parcial Teórico: Aparato Respiratorio y Abdomen", date: "02 de Julio, 2026", status: "pendiente" }
+                ]
+            },
+            farmacologia: {
+                code: "FAR-301",
+                shortname: "Farmacología",
+                fullname: "Farmacología Clínica",
+                icon: "💊",
+                color: "red",
+                status: "Monitoreado",
+                description: "Farmacocinética, farmacodinamia, interacciones medicamentosas y terapéutica farmacológica para patologías sistémicas.",
+                syllabusLink: "farmacologia/programa_clase_farmacologia.md",
+                notesLink: "farmacologia/notas_clase.txt",
+                repasoLink: "farmacologia/repaso.html",
+                objectives: [
+                    "Comprender la farmacocinética y farmacodinamia general.",
+                    "Diferenciar fármacos agonistas de antagonistas.",
+                    "Aprender interacciones y contraindicaciones farmacológicas.",
+                    "Resolver casos clínicos de prescripción médica en patologías comunes."
+                ],
+                assignments: [
+                    { id: 201, title: "Mapa Conceptual de Vías de Administración de Fármacos", due: "18 de Junio, 2026", status: "pendiente" },
+                    { id: 202, title: "Resolución de Casos: Dosificación y Aclaramiento Renal", due: "25 de Junio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 2001, title: "Prueba Corta: Farmacología Cardiovascular y Autonómica", date: "20 de Junio, 2026", status: "pendiente" }
+                ]
+            },
+            fisiopatologia: {
+                code: "FIS-302",
+                shortname: "Fisiopatología",
+                fullname: "Fisiopatología",
+                icon: "🧬",
+                color: "purple",
+                status: "Monitoreado",
+                description: "Mecanismos biológicos del origen de las enfermedades, disfunción de órganos y respuestas compensadoras del organismo.",
+                syllabusLink: "fisiopatologia/programa_clase_fisiopatologia.md",
+                notesLink: "fisiopatologia/notas_clase.txt",
+                repasoLink: "fisiopatologia/repaso.html",
+                objectives: [
+                    "Explicar la alteración funcional en el organismo enfermo.",
+                    "Analizar los mecanismos de compensación hemodinámica.",
+                    "Comprender la patogenia del shock y del edema generalizado.",
+                    "Correlacionar hallazgos de laboratorio con disfunción orgánica."
+                ],
+                assignments: [
+                    { id: 301, title: "Esquema Comparativo: Shock Cardiogénico vs. Hipovolémico", due: "16 de Junio, 2026", status: "pendiente" },
+                    { id: 302, title: "Análisis del Eje Renina-Angiotensina-Aldosterona", due: "30 de Junio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 3001, title: "Examen de Unidad: Fisiopatología Renal y Cardíaca", date: "23 de Junio, 2026", status: "pendiente" }
+                ]
+            },
+            bioetica: {
+                code: "BIO-101",
+                shortname: "Bioética",
+                fullname: "Bioética Médica",
+                icon: "⚖️",
+                color: "yellow",
+                status: "Monitoreado",
+                description: "Principios éticos en el ejercicio de la medicina, relación médico-paciente, consentimientos y dilemas morales en la clínica.",
+                syllabusLink: "bioetica/programa_clase_bioetica.md",
+                notesLink: "bioetica/notas_clase.txt",
+                repasoLink: "bioetica/repaso.html",
+                objectives: [
+                    "Aplicar los cuatro principios de la bioética en dilemas clínicos.",
+                    "Analizar la confidencialidad y el consentimiento informado.",
+                    "Resolver dilemas morales en la toma de decisiones al final de la vida.",
+                    "Comprender la responsabilidad legal del profesional de salud."
+                ],
+                assignments: [
+                    { id: 401, title: "Ensayo Crítico sobre el Consentimiento Informado", due: "17 de Junio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 4001, title: "Debate Evaluado: Dilemas en Trasplantes de Órganos", date: "24 de Junio, 2026", status: "pendiente" }
+                ]
+            },
+            patologia: {
+                code: "PAT-201",
+                shortname: "Patología",
+                fullname: "Patología General",
+                icon: "🔬",
+                color: "pink",
+                status: "Monitoreado",
+                description: "Estudio macroscópico y microscópico de las alteraciones tisulares y celulares que sustentan las manifestaciones de enfermedad.",
+                syllabusLink: "patologia/programa_clase_patologia.md",
+                notesLink: "patologia/notas_clase.txt",
+                repasoLink: "patologia/repaso.html",
+                objectives: [
+                    "Identificar cambios macro y microscópicos en tejidos lesionados.",
+                    "Diferenciar procesos de inflamación aguda y crónica.",
+                    "Comprender las bases genéticas y celulares de las neoplasias.",
+                    "Describir la necrosis y apoptosis tisular."
+                ],
+                assignments: [
+                    { id: 501, title: "Dibujo y Rotulación de Muestras de Necrosis Coagulativa", due: "19 de Junio, 2026", status: "pendiente" },
+                    { id: 502, title: "Estudio de Caso: Biopsia de Neoplasia Maligna", due: "03 de Julio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 5001, title: "Evaluación de Laboratorio Histopatológico", date: "26 de Junio, 2026", status: "pendiente" }
+                ]
+            },
+            microbiologia: {
+                code: "MIC-202",
+                shortname: "Microbiología",
+                fullname: "Microbiología",
+                icon: "🧫",
+                color: "emerald",
+                status: "Monitoreado",
+                description: "Estudio de bacterias, virus, hongos y parásitos de importancia médica, mecanismos de infección y diagnóstico.",
+                syllabusLink: "microbiologia/programa_clase_microbiologia.md",
+                notesLink: "microbiologia/notas_clase.txt",
+                repasoLink: "microbiologia/repaso.html",
+                objectives: [
+                    "Clasificar los principales agentes patógenos humanos.",
+                    "Comprender los mecanismos de tinción de Gram y cultivo celular.",
+                    "Identificar tratamientos de primera línea y perfiles de resistencia.",
+                    "Aprender el ciclo biológico de parásitos prevalentes."
+                ],
+                assignments: [
+                    { id: 601, title: "Ficha Técnica de Bacterias Gram Positivas y Negativas", due: "14 de Junio, 2026", status: "pendiente" },
+                    { id: 602, title: "Informe de Laboratorio: Antibiograma e Interpretación", due: "28 de Junio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 6001, title: "Examen Práctico: Tinción y Observación Microscópica", date: "21 de Junio, 2026", status: "pendiente" }
+                ]
+            },
+            epidemiologia: {
+                code: "EPI-203",
+                shortname: "Epidemiología",
+                fullname: "Epidemiología",
+                icon: "📊",
+                color: "cyan",
+                status: "Monitoreado",
+                description: "Estudio de la distribución de enfermedades en poblaciones, metodología de investigación y políticas de salud pública.",
+                syllabusLink: "epidemiologia/programa_clase_epidemiologia.md",
+                notesLink: "epidemiologia/notas_clase.txt",
+                repasoLink: "epidemiologia/repaso.html",
+                objectives: [
+                    "Calcular medidas de frecuencia de enfermedad (incidencia, prevalencia).",
+                    "Diferenciar diseños de estudios (casos-controles, cohortes).",
+                    "Interpretar curvas epidémicas y canales endémicos.",
+                    "Analizar estrategias de prevención primaria, secundaria y terciaria."
+                ],
+                assignments: [
+                    { id: 701, title: "Cálculo de Riesgo Relativo y Razón de Momios (Odds Ratio)", due: "20 de Junio, 2026", status: "pendiente" }
+                ],
+                exams: [
+                    { id: 7001, title: "Análisis de Brote de Enfermedad de Notificación Obligatoria", date: "27 de Junio, 2026", status: "pendiente" }
+                ]
+            }
+        };
+
+        const colorClasses = {
+            blue: {
+                border: "border-blue-500/20 hover:border-blue-500/40",
+                badge: "bg-green-500/20 text-green-400 border-green-500/30",
+                iconBg: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+                bar: "from-blue-500 to-indigo-500"
+            },
+            red: {
+                border: "border-red-500/20 hover:border-red-500/40",
+                badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                iconBg: "bg-red-500/10 text-red-400 border-red-500/20",
+                bar: "from-red-500 to-rose-500"
+            },
+            purple: {
+                border: "border-purple-500/20 hover:border-purple-500/40",
+                badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                iconBg: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                bar: "from-purple-500 to-indigo-500"
+            },
+            yellow: {
+                border: "border-yellow-500/20 hover:border-yellow-500/40",
+                badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                iconBg: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+                bar: "from-yellow-500 to-amber-500"
+            },
+            pink: {
+                border: "border-pink-500/20 hover:border-pink-500/40",
+                badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                iconBg: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+                bar: "from-pink-500 to-rose-500"
+            },
+            emerald: {
+                border: "border-emerald-500/20 hover:border-emerald-500/40",
+                badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                iconBg: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                bar: "from-emerald-500 to-teal-500"
+            },
+            cyan: {
+                border: "border-cyan-500/20 hover:border-cyan-500/40",
+                badge: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                iconBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+                bar: "from-cyan-500 to-teal-500"
+            }
+        };
+
+        const universityTitles = {
+            UCE: "Universidad Central del Este",
+            UASD: "Universidad Autónoma de Santo Domingo",
+            INTEC: "Instituto Tecnológico de Santo Domingo",
+            UNIBE: "Universidad Iberoamericana",
+            PUCMM: "Pontificia Universidad Católica Madre y Maestra"
+        };
+
+        let coursesState = {};
+        let currentCourseKey = null;
+        let supabaseClient = null;  // Renombrado para no hacer shadowing del SDK global window.supabase
+
+        // Variables de sesión del Estudiante
+        const studyUser = localStorage.getItem('study_user');
+        const studyUniversity = localStorage.getItem('study_university');
+        const studyEmail = localStorage.getItem('study_email');
+        const isDemo = localStorage.getItem('is_demo');
+
+        // Inicialización al cargar la ventana
+        window.onload = async function() {
+            // 1. Validar sesión
+            if (!studyUser || !studyUniversity) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // 2. Personalizar encabezado
+            document.getElementById('studentName').innerText = `${studyUser} - ${studyUniversity}`;
+            document.getElementById('universityBadge').innerText = (universityTitles[studyUniversity] || studyUniversity).toUpperCase();
+            
+            const modeBadge = document.getElementById('modeBadge');
+            if (isDemo === 'false') {
+                modeBadge.innerText = "Modo Producción";
+                modeBadge.className = "px-3 py-1 text-xs font-bold bg-green-500/20 text-green-400 rounded-full border border-green-500/30 uppercase";
+            } else {
+                modeBadge.innerText = "Modo Demo Comercial";
+                modeBadge.className = "px-3 py-1 text-xs font-bold bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30 uppercase";
+            }
+
+            // 3. Inicializar Cliente Supabase si existen variables
+            const url = window.SUPABASE_URL;
+            const key = window.SUPABASE_ANON_KEY;
+            if (url && key && !url.startsWith('YOUR_')) {
+                try {
+                    supabaseClient = window.supabase.createClient(url, key);
+                    console.log("✅ Supabase inicializado en modo producción.");
+                } catch (e) {
+                    console.error("Error inicializando cliente Supabase:", e);
+                }
+            } else {
+                console.log("ℹ️ SUPABASE_URL no configurada — modo demo activo.");
+            }
+
+            // 4. Cargar datos del estudiante e iniciar
+            await initCourseState();
+        };
+
+        // Carga el estado del curso (locales y desde base de datos)
+        async function initCourseState() {
+            let localCache = localStorage.getItem('study_courses_state');
+            if (localCache) {
+                coursesState = JSON.parse(localCache);
+            } else {
+                coursesState = JSON.parse(JSON.stringify(defaultCourses));
+            }
+
+            // Sincronizar desde base de datos si está en producción
+            if (isDemo === 'false' && supabaseClient) {
+                try {
+                    const { data: { user }, error: userErr } = await supabaseClient.auth.getUser();
+                    if (!userErr && user) {
+                        const { data: dbCourses, error: coursesErr } = await supabaseClient
+                            .from('moodle_courses')
+                            .select('*');
+                        
+                        if (coursesErr) throw coursesErr;
+
+                        if (!dbCourses || dbCourses.length === 0) {
+                            console.log("Sembrando datos iniciales en Supabase...");
+                            await seedSupabaseData(user);
+                        } else {
+                            await syncFromSupabase(user, dbCourses);
+                        }
+                    }
+                } catch (err) {
+                    console.error("Error sincronizando con Supabase, usando caché local:", err);
+                }
+            }
+
+            calculateAllProgress();
+            saveCache();
+            renderCoursesGrid();
+            updateGlobalProgress();
+        }
+
+        // Función para generar ID determinista a partir del nombre del curso (evita IDs aleatorios)
+        function deterministicId(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) + hash) + str.charCodeAt(i);
+                hash = hash & hash;
+            }
+            return Math.abs(hash) % 1000000;
+        }
+
+        // Sembrar datos predeterminados en Supabase
+        async function seedSupabaseData(user) {
+            for (const courseKey of Object.keys(coursesState)) {
+                const course = coursesState[courseKey];
+                const { data: courseData, error: courseErr } = await supabaseClient
+                    .from('moodle_courses')
+                    .upsert({
+                        user_id: user.id,
+                        moodle_course_id: deterministicId(course.shortname),
+                        fullname: course.fullname,
+                        shortname: course.shortname
+                    }, { onConflict: 'user_id, moodle_course_id' })
+                    .select()
+                    .single();
+
+                if (courseErr || !courseData) {
+                    console.error("Error sembrando curso en DB:", course.shortname, courseErr);
+                    continue;
+                }
+
+                const dbCourseId = courseData.id;
+
+                // Insertar asignaciones
+                for (const assign of course.assignments) {
+                    await supabaseClient
+                        .from('moodle_assignments')
+                        .upsert({
+                            user_id: user.id,
+                            course_id: dbCourseId,
+                            moodle_assign_id: assign.id,
+                            name: assign.title,
+                            duedate: new Date().toISOString(),
+                            submitted: assign.status === 'completado'
+                        }, { onConflict: 'user_id, moodle_assign_id' });
+                }
+
+                // Insertar exámenes
+                for (const exam of course.exams) {
+                    await supabaseClient
+                        .from('moodle_exams')
+                        .upsert({
+                            user_id: user.id,
+                            course_id: dbCourseId,
+                            moodle_event_id: exam.id,
+                            name: exam.title,
+                            description: "Hito evaluado para la asignatura " + course.shortname,
+                            timestart: new Date().toISOString()
+                        }, { onConflict: 'user_id, moodle_event_id' });
+                }
+            }
+        }
+
+        // Sincronizar asignaciones completadas desde Supabase
+        async function syncFromSupabase(user, dbCourses) {
+            for (const dbCourse of dbCourses) {
+                const courseKey = Object.keys(coursesState).find(key => 
+                    coursesState[key].fullname.toLowerCase() === dbCourse.fullname.toLowerCase() ||
+                    coursesState[key].shortname.toLowerCase() === dbCourse.shortname.toLowerCase()
+                );
+
+                if (!courseKey) continue;
+
+                // Tareas
+                const { data: dbAssigns, error: assignErr } = await supabase
+                    .from('moodle_assignments')
+                    .select('*')
+                    .eq('course_id', dbCourse.id);
+
+                if (!assignErr && dbAssigns) {
+                    dbAssigns.forEach(dbAssign => {
+                        const localAssign = coursesState[courseKey].assignments.find(a => a.id === dbAssign.moodle_assign_id);
+                        if (localAssign) {
+                            localAssign.status = dbAssign.submitted ? 'completado' : 'pendiente';
+                        }
+                    });
+                }
+            }
+        }
+
+        // Calcula el progreso de todas las materias
+        function calculateAllProgress() {
+            Object.keys(coursesState).forEach(key => {
+                const course = coursesState[key];
+                const total = course.assignments.length + course.exams.length;
+                const completed = course.assignments.filter(a => a.status === 'completado').length +
+                                  course.exams.filter(e => e.status === 'completado').length;
+                course.progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+            });
+        }
+
+        // Guarda caché de datos localmente
+        function saveCache() {
+            localStorage.setItem('study_courses_state', JSON.stringify(coursesState));
+        }
+
+        // Renderiza el Grid de Cursos reactivo
+        function renderCoursesGrid() {
+            const container = document.getElementById('coursesContainer');
+            container.innerHTML = '';
+
+            Object.keys(coursesState).forEach(key => {
+                const course = coursesState[key];
+                const colors = colorClasses[course.color] || colorClasses.blue;
+
+                const cardHtml = `
+                    <div class="glass border ${colors.border} rounded-3xl p-6 shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between premium-card" id="card-${key}">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-4xl p-3 ${colors.iconBg} rounded-2xl select-none">${course.icon}</span>
+                                <span class="px-2.5 py-1 text-[10px] font-bold ${colors.badge} rounded-full uppercase">${course.status}</span>
+                            </div>
+                            
+                            <div class="mt-5 flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold tracking-wider text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">${course.code}</span>
+                                <span class="text-xs text-gray-500">•</span>
+                                <span class="text-xs text-gray-400">Progreso: <strong class="text-gray-200" id="card-progress-val-${key}">${course.progress}%</strong></span>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-100 mt-2">${course.fullname}</h3>
+                            
+                            <p class="text-xs text-gray-400 mt-2 line-clamp-3">
+                                ${course.description}
+                            </p>
+
+                            <!-- Barra de progreso individual -->
+                            <div class="w-full h-2 bg-gray-900 rounded-full overflow-hidden mt-4 p-0.5 border border-gray-800">
+                                <div id="card-progress-bar-${key}" class="h-full bg-gradient-to-r ${colors.bar} rounded-full transition-all duration-500" style="width: ${course.progress}%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-3">
+                            <a href="${course.repasoLink}" class="block text-center w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition-all transform active:scale-[0.98]">
+                                Estudiar Repaso Interactivo
+                            </a>
+                            <div class="grid grid-cols-3 gap-2">
+                                <a href="${course.syllabusLink}" target="_blank" class="block text-center py-2 bg-gray-800/80 hover:bg-gray-700/80 text-gray-300 font-semibold text-[10px] rounded-lg transition-all">
+                                    Syllabus
+                                </a>
+                                <a href="${course.notesLink}" target="_blank" class="block text-center py-2 bg-gray-800/80 hover:bg-gray-700/80 text-gray-300 font-semibold text-[10px] rounded-lg transition-all">
+                                    Notas
+                                </a>
+                                <button onclick="openCourseDetails('${key}')" class="block text-center py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 font-bold text-[10px] rounded-lg border border-blue-500/20 transition-all">
+                                    Actividades
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+        // Actualizar barra e indicador del curso
+        function updateCourseCardUI(courseKey) {
+            const course = coursesState[courseKey];
+            if (!course) return;
+
+            const text = document.getElementById(`card-progress-val-${courseKey}`);
+            const bar = document.getElementById(`card-progress-bar-${courseKey}`);
+
+            if (text) text.innerText = `${course.progress}%`;
+            if (bar) bar.style.width = `${course.progress}%`;
+        }
+
+        // Actualizar barra de progreso global
+        function updateGlobalProgress() {
+            const keys = Object.keys(coursesState);
+            if (keys.length === 0) return;
+
+            const globalProgress = Math.round(keys.reduce((sum, key) => sum + coursesState[key].progress, 0) / keys.length);
+
+            const globalValText = document.getElementById('globalProgressText');
+            const globalBar = document.getElementById('globalProgressBar');
+
+            if (globalValText) {
+                globalValText.innerHTML = `PROGRESO ACADÉMICO GLOBAL: <span class="text-blue-400 font-mono font-bold">${globalProgress}%</span>`;
+            }
+            if (globalBar) {
+                globalBar.style.width = `${globalProgress}%`;
+            }
+        }
+
+        // Abrir panel lateral de detalles de una materia
+        function openCourseDetails(courseKey) {
+            currentCourseKey = courseKey;
+            const course = coursesState[courseKey];
+            if (!course) return;
+
+            document.getElementById('detailCourseCode').innerText = course.code;
+            document.getElementById('detailCourseName').innerText = course.fullname;
+
+            updateDetailsProgress();
+
+            // Renderizar objetivos del Syllabus
+            const objList = document.getElementById('detailObjectives');
+            objList.innerHTML = '';
+            course.objectives.forEach(obj => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start gap-2.5';
+                li.innerHTML = `
+                    <span class="text-blue-400 mt-0.5 select-none">✓</span>
+                    <span>${obj}</span>
+                `;
+                objList.appendChild(li);
+            });
+
+            // Renderizar Tareas
+            const assignContainer = document.getElementById('detailAssignments');
+            assignContainer.innerHTML = '';
+            course.assignments.forEach(assign => {
+                const isCompleted = assign.status === 'completado';
+                const label = document.createElement('label');
+                label.className = `flex items-center gap-3 p-3.5 rounded-xl border transition-all cursor-pointer select-none bg-gray-900/40 border-gray-800/80 hover:bg-gray-900/80 hover:border-gray-700/80`;
+                label.innerHTML = `
+                    <input type="checkbox" class="w-4.5 h-4.5 rounded border-gray-700 bg-gray-800 text-blue-600 focus:ring-blue-500 focus:ring-offset-gray-900 focus:ring-offset-2 cursor-pointer" 
+                        ${isCompleted ? 'checked' : ''} 
+                        onchange="toggleTaskStatus('${courseKey}', 'assignment', ${assign.id}, this.checked)">
+                    <div class="flex-1">
+                        <p class="text-xs font-semibold text-gray-200 ${isCompleted ? 'line-through text-gray-500' : ''}">${assign.title}</p>
+                        <p class="text-[10px] text-gray-400 mt-1">Vence: ${assign.due}</p>
+                    </div>
+                `;
+                assignContainer.appendChild(label);
+            });
+
+            // Renderizar Exámenes
+            const examsContainer = document.getElementById('detailExams');
+            examsContainer.innerHTML = '';
+            course.exams.forEach(exam => {
+                const isCompleted = exam.status === 'completado';
+                const label = document.createElement('label');
+                label.className = `flex items-center gap-3 p-3.5 rounded-xl border transition-all cursor-pointer select-none bg-gray-900/40 border-gray-800/80 hover:bg-gray-900/80 hover:border-gray-700/80`;
+                label.innerHTML = `
+                    <input type="checkbox" class="w-4.5 h-4.5 rounded border-gray-700 bg-gray-800 text-blue-600 focus:ring-blue-500 focus:ring-offset-gray-900 focus:ring-offset-2 cursor-pointer" 
+                        ${isCompleted ? 'checked' : ''} 
+                        onchange="toggleTaskStatus('${courseKey}', 'exam', ${exam.id}, this.checked)">
+                    <div class="flex-1">
+                        <p class="text-xs font-semibold text-gray-200 ${isCompleted ? 'line-through text-gray-500' : ''}">${exam.title}</p>
+                        <p class="text-[10px] text-gray-400 mt-1">Fecha: ${exam.date}</p>
+                    </div>
+                `;
+                examsContainer.appendChild(label);
+            });
+
+            // Mostrar el Panel y Backdrop
+            document.getElementById('detailBackdrop').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('detailBackdrop').classList.remove('opacity-0');
+                document.getElementById('detailPanel').classList.remove('translate-x-full');
+            }, 50);
+        }
+
+        // Cerrar panel lateral
+        function closeCourseDetails() {
+            document.getElementById('detailPanel').classList.add('translate-x-full');
+            document.getElementById('detailBackdrop').classList.add('opacity-0');
+            setTimeout(() => {
+                document.getElementById('detailBackdrop').classList.add('hidden');
+                currentCourseKey = null;
+            }, 350);
+        }
+
+        // Actualizar barra de progreso del panel actual
+        function updateDetailsProgress() {
+            if (!currentCourseKey) return;
+            const course = coursesState[currentCourseKey];
+            if (!course) return;
+
+            const text = document.getElementById('detailProgressVal');
+            const bar = document.getElementById('detailProgressBar');
+
+            if (text) text.innerText = `${course.progress}%`;
+            if (bar) bar.style.width = `${course.progress}%`;
+        }
+
+        // Manejar cambio en los checkboxes de tareas/exámenes
+        async function toggleTaskStatus(courseKey, type, id, isChecked) {
+            const course = coursesState[courseKey];
+            if (!course) return;
+
+            const newStatus = isChecked ? 'completado' : 'pendiente';
+
+            if (type === 'assignment') {
+                const assign = course.assignments.find(a => a.id === id);
+                if (assign) {
+                    assign.status = newStatus;
+
+                    // Si está en producción, sincronizar asíncronamente con Supabase
+                    if (isDemo === 'false' && supabaseClient) {
+                        try {
+                            const { data: { user } } = await supabaseClient.auth.getUser();
+                            if (user) {
+                                await supabaseClient
+                                    .from('moodle_assignments')
+                                    .update({ submitted: isChecked })
+                                    .eq('user_id', user.id)
+                                    .eq('moodle_assign_id', id);
+                            }
+                        } catch (err) {
+                            console.error("Error sincronizando asignación con base de datos:", err);
+                        }
+                    }
+                }
+            } else if (type === 'exam') {
+                const exam = course.exams.find(e => e.id === id);
+                if (exam) {
+                    exam.status = newStatus;
+                }
+            }
+
+            // Recalcular el progreso y actualizar las interfaces
+            calculateAllProgress();
+            saveCache();
+            updateCourseCardUI(courseKey);
+            updateGlobalProgress();
+            updateDetailsProgress();
+        }
+
+        // Cerrar sesión
+        function handleLogout() {
+            localStorage.removeItem('study_user');
+            localStorage.removeItem('study_university');
+            localStorage.removeItem('study_email');
+            localStorage.removeItem('is_demo');
+            localStorage.removeItem('study_courses_state');
+
+            if (supabaseClient) {
+                supabaseClient.auth.signOut().finally(() => {
+                    window.location.href = 'login.html';
+                });
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>
