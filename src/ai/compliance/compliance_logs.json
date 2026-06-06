@@ -1,0 +1,52 @@
+[
+  {
+    "timestamp": "2026-06-05T22:32:11.079546",
+    "chunk_id": "N/A",
+    "topic": "Redacción de la Historia Clínica",
+    "week": 1,
+    "block": "block_1",
+    "cg_competencies": [
+      "CG6"
+    ],
+    "validated_by": "Dr. Rivas",
+    "status": "APPROVED",
+    "reason": "Checks passed."
+  },
+  {
+    "timestamp": "2026-06-05T22:32:25.205690",
+    "chunk_id": "N/A",
+    "topic": "Examen Físico de Tórax",
+    "week": 1,
+    "block": "block_1",
+    "cg_competencies": [
+      "CG8"
+    ],
+    "validated_by": "Dr. Rivas",
+    "status": "REJECTED",
+    "reason": "Invalid content_type + memory_domain combination: 'procedural' + 'semantic' is strictly prohibited."
+  },
+  {
+    "timestamp": "2026-06-05T22:32:39.988730",
+    "chunk_id": "N/A",
+    "topic": "Examen Físico de Tórax",
+    "week": 12,
+    "block": "block_1",
+    "cg_competencies": [
+      "CG8"
+    ],
+    "validated_by": "Dr. Rivas",
+    "status": "REJECTED",
+    "reason": "Academic Block mismatch for Week 12. Expected 'block_3', found 'block_1'."
+  },
+  {
+    "timestamp": "2026-06-05T22:32:58.017081",
+    "chunk_id": "N/A",
+    "topic": "Redacción de la Historia Clínica y Anamnesis",
+    "week": 1,
+    "block": "block_1",
+    "cg_competencies": [],
+    "validated_by": "Dr. Rivas",
+    "status": "REJECTED",
+    "reason": "Competencies array (cg_competencies) cannot be empty. Suggested competencies for topic 'Redacción de la Historia Clínica y Anamnesis': ['CG6', 'CG2']"
+  }
+]

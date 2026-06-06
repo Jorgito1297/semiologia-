@@ -1,68 +1,122 @@
-# 🫀 REPASO DE CLASE: Semiología Cardiovascular
-**Curso:** Propedéutica Clínica y Semiología Médica (MED-228-T-1)  
-**Fecha de la sesión:** 3 de junio de 2026  
+¡Buenas tardes, distinguidos estudiantes de tercer año de Medicina! Soy el Dr. Elías Peralta, su Catedrático de Propedéutica Clínica y Semiología Médica. Es un honor guiarles en este fascinante viaje hacia el dominio del arte diagnóstico. Como siempre les digo: "El médico que sabe escuchar ya ha hecho la mitad del diagnóstico."
+
+Nos adentraremos hoy en un segmento crítico del Módulo IV, enfocado en la semiología del sistema respiratorio, específicamente los **síndromes pleuropulmonares de derrame pleural y neumotórax**. La precisión semiológica es su mejor herramienta.
+
+### FASE 1: Anamnesis Académica 🩺
+
+Antes de iniciar, me gustaría escucharles. ¿En qué bloque o parcial se sienten más desafiados actualmente? ¿Encuentran mayor dificultad en el enfoque teórico o en la aplicación práctica de las maniobras semiológicas? Sus respuestas nos ayudarán a orientar mejor la discusión de hoy.
+
+### FASE 2: Planificación del Módulo 🗓️
+
+Excelente. Dada la importancia de dominar estas patologías, he estructurado nuestro encuentro de hoy para que cubramos los siguientes puntos clave:
+
+1.  **Concepto Anclaje:** Definición de los síndromes pleuropulmonares.
+2.  **Repaso Detallado:** Semiología del Derrame Pleural (Inspección, Palpación, Percusión, Auscultación).
+3.  **Repaso Detallado:** Semiología del Neumotórax (Inspección, Palpación, Percusión, Auscultación).
+4.  **Tabla Comparativa:** Diferenciación esencial entre ambos síndromes.
+5.  **Cuestionario Interactivo:** Aplicación de conocimientos a través de viñetas clínicas.
+
+### FASE 3: Ejecución Activa — El Método IPPAA ✨
+
+#### Concepto Anclaje: Los Síndromes Pleuropulmonares
+
+Los **síndromes pleuropulmonares** se refieren a conjuntos de signos y síntomas que se originan por alteraciones en la pleura o el pulmón, manifestándose a través de patrones característicos en el examen físico. Hoy nos centraremos en el **derrame pleural**, una acumulación anormal de líquido en el espacio pleural, y el **neumotórax**, la presencia de aire en este mismo espacio. La clave está en cómo estas sustancias (líquido o aire) modifican la transmisión de las vibraciones y el sonido a través del tórax. Para una revisión exhaustiva, les remito a **Llanio Navarro, Tomo I, Capítulos 29-31** y **Argente-Álvarez, Semiología Médica, Capítulos relevantes sobre tórax**.
+
+#### Inmersión Sensorial: La Semiología Torácica 🌬️
+
+Imaginemos que estamos frente a un paciente con dificultad respiratoria. ¿Qué buscaríamos?
+
+*   **👁️ Lo que VE (Inspección):** La simetría del tórax, la expansión de los hemitórax durante la respiración, la presencia de abombamientos o retracciones. ¿Hay cianosis, taquipnea?
+*   **🤲 Lo que TOCA (Palpación):** La sensibilidad torácica, la expansión pulmonar y, fundamentalmente, las **vibraciones vocales**. ¿Cómo se sienten al pedirle al paciente que diga "treinta y tres"?
+*   **👂 Lo que OYE (Percusión y Auscultación):** Los sonidos que produce el tórax al ser percutido (¿sonoridad, matidez, timpanismo?) y los ruidos respiratorios al auscultar (¿murmullo vesicular normal, abolido, o ruidos agregados como sibilancias o estertores?).
+
+--- 
+
+#### Gancho Clínico y Pregunta Socrática
+
+**Escenario Clínico:** Llega a la sala de emergencias un paciente de 68 años con antecedente de insuficiencia cardíaca descompensada, refiriendo disnea progresiva de 3 días de evolución y un dolor torácico pleurítico en el lado derecho. Al examen físico, se observa disminución de la expansión de ese hemitórax.
+
+**Pregunta Socrática:** Basándose en los hallazgos iniciales, ¿qué alteraciones *esperaría* encontrar en la palpación, percusión y auscultación del hemitórax afectado? Y, más importante aún, ¿cómo nos ayudarían esos hallazgos a diferenciar un derrame pleural de, por ejemplo, un neumotórax si el cuadro clínico fuera diferente? Razonen su respuesta usando los principios semiológicos.
 
 ---
 
-## 📌 1. Caracterización del Dolor Torácico (Diagnóstico Diferencial)
-
-| Tipo de Dolor | Características Principales | Localización e Irradiación | Factores Modificadores |
-| :--- | :--- | :--- | :--- |
-| **Coronario (Anginoso)** | Opresivo ("peso en el pecho"). Dura <20 min (angina) o >20 min (Infarto). | Retroesternal. Irradia a brazo izquierdo, mandíbula o cuello. | Aumenta con esfuerzo/estrés. Cede con reposo o nitratos en 2-5 min. |
-| **Pleurítico** | Punzante ("punzada de costado"). | Costados del tórax. | Aumenta con inspiración profunda/tos. Alivia en decúbito lateral sobre lado afectado. |
-| **Pericardítico** | Opresivo o punzante. | Retroesternal o precordial. | **Alivia al inclinarse hacia adelante** (plegaria mahometana). Empeora en decúbito supino. |
-| **Disección Aórtica** | Lancinante, desgarrador, de inicio súbito y máxima intensidad inmediata. | Cara anterior del tórax. Irradia a zona interescapular (espalda). | Asociado a asimetría de pulsos e hipertensión severa. |
-
----
-
-## 🫁 2. Clasificación de Disnea (NYHA)
-
-La disnea cardíaca se clasifica según la severidad del esfuerzo que la desencadena en la escala **NYHA**:
-*   **Clase I:** Sin limitación. La actividad física ordinaria no causa disnea.
-*   **Clase II:** Limitación ligera. Cómodo en reposo. La actividad ordinaria (caminar varias cuadras, subir escaleras rápido) causa disnea.
-*   **Clase III:** Limitación marcada. Cómodo en reposo. Actividades menores a las ordinarias (vestirse, bañarse, caminar una cuadra) desencadenan disnea.
-*   **Clase IV:** Incapacidad de realizar actividad física sin síntomas. **Disnea en reposo absoluto**.
-
-> 💡 **Concepto Semiológico Clave:** 
-> *   **Ortopnea:** Disnea en decúbito supino. Se produce por la redistribución del volumen sanguíneo de las extremidades inferiores al tórax. Típica de insuficiencia cardíaca izquierda.
-> *   **Disnea Paroxística Nocturna (DPN):** Crisis súbita de ahogo que despierta al paciente 1-2 horas después de dormirse, obligándolo a sentarse.
-
----
-
-## 🎧 3. Focos de Auscultación y Ruidos Cardíacos
-
-### Focos Clásicos
-1.  **Foco Aórtico:** 2° espacio intercostal derecho, línea paraesternal derecha.
-2.  **Foco Pulmonar:** 2° espacio intercostal izquierdo, línea paraesternal izquierda.
-3.  **Foco Tricúspide:** 4° o 5° espacio intercostal izquierdo, línea paraesternal izquierda.
-4.  **Foco Mitral (Apexiano):** 5° espacio intercostal izquierdo, línea medioclavicular.
-
-### Ruidos Cardíacos (R1 - R4)
-*   **R1 (Primer Ruido):** Cierre de válvulas mitral y tricúspide. Coincide con el inicio de la sístole y el pulso carotídeo. Tono grave.
-*   **R2 (Segundo Ruido):** Cierre de válvulas aórtica y pulmonar. Inicio de la diástole. Tono agudo.
-*   **R3 (Tercer Ruido):** Llenado diastólico rápido pasivo. *Normal en niños/embarazadas*. En mayores de 40 años indica **disfunción sistólica (insuficiencia cardíaca)**. Ritmo de galope ventricular.
-*   **R4 (Cuarto Ruido):** Contracción auricular contra un ventrículo rígido (hipertrofia por HTA o estenosis aórtica). *Nunca ocurre en fibrilación auricular*. Ritmo de galope auricular.
-
----
-
-## 🙋‍♂️ 4. Tarjetas de Memoria Rápidas (Active Recall)
+### REPASO: Derrame Pleural y Neumotórax
 
 <details>
-<summary><b>🔍 ¿Cuál es la diferencia de posición entre el dolor pericardítico y el pleurítico?</b></summary>
-El dolor pericardítico alivia característicamente al inclinarse hacia adelante (posición genupectoral) y empeora en decúbito supino. El dolor pleurítico disminuye cuando el paciente se acuesta sobre el lado afectado (decúbito lateral del lado de la pleura inflamada) para limitar su excursión respiratoria.
+<summary>📚 **DERRAPLE PLEURAL: ACUMULACIÓN DE LÍQUIDO**</summary>
+
+El derrame pleural se presenta cuando hay un exceso de líquido en el espacio pleural, que puede ser exudado o trasudado. Este líquido interfiere con la mecánica respiratoria y la transmisión de sonidos.
+
+#### A. Gancho Clínico
+
+Imagine a una paciente de 55 años, con antecedentes de neumonía, que consulta por disnea, tos seca y dolor punzante en el hemitóax izquierdo al respirar profundamente. Refiere que la disnea empeora al acostarse. Al observarla, su respiración es superficial y su hemitórax izquierdo parece tener menos movilidad.
+
+#### B. El Trío Semiológico en el Derrame Pleural
+
+*   **👁️ Lo que VE (Inspección):**
+    *   **Forma y simetría:** Puede haber **abombamiento** o **distensión del hemitórax** afectado si el derrame es grande. 
+    *   **Movimiento:** **Disminución o abolición de la movilidad** respiratoria del lado afectado. Puede observarse taquipnea.
+    *   **(Referencia: Argente-Álvarez, 2ª ed., Capítulos de Aparato Respiratorio; Bickley, 12ª ed., Capítulo de Tórax y Pulmones).**
+
+*   **🤲 Lo que TOCA (Palpación):**
+    *   **Expansión:** **Disminución de la expansibilidad** del hemitórax afectado.
+    *   **Vibraciones Vocales (VV):** Clásicamente, hay **abolición o marcada disminución de las vibraciones vocales** sobre el área del derrame. El líquido actúa como una barrera que no transmite el sonido. En raras ocasiones, sobre el borde superior de un derrame masivo, puede haber egofonía.
+    *   **(Referencia: Llanio Navarro, Tomo I, Cap. 29; Argente-Álvarez, 2ª ed.; Surós, 8ª ed.).**
+
+*   **👂 Lo que OYE (Percusión y Auscultación):**
+    *   **Percusión:** Se obtiene **matidez** o **submatidez** sobre la zona del derrame. Esta matidez es típicamente desplazable si el paciente cambia de posición y forma una curva parabólica (curva de Damoiseau) si el derrame es libre.
+    *   **Auscultación:** El hallazgo cardinal es la **abolición o marcada disminución del murmullo vesicular** sobre el derrame. En el borde superior, a veces se puede escuchar un soplo pleural o broncofonía/egofonía si la compresión pulmonar es significativa.
+    *   **(Referencia: Llanio Navarro, Tomo I, Cap. 30; Bickley, 12ª ed., Capítulo de Tórax y Pulmones; Goic-Chamorro-Reyes, 3ª ed.).**
+
+#### D. Perla de la Cátedra
+
+> "Recuerden la 'M' de Matidez y Murmullo disminuido para el derrame pleural. El líquido es el gran silenciador del tórax."
 </details>
 
 <details>
-<summary><b>🔍 ¿Por qué el R4 no se puede auscultar en un paciente con Fibrilación Auricular (FA)?</b></summary>
-Porque el R4 es producido por la vibración que causa la contracción auricular forzada en la fase de llenado activo. En la fibrilación auricular no hay una contracción auricular coordinada (sino una desorganizada actividad eléctrica sin contracción mecánica efectiva), lo que hace físicamente imposible generar un cuarto ruido.
-</details>
+<summary>📚 **NEUMOTÓRAX: AIRE EN LA PLEURA**</summary>
 
-<details>
-<summary><b>🔍 ¿Cómo se realiza y qué evalúa el Reflujo Hepatojugular (RHJ)?</b></summary>
-Se presiona firmemente el cuadrante superior derecho del abdomen (hígado) durante 10-15 segundos mientras el paciente respira normalmente en decúbito dorsal a 45 grados. Es positivo si la ingurgitación de las venas yugulares del cuello aumenta y persiste más de 3 cm. Evalúa la capacidad del ventrículo derecho para adaptarse a un aumento repentino del retorno venoso.
+El neumotórax es la presencia de aire en el espacio pleural, lo que provoca el colapso pulmonar. Puede ser espontáneo, traumático o a tensión (una emergencia médica grave).
+
+#### A. Gancho Clínico
+
+Un joven de 22 años, delgado y alto, llega a la consulta refiriendo dolor torácico súbito y agudo en el lado derecho, acompañado de dificultad para respirar, que apareció mientras jugaba baloncesto. Se le ve ansioso y con respiración rápida y superficial. Su hemitórax derecho parece ligeramente más abombado y se mueve menos que el izquierdo.
+
+#### B. El Trío Semiológico en el Neumotórax
+
+*   **👁️ Lo que VE (Inspección):**
+    *   **Forma y simetría:** Puede haber **abombamiento** o **distensión del hemitórax** afectado (especialmente en neumotórax a tensión).
+    *   **Movimiento:** **Disminución o abolición de la movilidad** respiratoria del lado afectado. Puede observarse taquipnea y, en casos graves, desviación traqueal contralateral.
+    *   **(Referencia: Argente-Álvarez, 2ª ed., Capítulos de Aparato Respiratorio; Bickley, 12ª ed., Capítulo de Tórax y Pulmones).**
+
+*   **🤲 Lo que TOCA (Palpación):**
+    *   **Expansión:** **Disminución de la expansibilidad** del hemitórax afectado.
+    *   **Vibraciones Vocales (VV):** Típicamente **abolición o marcada disminución de las vibraciones vocales** sobre el área afectada. El aire en el espacio pleural es un pobre transmisor de sonido.
+    *   **(Referencia: Llanio Navarro, Tomo I, Cap. 29; Argente-Álvarez, 2ª ed.; Surós, 8ª ed.).**
+
+*   **👂 Lo que OYE (Percusión y Auscultación):**
+    *   **Percusión:** Se obtiene **timpanismo** o **hipersonoridad** sobre la zona del neumotórax. Esto se debe a la presencia de aire libre en el espacio pleural.
+    *   **Auscultación:** El hallazgo cardinal es la **abolición o marcada disminución del murmullo vesicular** sobre el área afectada. En ocasiones, si es un neumotórax pequeño, el murmullo puede estar solo disminuido.
+    *   **(Referencia: Llanio Navarro, Tomo I, Cap. 30; Bickley, 12ª ed., Capítulo de Tórax y Pulmones; Goic-Chamorro-Reyes, 3ª ed.).**
+
+#### D. Perla de la Cátedra
+
+> "Para el neumotórax, piensen en la 'T' de Timpanismo y la 'A' de Abolición del murmullo. El aire no suena, y no deja que el pulmón suene."
 </details>
 
 ---
 
-## 📅 Recordatorio Semanal:
-*   **Próximo Miércoles:** Examen parcial práctico de técnicas de examen de pulso arterial y venoso yugular. ¡Estudien!
+#### C. Tabla Comparativa: Derrame Pleural vs. Neumotórax
+
+| Característica            | Derrame Pleural (Líquido)                                 | Neumotórax (Aire)                                         | Fuente Principal                                           |
+| :------------------------ | :-------------------------------------------------------- | :-------------------------------------------------------- | :--------------------------------------------------------- |
+| **Sintomatología Común**  | Disnea, dolor pleurítico, tos (seca)                      | Disnea súbita, dolor pleurítico agudo, tos (seca)         | Argente-Álvarez, Goic-Chamorro-Reyes                       |
+| **Inspección**            | Disminución movilidad, abombamiento del hemitórax         | Disminución movilidad, abombamiento del hemitórax (más notorio en tensión) | Bickley, Llanio Navarro Tomo I                             |
+| **Palpación**             | Disminución/abolición de vibraciones vocales (VV)         | Disminución/abolición de vibraciones vocales (VV)         | Llanio Navarro Tomo I, Argente-Álvarez                     |
+| **Percusión**             | **Matidez**                                               | **Timpanismo** o hipersonoridad                           | Llanio Navarro Tomo I, Bickley, Surós                      |
+| **Auscultación**          | Disminución/abolición del murmullo vesicular              | Disminución/abolición del murmullo vesicular              | Argente-Álvarez, Goic-Chamorro-Reyes, Llanio Navarro Tomo I |
+| **Desviación Traqueal**   | Hacia el lado contralateral (derrame masivo)              | Hacia el lado contralateral (Neumotórax a tensión)        | Argente-Álvarez                                            |
+
+#### D. Perla de la Cátedra (Integración)
+
+> "Para diferenciar rápidamente entre un derrame pleural y un neumotórax, las **Vibraciones Vocales** y la **Percusión** son sus mejores aliados. Ambas condiciones silencian el pulmón a la auscultación y disminuyen las VV, ¡pero solo el líquido da **matidez** y el aire da **timpanismo**!" Este es un principio semiológico fundamental, extraído de **Argente-Álvarez** y **Llanio Navarro**.

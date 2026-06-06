@@ -471,6 +471,7 @@ def generate_with_gemini(api_key, text_content, syllabus_content=""):
         "Genera un JSON estructurado con dos claves exactas:\n"
         "- 'markdown_content': Una versión formateada en Markdown didáctico y estructurado para Teams (con tablas, resúmenes, y bloques <details> para active recall).\n"
         "- 'html_content': Un documento HTML autocontenido que utilice Tailwind CSS para un diseño médico premium (diseño limpio, colores HSL/azules médicos, tipografía Inter/Roboto). Debe contener tarjetas de repaso interactivas (revelables al hacer clic) y el cuestionario interactivo con JavaScript.\n\n"
+        "IMPORTANTE: Todas las comillas dobles internas en las propiedades del JSON (especialmente dentro del HTML) DEBEN estar correctamente escapadas (ej. \\\" o \\u0022). Se recomienda usar comillas simples para todos los atributos del HTML (ej. class='card' en lugar de class=\"card\") para garantizar la validez sintáctica del JSON generado.\n\n"
         "Asegúrate de que la salida sea ÚNICAMENTE un objeto JSON válido sin bloques de código tipo markdown alrededor (como ```json) o que comience directamente con { y termine con }.\n\n"
         f"Programa Oficial de la Materia (Syllabus):\n{syllabus_content}\n\n"
         f"Notas de la clase a procesar:\n{text_content}"
@@ -727,8 +728,8 @@ def main():
             sys.exit(1)
         result = generate_with_openai(openai_key, notes, syllabus)
     
-    # Si falló la API o se seleccionó mock, cargamos el mock interactivo
-    if not result:
+    # Si falló la API o la estructura del JSON no contiene las llaves esperadas, cargamos el mock interactivo
+    if not result or "markdown_content" not in result or "html_content" not in result:
         print("Utilizando la generación Mock/Offline local para cardiovascular...")
         result = {
             "markdown_content": MOCK_MARKDOWN,

@@ -67,7 +67,7 @@ class MoodleClient:
         
         print(f"[MOODLE]: Autenticando en {self.base_url} para el usuario '{self.username}'...")
         try:
-            r = requests.get(login_url, params=params, timeout=15)
+            r = requests.post(login_url, data=params, timeout=15)
             r.raise_for_status()
             data = r.json()
             

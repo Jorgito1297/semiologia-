@@ -223,6 +223,26 @@ def ejecutar_pipeline(ruta_archivo: str) -> bool:
             return False
         print(f"[GUARDIÁN]: Repaso generado exitosamente para el curso: {curso.upper()}.")
         
+        # 2.5. Sincronizar con el RAG vectorial de Supabase
+        print(f"[GUARDIÁN]: Sincronizando notas y syllabus con RAG vectorial de Supabase...")
+        script_ingest = os.path.join(DIRECTORIO_BASE, "ingest_academic_resources.py")
+        cmd_ingest = [sys.executable, script_ingest]
+        try:
+            resultado_ingest = subprocess.run(
+                cmd_ingest,
+                capture_output=True,
+                text=True,
+                cwd=DIRECTORIO_BASE,
+                timeout=60
+            )
+            if resultado_ingest.returncode != 0:
+                print(f"[GUARDIÁN ADVERTENCIA]: La sincronización de vectores falló con código {resultado_ingest.returncode} (puede deberse a migración pendiente en Supabase).")
+            else:
+                print(f"[GUARDIÁN]: Sincronización de RAG vectorial completada.")
+        except Exception as error_ingest:
+            print(f"[GUARDIÁN ADVERTENCIA]: Excepción al ejecutar sincronización de vectores: {error_ingest}")
+
+        
         # 3. Firebase Auto-Deploy (si está configurado)
         autodespliegue = os.environ.get("AUTO_DEPLOY_FIREBASE", "false").lower() == "true"
         if autodespliegue:

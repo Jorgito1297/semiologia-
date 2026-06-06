@@ -1,304 +1,155 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repaso Interactivo: Semiología Cardiovascular (MED-228-T-1)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .flashcard-inner {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
+<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Semiología Respiratoria: Derrame Pleural y Neumotórax</title><link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'><link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap' rel='stylesheet'><style>
+      body { font-family: 'Inter', 'Roboto', sans-serif; background-color: hsl(210, 20%, 98%); color: hsl(210, 10%, 20%); }
+      .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+      .card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; margin-bottom: 1.5rem; transition: all 0.2s ease-in-out; border: 1px solid hsl(210, 10%, 90%); }
+      .card-header { font-size: 1.25rem; font-weight: 600; color: hsl(200, 70%, 30%); margin-bottom: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+      .card-header::after { content: '\25BC'; transition: transform 0.3s ease; }
+      .card-header.active::after { transform: rotate(-180deg); }
+      .card-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+      .card-content.show { max-height: 1000px; /* Adjust as needed */ }
+      .highlight-blue { color: hsl(200, 70%, 30%); font-weight: 600; }
+      .perla-catedra { border-left: 4px solid hsl(40, 90%, 60%); background-color: hsl(40, 100%, 95%); padding: 1rem; margin-top: 1.5rem; border-radius: 0.375rem; color: hsl(40, 70%, 30%); }
+      .quiz-container { background-color: hsl(200, 50%, 95%); border-radius: 0.75rem; padding: 2rem; margin-top: 2rem; border: 1px solid hsl(200, 50%, 90%); }
+      .quiz-question { margin-bottom: 2rem; }
+      .quiz-options label { display: block; margin-bottom: 0.75rem; padding: 0.75rem; border: 1px solid hsl(210, 10%, 80%); border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s; }
+      .quiz-options label:hover { background-color: hsl(200, 20%, 96%); }
+      .quiz-options input[type='radio'] { margin-right: 0.75rem; }
+      .quiz-feedback { margin-top: 1rem; padding: 1rem; border-radius: 0.5rem; }
+      .quiz-feedback.correct { background-color: hsl(120, 60%, 90%); color: hsl(120, 80%, 30%); border: 1px solid hsl(120, 60%, 80%); }
+      .quiz-feedback.incorrect { background-color: hsl(0, 60%, 90%); color: hsl(0, 80%, 30%); border: 1px solid hsl(0, 60%, 80%); }
+      .quiz-button { background-color: hsl(200, 70%, 40%); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s; border: none; }
+      .quiz-button:hover { background-color: hsl(200, 70%, 30%); }
+      table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+      th, td { border: 1px solid hsl(210, 10%, 80%); padding: 0.75rem; text-align: left; }
+      th { background-color: hsl(200, 50%, 95%); font-weight: 600; color: hsl(200, 70%, 30%); }
+      .info-box { background-color: hsl(210, 30%, 95%); border-left: 4px solid hsl(200, 70%, 40%); padding: 1rem; margin-top: 1.5rem; border-radius: 0.375rem; color: hsl(210, 10%, 25%); }
+      .socratic-question { font-style: italic; color: hsl(200, 70%, 30%); font-weight: 500; margin-top: 1rem; padding: 0.75rem; background-color: hsl(200, 100%, 97%); border-left: 3px solid hsl(200, 70%, 40%); border-radius: 0.375rem; }
+      .question-vignette { background-color: hsl(210, 20%, 96%); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px dashed hsl(210, 10%, 85%); }
+    </style></head><body class='text-gray-800'><div class='container'><h1 class='text-4xl font-bold text-center mb-6 text-blue-800'>Propedéutica Clínica y Semiología Médica (MED-228)</h1><p class='text-center text-xl mb-8 font-medium text-blue-700'>Dr. Elías Peralta, Catedrático de Semiología Clínica</p><p class='text-lg mb-6 leading-relaxed'>¡Buenas tardes, distinguidos estudiantes de tercer año de Medicina! Soy el Dr. Elías Peralta, su Catedrático de Propedéutica Clínica y Semiología Médica. Es un honor guiarles en este fascinante viaje hacia el dominio del arte diagnóstico. Como siempre les digo: <span class='font-semibold italic text-blue-600'>"El médico que sabe escuchar ya ha hecho la mitad del diagnóstico."</span></p><p class='text-lg mb-8 leading-relaxed'>Nos adentraremos hoy en un segmento crítico del Módulo IV, enfocado en la semiología del sistema respiratorio, específicamente los <span class='highlight-blue'>síndromes pleuropulmonares de derrame pleural y neumotórax</span>. La precisión semiológica es su mejor herramienta.</p><h2 class='text-2xl font-semibold mb-4 text-blue-700'>FASE 1: Anamnesis Académica 🩺</h2><p class='text-lg mb-6'>Antes de iniciar, me gustaría escucharles. ¿En qué bloque o parcial se sienten más desafiados actualmente? ¿Encuentran mayor dificultad en el enfoque teórico o en la aplicación práctica de las maniobras semiológicas? Sus respuestas nos ayudarán a orientar mejor la discusión de hoy.</p><h2 class='text-2xl font-semibold mb-4 text-blue-700'>FASE 2: Planificación del Módulo 🗓️</h2><p class='text-lg mb-6'>Excelente. Dada la importancia de dominar estas patologías, he estructurado nuestro encuentro de hoy para que cubramos los siguientes puntos clave:</p><ul class='list-disc list-inside ml-4 text-lg mb-6'><li><span class='font-medium'>Concepto Anclaje:</span> Definición de los síndromes pleuropulmonares.</li><li><span class='font-medium'>Repaso Detallado:</span> Semiología del Derrame Pleural (Inspección, Palpación, Percusión, Auscultación).</li><li><span class='font-medium'>Repaso Detallado:</span> Semiología del Neumotórax (Inspección, Palpación, Percusión, Auscultación).</li><li><span class='font-medium'>Tabla Comparativa:</span> Diferenciación esencial entre ambos síndromes.</li><li><span class='font-medium'>Cuestionario Interactivo:</span> Aplicación de conocimientos a través de viñetas clínicas.</li></ul><h2 class='text-2xl font-semibold mb-4 text-blue-700'>FASE 3: Ejecución Activa — El Método IPPAA ✨</h2><h3 class='text-xl font-semibold mb-3 text-blue-600'>Concepto Anclaje: Los Síndromes Pleuropulmonares</h3><p class='text-lg mb-4'>Los <span class='highlight-blue'>síndromes pleuropulmonares</span> se refieren a conjuntos de signos y síntomas que se originan por alteraciones en la pleura o el pulmón, manifestándose a través de patrones característicos en el examen físico. Hoy nos centraremos en el <span class='font-medium'>derrame pleural</span>, una acumulación anormal de líquido en el espacio pleural, y el <span class='font-medium'>neumotórax</span>, la presencia de aire en este mismo espacio. La clave está en cómo estas sustancias (líquido o aire) modifican la transmisión de las vibraciones y el sonido a través del tórax. Para una revisión exhaustiva, les remito a <span class='italic'>Llanio Navarro, Tomo I, Capítulos 29-31</span> y <span class='italic'>Argente-Álvarez, Semiología Médica, Capítulos relevantes sobre tórax</span>.</p><h3 class='text-xl font-semibold mb-3 text-blue-600'>Inmersión Sensorial: La Semiología Torácica 🌬️</h3><p class='text-lg mb-4'>Imaginemos que estamos frente a un paciente con dificultad respiratoria. ¿Qué buscaríamos?</p><ul class='list-disc list-inside ml-4 text-lg mb-6'><li><span class='font-medium'>👁️ Lo que VE (Inspección):</span> La simetría del tórax, la expansión de los hemitórax durante la respiración, la presencia de abombamientos o retracciones. ¿Hay cianosis, taquipnea?</li><li><span class='font-medium'>🤲 Lo que TOCA (Palpación):</span> La sensibilidad torácica, la expansión pulmonar y, fundamentalmente, las <span class='highlight-blue'>vibraciones vocales</span>. ¿Cómo se sienten al pedirle al paciente que diga "treinta y tres"?</li><li><span class='font-medium'>👂 Lo que OYE (Percusión y Auscultación):</span> Los sonidos que produce el tórax al ser percutido (¿sonoridad, matidez, timpanismo?) y los ruidos respiratorios al auscultar (¿murmullo vesicular normal, abolido, o ruidos agregados como sibilancias o estertores?).</li></ul><div class='card mb-6'><div class='card-header' onclick='toggleCard(this)'>Gancho Clínico y Pregunta Socrática<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><div class='question-vignette'><p class='text-lg font-medium mb-3'>**Escenario Clínico:** Llega a la sala de emergencias un paciente de 68 años con antecedente de insuficiencia cardíaca descompensada, refiriendo disnea progresiva de 3 días de evolución y un dolor torácico pleurítico en el lado derecho. Al examen físico, se observa disminución de la expansión de ese hemitórax.</p><div class='socratic-question'><p class='text-lg font-medium mb-2'>**Pregunta Socrática:** Basándose en los hallazgos iniciales, ¿qué alteraciones <span class='italic'>esperaría</span> encontrar en la palpación, percusión y auscultación del hemitórax afectado? Y, más importante aún, ¿cómo nos ayudarían esos hallazgos a diferenciar un derrame pleural de, por ejemplo, un neumotórax si el cuadro clínico fuera diferente? Razonen su respuesta usando los principios semiológicos.</p></div></div></div></div><h3 class='text-2xl font-semibold mb-4 text-blue-700'>REPASO: Derrame Pleural y Neumotórax</h3><div class='card'><div class='card-header' onclick='toggleCard(this)'>📚 DERRAPLE PLEURAL: ACUMULACIÓN DE LÍQUIDO<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><p class='text-lg mb-4'>El derrame pleural se presenta cuando hay un exceso de líquido en el espacio pleural, que puede ser exudado o trasudado. Este líquido interfiere con la mecánica respiratoria y la transmisión de sonidos.</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>A. Gancho Clínico</h4><p class='text-lg mb-4'>Imagine a una paciente de 55 años, con antecedentes de neumonía, que consulta por disnea, tos seca y dolor punzante en el hemitóax izquierdo al respirar profundamente. Refiere que la disnea empeora al acostarse. Al observarla, su respiración es superficial y su hemitórax izquierdo parece tener menos movilidad.</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>B. El Trío Semiológico en el Derrame Pleural</h4><ul class='list-disc list-inside ml-4 mb-4 text-lg'><li><span class='font-medium'>👁️ Lo que VE (Inspección):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Forma y simetría:</span> Puede haber <span class='highlight-blue'>abombamiento</span> o <span class='highlight-blue'>distensión del hemitórax</span> afectado si el derrame es grande.</li><li><span class='font-medium'>Movimiento:</span> <span class='highlight-blue'>Disminución o abolición de la movilidad</span> respiratoria del lado afectado. Puede observarse taquipnea.</li><li><span class='italic'>(Referencia: Argente-Álvarez, 2ª ed., Capítulos de Aparato Respiratorio; Bickley, 12ª ed., Capítulo de Tórax y Pulmones).</span></li></ul></li><li><span class='font-medium'>🤲 Lo que TOCA (Palpación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Expansión:</span> <span class='highlight-blue'>Disminución de la expansibilidad</span> del hemitórax afectado.</li><li><span class='font-medium'>Vibraciones Vocales (VV):</span> Clásicamente, hay <span class='highlight-blue'>abolición o marcada disminución de las vibraciones vocales</span> sobre el área del derrame. El líquido actúa como una barrera que no transmite el sonido. En raras ocasiones, sobre el borde superior de un derrame masivo, puede haber egofonía.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 29; Argente-Álvarez, 2ª ed.; Surós, 8ª ed.).</span></li></ul></li><li><span class='font-medium'>👂 Lo que OYE (Percusión y Auscultación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Percusión:</span> Se obtiene <span class='highlight-blue'>matidez</span> o <span class='highlight-blue'>submatidez</span> sobre la zona del derrame. Esta matidez es típicamente desplazable si el paciente cambia de posición y forma una curva parabólica (curva de Damoiseau) si el derrame es libre.</li><li><span class='font-medium'>Auscultación:</span> El hallazgo cardinal es la <span class='highlight-blue'>abolición o marcada disminución del murmullo vesicular</span> sobre el derrame. En el borde superior, a veces se puede escuchar un soplo pleural o broncofonía/egofonía si la compresión pulmonar es significativa.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 30; Bickley, 12ª ed., Capítulo de Tórax y Pulmones; Goic-Chamorro-Reyes, 3ª ed.).</span></li></ul></li></ul><div class='perla-catedra'><p class='font-semibold'>D. Perla de la Cátedra</p><p>"Recuerden la 'M' de Matidez y Murmullo disminuido para el derrame pleural. El líquido es el gran silenciador del tórax."</p></div></div></div><div class='card'><div class='card-header' onclick='toggleCard(this)'>📚 NEUMOTÓRAX: AIRE EN LA PLEURA<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><p class='text-lg mb-4'>El neumotórax es la presencia de aire en el espacio pleural, lo que provoca el colapso pulmonar. Puede ser espontáneo, traumático o a tensión (una emergencia médica grave).</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>A. Gancho Clínico</h4><p class='text-lg mb-4'>Un joven de 22 años, delgado y alto, llega a la consulta refiriendo dolor torácico súbito y agudo en el lado derecho, acompañado de dificultad para respirar, que apareció mientras jugaba baloncesto. Se le ve ansioso y con respiración rápida y superficial. Su hemitórax derecho parece ligeramente más abombado y se mueve menos que el izquierdo.</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>B. El Trío Semiológico en el Neumotórax</h4><ul class='list-disc list-inside ml-4 mb-4 text-lg'><li><span class='font-medium'>👁️ Lo que VE (Inspección):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Forma y simetría:</span> Puede haber <span class='highlight-blue'>abombamiento</span> o <span class='highlight-blue'>distensión del hemitórax</span> afectado (especialmente en neumotórax a tensión).</li><li><span class='font-medium'>Movimiento:</span> <span class='highlight-blue'>Disminución o abolición de la movilidad</span> respiratoria del lado afectado. Puede observarse taquipnea y, en casos graves, desviación traqueal contralateral.</li><li><span class='italic'>(Referencia: Argente-Álvarez, 2ª ed., Capítulos de Aparato Respiratorio; Bickley, 12ª ed., Capítulo de Tórax y Pulmones).</span></li></ul></li><li><span class='font-medium'>🤲 Lo que TOCA (Palpación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Expansión:</span> <span class='highlight-blue'>Disminución de la expansibilidad</span> del hemitórax afectado.</li><li><span class='font-medium'>Vibraciones Vocales (VV):</span> Típicamente <span class='highlight-blue'>abolición o marcada disminución de las vibraciones vocales</span> sobre el área afectada. El aire en el espacio pleural es un pobre transmisor de sonido.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 29; Argente-Álvarez, 2ª ed.; Surós, 8ª ed.).</span></li></ul></li><li><span class='font-medium'>👂 Lo que OYE (Percusión y Auscultación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Percusión:</span> Se obtiene <span class='highlight-blue'>timpanismo</span> o <span class='highlight-blue'>hipersonoridad</span> sobre la zona del neumotórax. Esto se debe a la presencia de aire libre en el espacio pleural.</li><li><span class='font-medium'>Auscultación:</span> El hallazgo cardinal es la <span class='highlight-blue'>abolición o marcada disminución del murmullo vesicular</span> sobre el área afectada. En ocasiones, si es un neumotórax pequeño, el murmullo puede estar solo disminuido.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 30; Bickley, 12ª ed., Capítulo de Tórax y Pulmones; Goic-Chamorro-Reyes, 3ª ed.).</span></li></ul></li></ul><div class='perla-catedra'><p class='font-semibold'>D. Perla de la Cátedra</p><p>"Para el neumotórax, piensen en la 'T' de Timpanismo y la 'A' de Abolición del murmullo. El aire no suena, y no deja que el pulmón suene."</p></div></div></div><div class='card'><div class='card-header' onclick='toggleCard(this)'>C. Tabla Comparativa: Derrame Pleural vs. Neumotórax<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><div class='overflow-x-auto'><table class='min-w-full bg-white'><thead><tr><th class='py-3 px-4 text-left'>Característica</th><th class='py-3 px-4 text-left'>Derrame Pleural (Líquido)</th><th class='py-3 px-4 text-left'>Neumotórax (Aire)</th><th class='py-3 px-4 text-left'>Fuente Principal</th></tr></thead><tbody><tr><td class='py-3 px-4 font-medium'>Sintomatología Común</td><td class='py-3 px-4'>Disnea, dolor pleurítico, tos (seca)</td><td class='py-3 px-4'>Disnea súbita, dolor pleurítico agudo, tos (seca)</td><td class='py-3 px-4'>Argente-Álvarez, Goic-Chamorro-Reyes</td></tr><tr><td class='py-3 px-4 font-medium'>Inspección</td><td class='py-3 px-4'>Disminución movilidad, abombamiento del hemitórax</td><td class='py-3 px-4'>Disminución movilidad, abombamiento del hemitórax (más notorio en tensión)</td><td class='py-3 px-4'>Bickley, Llanio Navarro Tomo I</td></tr><tr><td class='py-3 px-4 font-medium'>Palpación</td><td class='py-3 px-4'>Disminución/abolición de vibraciones vocales (VV)</td><td class='py-3 px-4'>Disminución/abolición de vibraciones vocales (VV)</td><td class='py-3 px-4'>Llanio Navarro Tomo I, Argente-Álvarez</td></tr><tr><td class='py-3 px-4 font-medium'>Percusión</td><td class='py-3 px-4'><span class='highlight-blue'>Matidez</span></td><td class='py-3 px-4'><span class='highlight-blue'>Timpanismo</span> o hipersonoridad</td><td class='py-3 px-4'>Llanio Navarro Tomo I, Bickley, Surós</td></tr><tr><td class='py-3 px-4 font-medium'>Auscultación</td><td class='py-3 px-4'>Disminución/abolición del murmullo vesicular</td><td class='py-3 px-4'>Disminución/abolición del murmullo vesicular</td><td class='py-3 px-4'>Argente-Álvarez, Goic-Chamorro-Reyes, Llanio Navarro Tomo I</td></tr><tr><td class='py-3 px-4 font-medium'>Desviación Traqueal</td><td class='py-3 px-4'>Hacia el lado contralateral (derrame masivo)</td><td class='py-3 px-4'>Hacia el lado contralateral (Neumotórax a tensión)</td><td class='py-3 px-4'>Argente-Álvarez</td></tr></tbody></table></div><div class='perla-catedra'><p class='font-semibold'>D. Perla de la Cátedra (Integración)</p><p>"Para diferenciar rápidamente entre un derrame pleural y un neumotórax, las <span class='font-medium'>Vibraciones Vocales</span> y la <span class='font-medium'>Percusión</span> son sus mejores aliados. Ambas condiciones silencian el pulmón a la auscultación y disminuyen las VV, ¡pero solo el líquido da <span class='highlight-blue'>matidez</span> y el aire da <span class='highlight-blue'>timpanismo</span>!" Este es un principio semiológico fundamental, extraído de <span class='italic'>Argente-Álvarez</span> y <span class='italic'>Llanio Navarro</span>.</p></div></div></div><h2 class='text-2xl font-semibold mb-4 mt-8 text-blue-700'>FASE 4: Evaluación y Retroalimentación — Cuestionario Clínico Interactivo</h2><p class='text-lg mb-6'>Ahora, es momento de poner a prueba sus conocimientos. Responderán a estas viñetas clínicas. Recuerden: el objetivo no es solo acertar, sino <span class='font-semibold'>razonar</span> cada respuesta con precisión semiológica.</p><div id='quiz' class='quiz-container'></div></div><script>
+      function toggleCard(header) {
+        header.classList.toggle('active');
+        const content = header.nextElementSibling;
+        if (content.classList.contains('show')) {
+          content.classList.remove('show');
+          content.style.maxHeight = null;
+        } else {
+          content.classList.add('show');
+          content.style.maxHeight = content.scrollHeight + 'px';
         }
-        .flashcard-flipped .flashcard-inner {
-            transform: rotateY(180deg);
+      }
+
+      const quizData = [
+        {
+          question: "Un paciente de 62 años, con historial de cirrosis hepática, acude a la emergencia por disnea progresiva, tos seca y dolor torácico en el hemitórax derecho que aumenta con la inspiración. A la inspección, se observa una disminución de la expansión de dicho hemitórax. Al realizar la palpación, las vibraciones vocales están abolidas en la base pulmonar derecha. ¿Cuál es el hallazgo más probable en la percusión del área afectada?",
+          options: {
+            A: "Hipersonoridad.",
+            B: "Timpanismo.",
+            C: "Matidez.",
+            D: "Sonoridad normal.",
+            E: "Claridad pulmonar."
+          },
+          answer: "C",
+          explanation: "El cuadro clínico describe un paciente con factores de riesgo para derrame pleural (cirrosis hepática con posible hidrotórax derecho) y síntomas consistentes como disnea, tos seca y dolor pleurítico. Los hallazgos semiológicos clave incluyen disminución de la expansión del hemitórax afectado y abolición de las vibraciones vocales. Según Llanio Navarro (Tomo I, Cap. 29-30) y Argente-Álvarez (Semiología Médica), la presencia de líquido en el espacio pleural (derrame pleural) interrumpe la transmisión de las vibraciones sonoras y amortigua el sonido de la percusión. Por lo tanto, el hallazgo característico a la percusión en un derrame pleural es la <span class='font-semibold'>matidez</span>. Esta matidez refleja la interposición de líquido entre la pared torácica y el pulmón, impidiendo la resonancia normal del aire pulmonar. Las opciones A y B (Hipersonoridad y Timpanismo) son hallazgos típicos de la presencia de aire en el tórax, como en el neumotórax o enfisema, no en un derrame pleural. La sonoridad normal o claridad pulmonar (D y E) indicarían un parénquima pulmonar y espacio pleural libres de alteraciones significativas. Por tanto, la matidez es el hallazgo percutorio que mejor se correlaciona con la acumulación de líquido. (Prioridad: Práctica semiológica 45%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> 'Líquido = Matidez'. Recuerden que el líquido no vibra y no resuena, lo que silencia el tórax al percutir."
+        },
+        {
+          question: "Un joven de 19 años, delgado y fumador, acude a la emergencia con dolor torácico agudo de inicio súbito en el hemitórax izquierdo y disnea intensa, que empeoró rápidamente. Se le observa taquipneico, con cianosis leve y una discreta protrusión del hemitórax afectado. Las vibraciones vocales están abolidas. ¿Cuál es la alteración esperada a la auscultación y percusión que confirmaría su sospecha diagnóstica?",
+          options: {
+            A: "Murmullo vesicular disminuido y matidez.",
+            B: "Murmullo vesicular abolido y timpanismo.",
+            C: "Estertores crepitantes y matidez.",
+            D: "Soplo tubárico y egofonía.",
+            E: "Roncus diseminados y sonoridad normal."
+          },
+          answer: "B",
+          explanation: "El cuadro clínico de un joven, delgado y fumador con dolor torácico súbito, disnea intensa y cianosis, junto con disminución de la movilidad torácica y abolición de las vibraciones vocales en el hemitórax izquierdo, es altamente sugestivo de un <span class='font-semibold'>neumotórax</span>. En el neumotórax, hay aire en el espacio pleural que impide la transmisión de los ruidos respiratorios y de la percusión. Según Argente-Álvarez (Semiología Médica) y Llanio Navarro (Tomo I, Cap. 30), la acumulación de aire en el espacio pleural produce <span class='font-semibold'>timpanismo o hipersonoridad</span> a la percusión y una <span class='font-semibold'>abolición o marcada disminución del murmullo vesicular</span> a la auscultación. La opción A (matidez) y C (crepitantes y matidez) son características del derrame pleural o síndromes de condensación con líquido, no de aire. La opción D (soplo tubárico y egofonía) se asocia más con síndromes de condensación pulmonar. La opción E (roncus diseminados y sonoridad normal) sugeriría una bronquitis o asma sin alteración del espacio pleural. La combinación de murmullo vesicular abolido y timpanismo es el sello semiológico del neumotórax. (Prioridad: Práctica semiológica 45%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> 'Aire = Timpanismo'. Recuerden que el aire libre en una cavidad resuena como un tambor al ser percutido, y aísla los sonidos pulmonares."
+        },
+        {
+          question: "Durante la realización de la Historia Clínica a un paciente con disnea, tos y dolor torácico, el médico recopila información sobre antecedentes personales, como tabaquismo, exposición ocupacional y enfermedades crónicas. Este proceso forma parte fundamental de la anamnesis. Según la estructura de la Historia Clínica, ¿cuál de los siguientes elementos es esencial en la redacción para conectar los síntomas actuales con la cronología y evolución del cuadro?",
+          options: {
+            A: "Datos de filiación.",
+            B: "Revisión por sistemas y aparatos.",
+            C: "Historia de la Enfermedad Actual (HEA).",
+            D: "Antecedentes familiares.",
+            E: "Impresión diagnóstica."
+          },
+          answer: "C",
+          explanation: "La pregunta se centra en la importancia de un elemento de la Historia Clínica para <span class='font-semibold'>conectar los síntomas actuales con la cronología y evolución del cuadro</span>. Según el programa de la asignatura (MÓDULO I, Semana 2) y la bibliografía como Argente-Álvarez y Bickley (Capítulos de Historia Clínica), la <span class='font-semibold'>Historia de la Enfermedad Actual (HEA)</span> es la sección de la anamnesis donde se detalla de forma ordenada y cronológica el motivo de consulta, la aparición de cada síntoma, su evolución, intensidad, factores agravantes o atenuantes, y los tratamientos previos recibidos. Es el relato exhaustivo que permite al médico comprender la dinámica de la enfermedad y establecer hipótesis diagnósticas. Los datos de filiación (A) son información demográfica. La revisión por sistemas y aparatos (B) es una indagación sistemática de síntomas en cada sistema, pero no la narrativa cronológica de la enfermedad actual. Los antecedentes familiares (D) son relevantes para factores de riesgo genéticos o hereditarios, no para la evolución del cuadro actual del paciente. La impresión diagnóstica (E) es una conclusión provisional que se obtiene después de la anamnesis y el examen físico, no una parte de la anamnesis en sí misma. Por lo tanto, la HEA es la clave para la coherencia narrativa de la enfermedad. (Prioridad: Historia Clínica 30%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> La HEA es como un 'cuento médico', donde cada síntoma es un personaje y la cronología es la trama. Una buena historia es la base de un buen diagnóstico."
+        },
+        {
+          question: "Un paciente con un gran derrame pleural izquierdo presenta matidez a la percusión y abolición del murmullo vesicular en el hemitórax afectado. ¿Cuál es el principal mecanismo fisiopatológico que explica la matidez a la percusión en este síndrome?",
+          options: {
+            A: "Aumento de la resonancia del aire en el espacio pleural.",
+            B: "Disminución de la elasticidad pulmonar.",
+            C: "Interposición de un medio denso (líquido) que amortigua las vibraciones.",
+            D: "Presencia de aire atrapado en los bronquiolos.",
+            E: "Consolidación del parénquima pulmonar adyacente."
+          },
+          answer: "C",
+          explanation: "La pregunta aborda el mecanismo fisiopatológico de un hallazgo clave en el derrame pleural: la matidez a la percusión. Según Argente-Álvarez (Semiología Médica, Fisiopatología, Semiotecnia y Propedéutica) y Goic-Chamorro-Reyes (Semiología Médica), la percusión produce sonidos que varían según la densidad del tejido subyacente. En el caso del pulmón normal, el aire presente permite una sonoridad resonante. Cuando hay un derrame pleural, el espacio entre la pared torácica y el pulmón se llena de líquido, que es un <span class='font-semibold'>medio mucho más denso que el aire</span>. Esta interposición de líquido actúa como una barrera que <span class='font-semibold'>amortigua o absorbe las vibraciones</span> generadas por la percusión, impidiendo que el sonido resuene y se propague. El resultado es un sonido sordo, conocido como <span class='font-semibold'>matidez</span>. La opción A describe un mecanismo que llevaría a hipersonoridad o timpanismo. La opción B y D describen alteraciones pulmonares intrínsecas que no son la causa directa de la matidez pleural. La opción E, la consolidación, también produce matidez, pero el mecanismo principal es un cambio en la densidad del parénquima pulmonar por ocupación alveolar de exudado, no por líquido en el espacio pleural directamente interponiéndose entre el tórax y el pulmón. En el contexto de un derrame pleural, el factor decisivo es el líquido en el espacio pleural. (Prioridad: Bases fisiopatológicas 25%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> Imaginen un tambor: si le echas agua dentro, el sonido se vuelve sordo. Así, el líquido en la pleura 'apaga' el sonido del tórax al percutir."
+        },
+        {
+          question: "Un paciente con neumotórax a tensión presenta desviación de la tráquea hacia el lado contralateral. Fisiopatológicamente, ¿cuál es la razón principal de esta desviación traqueal?",
+          options: {
+            A: "Inflamación de los ganglios linfáticos mediastínicos.",
+            B: "Aumento de la presión intratorácica en el hemitórax afectado.",
+            C: "Colapso pulmonar ipsilateral que tira de la tráquea.",
+            D: "Hipertrofia compensatoria del pulmón contralateral.",
+            E: "Debilidad de los músculos del cuello en el lado afectado."
+          },
+          answer: "B",
+          explanation: "La desviación de la tráquea es un signo clínico grave, particularmente en el <span class='font-semibold'>neumotórax a tensión</span>. En esta condición, el aire entra al espacio pleural durante la inspiración pero no puede salir durante la espiración, lo que lleva a una <span class='font-semibold'>acumulación progresiva de aire y un aumento masivo de la presión intratorácica</span> en el hemitórax afectado. Esta presión positiva extrema comprime el pulmón ipsilateral, empuja el mediastino (que incluye la tráquea, el corazón y los grandes vasos) hacia el lado opuesto (contralateral) y compromete severamente el retorno venoso al corazón. Este mecanismo está bien descrito en textos como Argente-Álvarez (Semiología Médica) y Goic-Chamorro-Reyes (Semiología Médica), resaltando la fisiopatología de la compresión. La opción A no es un mecanismo directo. La opción C es incorrecta, ya que el colapso pulmonar ocurre en el lado afectado, pero es la presión del aire la que empuja, no el pulmón colapsado el que 'tira'. La opción D y E no tienen relación directa con la desviación traqueal en el neumotórax a tensión. La desviación traqueal es, por tanto, un signo de una emergencia médica que requiere intervención inmediata para descomprimir el tórax. (Prioridad: Bases fisiopatológicas 25%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> Un neumotórax a tensión es como un globo descontrolado dentro del tórax: infla tanto que empuja todo a su paso, incluyendo la tráquea. Es una señal de alarma crítica."
         }
-        .backface-hidden {
-            backface-visibility: hidden;
-        }
-        .rotate-y-180 {
-            transform: rotateY(180deg);
-        }
-    </style>
-</head>
-<body class="bg-gray-50 font-sans text-gray-800 pb-16">
-    <div class="max-w-4xl mx-auto px-4 py-8">
-        <!-- Encabezado -->
-        <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-6 shadow-md mb-8">
-            <p class="text-sm font-semibold tracking-wider uppercase text-blue-100">PROPE DÉUTICA CLÍNICA Y SEMIOLOGÍA MÉDICA (MED-228-T-1)</p>
-            <h1 class="text-3xl font-bold mt-1">Estudio Interactivo: Semiología Cardiovascular</h1>
-            <p class="text-xs text-blue-200 mt-2">Basado en la sesión del miércoles, 3 de junio de 2026. Diseñado para Active Recall y Autoevaluación.</p>
-        </header>
+      ];
 
-        <!-- Tarjetas de Flashcards (Active Recall) -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <span>🎴</span> Tarjetas de Repaso (Haz clic para voltear)
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Tarjeta 1 -->
-                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
-                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
-                            <span class="text-blue-500 font-bold mb-2">DOLOR TORÁCICO</span>
-                            <p class="font-medium text-gray-700 text-sm">¿Cómo se comporta el dolor de la pericarditis aguda según la posición corporal del paciente?</p>
-                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
-                        </div>
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
-                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
-                            <p class="text-sm">Alivia al **inclinarse hacia adelante** (posición genupectoral o plegaria mahometana) y **empeora al acostarse boca arriba** (decúbito supino).</p>
-                        </div>
-                    </div>
-                </div>
+      const quizContainer = document.getElementById('quiz');
+      let score = 0;
 
-                <!-- Tarjeta 2 -->
-                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
-                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
-                            <span class="text-blue-500 font-bold mb-2">CLASIFICACIÓN DE DISNEA</span>
-                            <p class="font-medium text-gray-700 text-sm">Un paciente con disnea al bañarse o vestirse, ¿qué clase funcional de la NYHA representa?</p>
-                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
-                        </div>
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
-                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
-                            <p class="text-sm">Pertenece a la **NYHA Clase III** (limitación marcada de la actividad física, cómodo en reposo pero disnea con esfuerzos menores a la actividad ordinaria).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta 3 -->
-                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
-                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
-                            <span class="text-blue-500 font-bold mb-2">RUIDOS CARDÍACOS</span>
-                            <p class="font-medium text-gray-700 text-sm">¿Cuál es el significado clínico de auscultar un R3 en un paciente mayor de 40 años?</p>
-                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
-                        </div>
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
-                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
-                            <p class="text-sm">Indica **disfunción sistólica ventricular (insuficiencia cardíaca)** o sobrecarga de volumen diastólico. Genera el "ritmo de galope ventricular".</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta 4 -->
-                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
-                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
-                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
-                            <span class="text-blue-500 font-bold mb-2">EXAMEN FÍSICO CARDIOVASCULAR</span>
-                            <p class="font-medium text-gray-700 text-sm">¿Por qué el reflujo hepatojugular (RHJ) es indicativo de falla ventricular derecha?</p>
-                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
-                        </div>
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
-                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
-                            <p class="text-sm">Porque al comprimir el hígado aumenta el retorno venoso a la cava inferior y aurícula derecha. Si el VD tiene falla y no puede bombear este exceso, se congestiona y se eleva la presión yugular en el cuello.</p>
-                        </div>
-                    </div>
-                </div>
+      function loadQuiz() {
+        quizData.forEach((q, index) => {
+          const questionDiv = document.createElement('div');
+          questionDiv.classList.add('quiz-question');
+          questionDiv.innerHTML = `
+            <p class='text-lg font-semibold mb-3 text-blue-800'>Pregunta ${index + 1}:</p>
+            <div class='question-vignette'>${q.question}</div>
+            <div class='quiz-options'>
+              ${Object.keys(q.options).map(key => `
+                <label>
+                  <input type='radio' name='question${index}' value='${key}'>
+                  ${key}: ${q.options[key]}
+                </label>
+              `).join('')}
             </div>
-        </section>
+            <button class='quiz-button mt-4' onclick='checkAnswer(${index})'>Verificar Respuesta</button>
+            <div id='feedback-${index}' class='quiz-feedback hidden'></div>
+          `;
+          quizContainer.appendChild(questionDiv);
+        });
+      }
 
-        <!-- Quiz de Autoevaluación -->
-        <section class="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <span>📝</span> Cuestionario de Autoevaluación (Self-Grading)
-            </h2>
-            <form id="quizForm" onsubmit="event.preventDefault(); gradeQuiz();">
-                <!-- Pregunta 1 -->
-                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                    <p class="font-semibold text-gray-800 mb-3">1. Paciente varón de 68 años con disnea al caminar plano media cuadra. Cómodo en reposo absoluto. ¿Clase NYHA?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q1" value="A" class="form-radio text-blue-600">
-                            <span>NYHA Clase I</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q1" value="B" class="form-radio text-blue-600">
-                            <span>NYHA Clase II</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q1" value="C" class="form-radio text-blue-600">
-                            <span>NYHA Clase III</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q1" value="D" class="form-radio text-blue-600">
-                            <span>NYHA Clase IV</span>
-                        </label>
-                    </div>
-                    <p id="feedback-q1" class="hidden text-sm mt-2 font-medium"></p>
-                </div>
+      function checkAnswer(questionIndex) {
+        const selectedOption = document.querySelector(`input[name='question${questionIndex}']:checked`);
+        const feedbackDiv = document.getElementById(`feedback-${questionIndex}`);
 
-                <!-- Pregunta 2 -->
-                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                    <p class="font-semibold text-gray-800 mb-3">2. Paciente de 54 años con HTA mal controlada de larga data. Ausculta un ruido de tono grave antes de R1 (presistólico). Ritmo sinusal. ¿Cuál es?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q2" value="A" class="form-radio text-blue-600">
-                            <span>Tercer Ruido (R3) fisiológico</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q2" value="B" class="form-radio text-blue-600">
-                            <span>Cuarto Ruido (R4) - galope auricular</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q2" value="C" class="form-radio text-blue-600">
-                            <span>Chasquido de apertura mitral</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q2" value="D" class="form-radio text-blue-600">
-                            <span>Clic de eyección aórtico</span>
-                        </label>
-                    </div>
-                    <p id="feedback-q2" class="hidden text-sm mt-2 font-medium"></p>
-                </div>
-
-                <!-- Pregunta 3 -->
-                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                    <p class="font-semibold text-gray-800 mb-3">3. ¿Qué dolor aumenta a la inspiración profunda y alivia al acostarse sobre el lado afectado?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q3" value="A" class="form-radio text-blue-600">
-                            <span>Dolor de disección aórtica</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q3" value="B" class="form-radio text-blue-600">
-                            <span>Dolor anginoso típico</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q3" value="C" class="form-radio text-blue-600">
-                            <span>Dolor pleurítico</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q3" value="D" class="form-radio text-blue-600">
-                            <span>Dolor pericardítico</span>
-                        </label>
-                    </div>
-                    <p id="feedback-q3" class="hidden text-sm mt-2 font-medium"></p>
-                </div>
-
-                <!-- Pregunta 4 -->
-                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                    <p class="font-semibold text-gray-800 mb-3">4. Un soplo mesosistólico eyectivo, de forma creciente-decreciente, auscultado en el 2do espacio intercostal derecho e irradiado a carótidas, es característico de:</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q4" value="A" class="form-radio text-blue-600">
-                            <span>Insuficiencia mitral</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q4" value="B" class="form-radio text-blue-600">
-                            <span>Estenosis aórtica</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q4" value="C" class="form-radio text-blue-600">
-                            <span>Estenosis mitral</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q4" value="D" class="form-radio text-blue-600">
-                            <span>Insuficiencia aórtica</span>
-                        </label>
-                    </div>
-                    <p id="feedback-q4" class="hidden text-sm mt-2 font-medium"></p>
-                </div>
-
-                <!-- Pregunta 5 -->
-                <div class="mb-8 p-4 rounded-lg hover:bg-gray-50 transition-colors">
-                    <p class="font-semibold text-gray-800 mb-3">5. Paciente en urgencias con disnea. Al explorar el cuello acostado a 45 grados, observa ingurgitación yugular y se mantiene elevada por más de 3 cm al comprimir el hígado. ¿Qué signo confirma y qué indica?</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q5" value="A" class="form-radio text-blue-600">
-                            <span>Pulso carotídeo dícroto, estenosis aórtica</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q5" value="B" class="form-radio text-blue-600">
-                            <span>Reflujo hepatojugular positivo, insuficiencia ventricular derecha</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q5" value="C" class="form-radio text-blue-600">
-                            <span>Signo de Kussmaul positivo, pericarditis constrictiva únicamente</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="q5" value="D" class="form-radio text-blue-600">
-                            <span>Choque de punta desviado, insuficiencia aórtica severa</span>
-                        </label>
-                    </div>
-                    <p id="feedback-q5" class="hidden text-sm mt-2 font-medium"></p>
-                </div>
-
-                <!-- Botón de Envío y Resultado -->
-                <div class="flex flex-col sm:flex-row items-center gap-4 border-t border-gray-100 pt-6">
-                    <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-colors">
-                        Calificar Cuestionario
-                    </button>
-                    <button type="button" onclick="resetQuiz()" class="w-full sm:w-auto px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-sm transition-colors">
-                        Reiniciar
-                    </button>
-                    <div id="quizResult" class="hidden font-bold text-lg text-gray-800"></div>
-                </div>
-            </form>
-        </section>
-    </div>
-
-    <script>
-        function toggleCard(cardElement) {
-            cardElement.classList.toggle('flashcard-flipped');
+        if (!selectedOption) {
+          feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
+          feedbackDiv.classList.add('incorrect');
+          feedbackDiv.innerHTML = 'Por favor, selecciona una opción.';
+          return;
         }
 
-        const answers = {
-            q1: "C",
-            q2: "B",
-            q3: "C",
-            q4: "B",
-            q5: "B"
-        };
+        const userAnswer = selectedOption.value;
+        const correctAnswer = quizData[questionIndex].answer;
+        const explanation = quizData[questionIndex].explanation;
 
-        const explanations = {
-            q1: "Correcto: Actividades menores que las ordinarias como bañarse, vestirse o caminar menos de 100m plano que generen disnea corresponden a la Clase III de la NYHA.",
-            q2: "Correcto: El R4 se produce por la contracción auricular activa contra una cámara ventricular rígida o con sobrecarga de presión (hipertrofia ventricular por HTA). Requiere contracción auricular activa (ritmo sinusal).",
-            q3: "Correcto: El dolor pleurítico aumenta característicamente con movimientos respiratorios (tos, inspiración profunda) y alivia en decúbito lateral sobre el lado afectado, al 'ferular' la pleura inflamada contra la cama.",
-            q4: "Correcto: El soplo de estenosis aórtica es mesosistólico eyectivo, de tipo creciente-decreciente (romboidal), y se irradia característicamente a las carótidas en el cuello.",
-            q5: "Correcto: La presencia de reflujo hepatojugular persistente (>3 cm) bajo compresión hepática sostenida es un signo clave de congestión venosa pasiva y disfunción del ventrículo derecho."
-        };
-
-        function gradeQuiz() {
-            const form = document.getElementById('quizForm');
-            let score = 0;
-            const total = 5;
-
-            for (let i = 1; i <= total; i++) {
-                const qName = 'q' + i;
-                const selected = form.elements[qName].value;
-                const feedbackEl = document.getElementById('feedback-' + qName);
-                
-                feedbackEl.classList.remove('hidden', 'text-green-600', 'text-red-600');
-
-                if (selected === answers[qName]) {
-                    score++;
-                    feedbackEl.innerText = explanations[qName];
-                    feedbackEl.classList.add('text-green-600');
-                } else {
-                    const incorrectText = "Incorrecto. La respuesta correcta era la " + answers[qName] + ". " + 
-                                          (selected ? "Seleccionaste la " + selected + "." : "No respondiste.");
-                    feedbackEl.innerText = incorrectText + " Explicación: " + explanations[qName];
-                    feedbackEl.classList.add('text-red-600');
-                }
-            }
-
-            const resultDiv = document.getElementById('quizResult');
-            resultDiv.classList.remove('hidden');
-            resultDiv.innerText = "Resultado: " + score + " de " + total + " respuestas correctas (" + Math.round((score/total)*100) + "%).";
+        feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
+        if (userAnswer === correctAnswer) {
+          feedbackDiv.classList.add('correct');
+          feedbackDiv.innerHTML = `✅ <span class='font-semibold'>¡Correcto!</span> Excelente razonamiento. <br><br> ${explanation}`;
+        } else {
+          feedbackDiv.classList.add('incorrect');
+          feedbackDiv.innerHTML = `❌ <span class='font-semibold'>Incorrecto.</span> Analicemos juntos: <br><br> ${explanation}`;
         }
+      }
 
-        function resetQuiz() {
-            const form = document.getElementById('quizForm');
-            form.reset();
-            const total = 5;
-            for (let i = 1; i <= total; i++) {
-                const feedbackEl = document.getElementById('feedback-q' + i);
-                feedbackEl.classList.add('hidden');
-            }
-            const resultDiv = document.getElementById('quizResult');
-            resultDiv.classList.add('hidden');
-        }
-    </script>
-</body>
-</html>
+      loadQuiz();
+    </script></body></html>

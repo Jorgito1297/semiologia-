@@ -1,0 +1,47 @@
+{
+  "student_id": "st_demo_999",
+  "course": "MED-228",
+  "period": "MAY-AGO 2026",
+  "competency_progress": {
+    "CG1": {
+      "mastery_pct": 0,
+      "status": "not_started"
+    },
+    "CG2": {
+      "mastery_pct": 72,
+      "status": "proficient"
+    },
+    "CG6": {
+      "mastery_pct": 85,
+      "status": "achieved"
+    },
+    "CG7": {
+      "mastery_pct": 45,
+      "status": "developing"
+    },
+    "CG8": {
+      "mastery_pct": 60,
+      "status": "developing"
+    },
+    "CG11": {
+      "mastery_pct": 30,
+      "status": "developing"
+    }
+  },
+  "block_completion": {
+    "block_1": {
+      "weight": 30,
+      "student_score": 27.5
+    },
+    "block_2": {
+      "weight": 30,
+      "student_score": 0
+    },
+    "final": {
+      "weight": 40,
+      "student_score": 0
+    }
+  },
+  "overall_projected": 27.5,
+  "at_risk": false
+}

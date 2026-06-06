@@ -51,3 +51,10 @@ material_moodle/
 teams_recordings/
 public/*.pdf
 testsprite_tests\tmp\config.json
+
+# --- NEXT.JS ---
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+

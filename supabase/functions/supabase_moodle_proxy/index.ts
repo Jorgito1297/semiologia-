@@ -6,10 +6,12 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.8";
 
-// Orígenes permitidos para CORS (solo dominios de Firebase Hosting)
+// Orígenes permitidos para CORS (solo dominios de Firebase Hosting y Next.js dev server)
 const ALLOWED_ORIGINS = [
   "https://study-with-me-med.web.app",
   "https://study-with-me-med.firebaseapp.com",
+  "http://localhost:3000",   // Next.js dev server
+  "http://127.0.0.1:3000",  // Next.js dev server
   "http://localhost:8080",   // Para pruebas locales
   "http://127.0.0.1:8080",  // Para pruebas locales
 ];
@@ -36,10 +38,10 @@ interface LoginRequestBody {
   password: string;
 }
 
-// Interfaz para la solicitud de Sincronización de Datos
-interface FetchRequestBody {
-  action: "fetch_data";
-}
+// Interfaz para la solicitud de Sincronización de Datos (reservada para futuras expansiones)
+// interface FetchRequestBody {
+//   action: "fetch_data";
+// }
 
 // Función auxiliar para convertir cadenas Hexadecimales a Uint8Array
 function hexToBytes(hex: string): Uint8Array {

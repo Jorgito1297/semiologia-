@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UCE Content Chunk Metadata Schema",
+  "description": "Validation schema for UCE MED-228 content chunks to ensure full academic compliance.",
+  "type": "object",
+  "properties": {
+    "course_id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "description": "UUID referencing the official course in the database."
+    },
+    "week": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16,
+      "description": "Academic week (1 to 16)."
+    },
+    "block": {
+      "type": "string",
+      "enum": ["block_1", "block_2", "block_3", "final"],
+      "description": "Academic block representing the period in the semester."
+    },
+    "topic": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Main medical topic."
+    },
+    "subtopic": {
+      "type": "string",
+      "description": "Subtopic or section name."
+    },
+    "content_type": {
+      "type": "string",
+      "enum": ["theoretical", "procedural"],
+      "description": "Content type (2h theory, 3h practice)."
+    },
+    "memory_domain": {
+      "type": "string",
+      "enum": ["semantic", "procedural", "executive", "perceptual"],
+      "description": "Target memory domain for spaced repetition."
+    },
+    "cg_competencies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["CG1", "CG2", "CG6", "CG7", "CG8", "CG11"]
+      },
+      "description": "Array of official Genic Competencies mapped to this chunk."
+    },
+    "evaluation_type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["quiz", "osce", "simulation", "practical_exam"]
+      },
+      "description": "Evaluation formats this chunk prepares the student for."
+    },
+    "chunk_text": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Text body of the chunk."
+    },
+    "source_book": {
+      "type": "string",
+      "description": "Official bibliography source name."
+    },
+    "source_chapter": {
+      "type": "string",
+      "description": "Chapter name or section."
+    },
+    "source_pages": {
+      "type": "string",
+      "description": "Pages range."
+    },
+    "validated_by": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Name of the medical professor who signed off the content validation."
+    },
+    "validated_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Validation sign-off date (YYYY-MM-DD)."
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "True if validation passed and content is active for students."
+    }
+  },
+  "required": [
+    "course_id",
+    "week",
+    "block",
+    "topic",
+    "content_type",
+    "memory_domain",
+    "cg_competencies",
+    "chunk_text",
+    "source_book",
+    "validated_by",
+    "validated_date",
+    "is_active"
+  ]
+}
