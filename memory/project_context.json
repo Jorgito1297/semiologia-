@@ -1,0 +1,117 @@
+{
+  "project": "Semiología Médica + NEXUS VAULT",
+  "version": "2.0.0",
+  "last_updated": "2026-06-12T00:00:00Z",
+  "description": "Plataforma LMS médica + Sistema SaaS de gestión documental enterprise",
+
+  "systems": {
+    "semiologia": {
+      "framework": "Next.js 16 (App Router)",
+      "language": "TypeScript + Python",
+      "database": "Supabase (PostgreSQL)",
+      "auth": "Firebase Authentication",
+      "ai_local": "Ollama (qwen3:8b, qwen2.5-coder:7b, nomic-embed-text)",
+      "ai_cloud": "Gemini API (opcional), OpenRouter",
+      "deployment": "Firebase App Hosting / Docker",
+      "port_dev": 3000,
+      "purpose": "LMS educativo médico con repaso interactivo, OSCE, paciente virtual"
+    },
+    "nexus_vault": {
+      "framework": "NestJS 10 (Backend) + Vite 5/React 18 (Frontend)",
+      "language": "TypeScript",
+      "database": "PostgreSQL 16 (Docker) via Prisma ORM",
+      "auth": "Firebase Auth (IdP) → Backend validation via Admin SDK",
+      "storage": "MinIO S3-compatible",
+      "deployment": "Docker Compose (8 servicios)",
+      "ports": {
+        "frontend": 3000,
+        "backend": 4000,
+        "postgres": 5432,
+        "minio_api": 9000,
+        "minio_console": 9001,
+        "prometheus": 9090,
+        "grafana": 3001
+      },
+      "purpose": "SaaS enterprise multi-tenant: gestión documental, auditoría, RBAC"
+    }
+  },
+
+  "ai_infrastructure": {
+    "orchestrator": "agents/orchestrator.py",
+    "agents": [
+      "agents/rag_agent.py",
+      "agents/coding_agent.py",
+      "agents/research_agent.py",
+      "agents/doc_agent.py"
+    ],
+    "routing_config": "agents/config/routing.yaml",
+    "memory_dir": "memory/",
+    "rag_index": "memory/rag_index.json"
+  },
+
+  "key_files": {
+    "claude_instructions": "CLAUDE.md",
+    "agent_rules": "AGENTS.md",
+    "env_template": ".env.example",
+    "main_page": "src/app/page.tsx",
+    "api_routes": "src/app/api/",
+    "supabase_service": "src/services/supabase.ts",
+    "nexus_backend_main": "nexus-vault/apps/backend/src/main.ts",
+    "nexus_prisma_schema": "nexus-vault/prisma/schema.prisma",
+    "nexus_docker": "nexus-vault/docker-compose.yml"
+  },
+
+  "architecture_decisions": [
+    {
+      "id": "ADR-001",
+      "decision": "Next.js 16 App Router sobre Pages Router",
+      "rationale": "React Server Components, mejor SEO, co-location de data fetching",
+      "date": "2025-01-01"
+    },
+    {
+      "id": "ADR-002",
+      "decision": "Supabase sobre Firebase Firestore para semiología",
+      "rationale": "SQL estructurado, Row Level Security, precio predecible, HIPAA roadmap",
+      "date": "2025-01-01"
+    },
+    {
+      "id": "ADR-003",
+      "decision": "Firebase Auth como IdP únicamente (no backend completo)",
+      "rationale": "Separación de concerns, backend valida tokens independientemente",
+      "date": "2025-03-01"
+    },
+    {
+      "id": "ADR-004",
+      "decision": "Ollama local-first para IA",
+      "rationale": "Cero costo en desarrollo, privacidad datos médicos, funcionamiento offline",
+      "date": "2025-01-01"
+    },
+    {
+      "id": "ADR-005",
+      "decision": "MinIO para storage en NEXUS VAULT",
+      "rationale": "S3-compatible, auto-hospedado, cero costo dev, idéntica API a AWS S3",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "ADR-006",
+      "decision": "NestJS para backend de NEXUS VAULT",
+      "rationale": "DI nativo, Guards, Interceptors, Pipes — ideal para RBAC + Audit enterprise",
+      "date": "2026-06-01"
+    }
+  ],
+
+  "team_conventions": {
+    "branch_strategy": "main (prod) → develop → feature/fix branches",
+    "commit_format": "conventional commits: feat/fix/chore/docs/refactor/test",
+    "code_review": "required for all PRs to main",
+    "secret_management": "NEVER in code, always .env (gitignored)"
+  },
+
+  "compliance_roadmap": {
+    "current": "Arquitectura preparada para cumplimiento",
+    "Q3_2026": ["HIPAA technical safeguards", "audit logging completo"],
+    "Q4_2026": ["SOC2 Type I prep", "pen testing"],
+    "Q1_2027": ["FERPA compliance", "Zero Trust pilot"],
+    "Q2_2027": ["SOC2 Type II", "SSO institucional SAML"]
+  }
+}

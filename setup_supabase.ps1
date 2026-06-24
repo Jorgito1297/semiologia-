@@ -2,7 +2,7 @@
 # SCRIPT DE AUTOMATIZACIÓN DE SUPABASE - "Study With Me"
 # ============================================================================
 
-$projectRef = "xbtrryflwesqdwqfbqtr"
+$projectRef = "fnusnboleqnabqwqfucr"
 $encryptionKey = "DmMRVKBanJGv$#MaQdaBzrNd9QcEWMwo"
 
 Write-Host "============================================================" -ForegroundColor Cyan

@@ -38,7 +38,13 @@ supabase/functions/.cache/
 testsprite_tests/tmp/
 testsprite_tests/tmp/config.json
 
+# --- LARGE REVIEW DATA FILES ---
+review/approved_chunks.json
+review/med228_chunks_pending.json
+
+
 # --- ARCHIVOS TEMPORALES Y DEL SISTEMA ---
+scratch/
 *.log
 *.tmp
 *.swp
@@ -50,6 +56,8 @@ desktop.ini
 material_moodle/
 teams_recordings/
 public/*.pdf
+books/
+*.pdf
 testsprite_tests\tmp\config.json
 
 # --- NEXT.JS ---

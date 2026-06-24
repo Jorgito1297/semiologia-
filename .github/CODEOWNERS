@@ -1,0 +1,21 @@
+# Require owner review on governance and reliability artifacts during Stability Sprint
+
+* @engineering-lead
+
+STABILITY_SPRINT_POLICY.md @engineering-lead @compliance-owner
+KNOWLEDGE_RELIABILITY_SPRINT.md @engineering-lead @faculty-review-owner
+MERGE_GOVERNANCE.md @engineering-lead @compliance-owner
+RETRIEVAL_OBSERVABILITY_SPEC.md @engineering-lead @data-ml-owner
+KNOWLEDGE_PROMOTION_PIPELINE.md @engineering-lead @faculty-review-owner
+KNOWLEDGE_OPS_FRAMEWORK.md @engineering-lead @faculty-review-owner @data-ml-owner
+RETRIEVAL_REPLAY_SYSTEM.md @engineering-lead @data-ml-owner @faculty-review-owner
+NEUROADAPTIVE_REPLAY_VALIDATION.md @engineering-lead @data-ml-owner @faculty-review-owner
+KNOWLEDGE_INCIDENT_RESPONSE.md @engineering-lead @compliance-owner @faculty-review-owner
+KNOWLEDGE_VERSIONING_STANDARD.md @engineering-lead @compliance-owner @data-ml-owner
+OPERATIONAL_TELEMETRY_SPEC.md @engineering-lead @data-ml-owner @security-owner
+GOVERNANCE_ACTIVATION_CHECKLIST.md @engineering-lead @compliance-owner @security-owner
+EVIDENCE_GENERATION_SPRINT.md @engineering-lead @faculty-review-owner @data-ml-owner
+artifacts/incidents/* @engineering-lead @compliance-owner @faculty-review-owner
+src/rag/schemas/* @engineering-lead @data-ml-owner @faculty-review-owner
+supabase/migrations/* @engineering-lead @security-owner
+supabase/rollback/* @engineering-lead @security-owner

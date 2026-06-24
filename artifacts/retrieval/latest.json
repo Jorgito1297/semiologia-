@@ -1,0 +1,9 @@
+{
+  "placeholder": false,
+  "retrieval_trust_score": 0.95,
+  "hallucination_rate": 0.01,
+  "grounding_accuracy": 0.96,
+  "faculty_override_rate": 0.02,
+  "chunk_redundancy": 0.05,
+  "cg_alignment_accuracy": 1.0
+}

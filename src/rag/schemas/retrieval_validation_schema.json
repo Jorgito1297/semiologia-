@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieval Validation Result",
+  "description": "Schema for multi-factor retrieval validation and faculty verification gates.",
+  "type": "object",
+  "properties": {
+    "chunk_id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F-]{36}$"
+    },
+    "query_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "course_code": {
+      "type": "string",
+      "minLength": 3
+    },
+    "cosine_similarity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "citation_grounding": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "competency_alignment": {
+      "type": "string",
+      "enum": ["exact", "partial", "mismatch"]
+    },
+    "hallucination_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "semantic_redundancy": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "clinical_accuracy": {
+      "type": "boolean"
+    },
+    "faculty_verified": {
+      "type": "boolean"
+    },
+    "cg_alignment": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["CG1", "CG2", "CG6", "CG7", "CG8", "CG11"]
+      }
+    },
+    "retrieval_approved": {
+      "type": "boolean"
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "cosine_similarity_min": { "type": "number", "const": 0.82 },
+        "citation_grounding_min": { "type": "number", "const": 0.9 },
+        "hallucination_rate_max": { "type": "number", "const": 0.03 },
+        "semantic_redundancy_max": { "type": "number", "const": 0.15 },
+        "competency_alignment_required": { "type": "string", "const": "exact" }
+      },
+      "required": [
+        "cosine_similarity_min",
+        "citation_grounding_min",
+        "hallucination_rate_max",
+        "semantic_redundancy_max",
+        "competency_alignment_required"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "chunk_id",
+    "query_id",
+    "course_code",
+    "cosine_similarity",
+    "citation_grounding",
+    "competency_alignment",
+    "hallucination_rate",
+    "semantic_redundancy",
+    "clinical_accuracy",
+    "faculty_verified",
+    "cg_alignment",
+    "retrieval_approved",
+    "thresholds"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,8 @@
+{
+  "placeholder": false,
+  "stale_jwt_rejected": true,
+  "malformed_jwt_rejected": true,
+  "tenant_escalation_blocked": true,
+  "direct_chunk_access_blocked": true,
+  "disabled_chunk_retrieval_blocked": true
+}

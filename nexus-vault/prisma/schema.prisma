@@ -1,0 +1,271 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TENANTS — Top-level organizations using NEXUS VAULT
+// ─────────────────────────────────────────────────────────────────────────────
+model Tenant {
+  id         String   @id @default(uuid())
+  name       String
+  slug       String   @unique
+  domain     String? // optional custom domain
+  plan       PlanType @default(FREE)
+  isActive   Boolean  @default(true)
+  maxStorage BigInt   @default(5368709120) // 5 GB default
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime?
+
+  users         User[]
+  files         File[]
+  auditLogs     AuditLog[]
+  organizations Organization[]
+  sessions      Session[]
+
+  @@index([slug])
+  @@index([deletedAt])
+  @@map("tenants")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ORGANIZATIONS — Hierarchical sub-groups within a tenant
+// ─────────────────────────────────────────────────────────────────────────────
+model Organization {
+  id          String    @id @default(uuid())
+  tenantId    String
+  name        String
+  description String?
+  parentId    String? // for hierarchical orgs
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  tenant   Tenant        @relation(fields: [tenantId], references: [id])
+  parent   Organization? @relation("OrgHierarchy", fields: [parentId], references: [id])
+  children Organization[] @relation("OrgHierarchy")
+  users    User[]
+
+  @@index([tenantId])
+  @@index([deletedAt])
+  @@map("organizations")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// USERS — Authenticated via Firebase; linked to a tenant
+// ─────────────────────────────────────────────────────────────────────────────
+model User {
+  id             String    @id @default(uuid())
+  uid            String    @unique // Firebase Auth UID
+  tenantId       String?
+  organizationId String?
+  email          String?
+  displayName    String?
+  photoUrl       String?
+  role           RoleType  @default(USER)
+  isActive       Boolean   @default(true)
+  lastLoginAt    DateTime?
+  storageUsed    BigInt    @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+
+  tenant        Tenant?       @relation(fields: [tenantId], references: [id])
+  organization  Organization? @relation(fields: [organizationId], references: [id])
+  files         File[]
+  sharedFiles   FileShare[]   @relation("SharedTo")
+  ownedShares   FileShare[]   @relation("SharedBy")
+  sessions      Session[]
+  notifications Notification[]
+
+  @@index([uid])
+  @@index([tenantId])
+  @@index([email])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILES — Stored objects with metadata and scan status
+// ─────────────────────────────────────────────────────────────────────────────
+model File {
+  id            String     @id @default(uuid())
+  tenantId      String
+  ownerId       String
+  filename      String
+  objectKey     String // e.g., tenants/{tenantId}/users/{userId}/files/{uuid}-{name}
+  mimeType      String
+  size          BigInt // bytes
+  checksum      String? // SHA-256 for integrity verification
+  description   String?
+  isPublic      Boolean    @default(false)
+  isEncrypted   Boolean    @default(false)
+  tags          String[]   @default([])
+  metadata      Json       @default("{}")
+  scanStatus    ScanStatus @default(PENDING)
+  downloadCount Int        @default(0)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?
+
+  tenant     Tenant      @relation(fields: [tenantId], references: [id])
+  owner      User        @relation(fields: [ownerId], references: [id])
+  shares     FileShare[]
+
+  @@index([tenantId])
+  @@index([ownerId])
+  @@index([mimeType])
+  @@index([deletedAt])
+  @@map("files")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILE_SHARES — Fine-grained sharing between users
+// ─────────────────────────────────────────────────────────────────────────────
+model FileShare {
+  id         String          @id @default(uuid())
+  fileId     String
+  fromUserId String
+  toUserId   String
+  permission SharePermission @default(READ)
+  message    String?
+  expiresAt  DateTime?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  deletedAt  DateTime?
+
+  file     File @relation(fields: [fileId], references: [id])
+  sharedBy User @relation("SharedBy", fields: [fromUserId], references: [id])
+  sharedTo User @relation("SharedTo", fields: [toUserId], references: [id])
+
+  @@unique([fileId, toUserId])
+  @@index([toUserId])
+  @@map("file_shares")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUDIT_LOGS — Immutable activity trail (never soft-deleted)
+// ─────────────────────────────────────────────────────────────────────────────
+model AuditLog {
+  id         String   @id @default(uuid())
+  tenantId   String?
+  userId     String // Firebase UID of the acting user
+  userEmail  String?
+  action     String // e.g., 'FILE_UPLOAD', 'LOGIN'
+  resource   String // affected resource
+  method     String // HTTP method
+  ipAddress  String?
+  userAgent  String?
+  statusCode Int?
+  durationMs Int?
+  metadata   Json     @default("{}")
+  createdAt  DateTime @default(now())
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SESSIONS — Active user sessions tracked server-side
+// ─────────────────────────────────────────────────────────────────────────────
+model Session {
+  id         String   @id @default(uuid())
+  tenantId   String
+  userId     String
+  uid        String
+  ipAddress  String?
+  userAgent  String?
+  isActive   Boolean  @default(true)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([uid])
+  @@index([isActive])
+  @@map("sessions")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NOTIFICATIONS — In-app alerts per user
+// ─────────────────────────────────────────────────────────────────────────────
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  metadata  Json             @default("{}")
+  createdAt DateTime         @default(now())
+  readAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum RoleType {
+  SUPER_ADMIN
+  ADMIN
+  SUPERVISOR
+  INSTRUCTOR
+  USER
+  STUDENT
+}
+
+enum PlanType {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum ScanStatus {
+  PENDING
+  CLEAN
+  INFECTED
+  ERROR
+}
+
+enum SharePermission {
+  READ
+  DOWNLOAD
+  EDIT
+}
+
+enum AuditCategory {
+  AUTH
+  FILE
+  USER
+  ADMIN
+  SYSTEM
+  SECURITY
+}
+
+enum NotificationType {
+  FILE_SHARED
+  ROLE_CHANGED
+  STORAGE_WARNING
+  SYSTEM
+  SECURITY_ALERT
+}

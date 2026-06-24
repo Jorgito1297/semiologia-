@@ -1,0 +1,770 @@
+[
+  {
+    "id": "TC001",
+    "title": "Play, pause, and switch auscultation focus",
+    "description": "This verifies that a student can select a cardiac or pulmonary hotspot, start listening, switch mode or orientation, and pause playback while the session remains usable.",
+    "category": "Auscultación",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select a cardiac or pulmonary hotspot"
+      },
+      {
+        "type": "action",
+        "description": "Start playback"
+      },
+      {
+        "type": "action",
+        "description": "Switch the listening mode"
+      },
+      {
+        "type": "action",
+        "description": "Switch the torso orientation"
+      },
+      {
+        "type": "action",
+        "description": "Pause playback"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify playback controls remain responsive"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected auscultation focus is still active"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Select a focus and start auscultation",
+    "description": "This verifies that a student can select an auscultation hotspot and begin synthesized playback with a visible waveform.",
+    "category": "Laboratorio de Auscultación Interactivo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select the cardiac layer"
+      },
+      {
+        "type": "action",
+        "description": "Select an anterior torso orientation"
+      },
+      {
+        "type": "action",
+        "description": "Select a hotspot on the body map"
+      },
+      {
+        "type": "action",
+        "description": "Start auscultation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify audio playback is active"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a live waveform is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Sign in with valid credentials",
+    "description": "This verifies that a user can authenticate with email and password and reach the main platform after signing in.",
+    "category": "Autenticación de Usuario",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated session begins"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands on the platform"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Auscultation lab opens from the portal",
+    "description": "This verifies that a student can open the auscultation module from the portal and reach the interactive listening lab.",
+    "category": "Auscultación",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the auscultation module from the portal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the auscultation lab is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify interactive listening controls are available"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Pause auscultation playback",
+    "description": "This verifies that a student can pause synthesized auscultation after starting it and see playback stop.",
+    "category": "Laboratorio de Auscultación Interactivo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select a hotspot on the body map"
+      },
+      {
+        "type": "action",
+        "description": "Start auscultation"
+      },
+      {
+        "type": "action",
+        "description": "Pause playback"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify audio playback is stopped"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the current focus remains selected"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Enter the auscultation lab from the portal",
+    "description": "This verifies that a visitor can choose the auscultation module from the portal and arrive in the listening lab.",
+    "category": "Portal Principal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the auscultation module card"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the auscultation lab is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the body map for selecting a focus is available"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Prevent unauthorized access to faculty analytics",
+    "description": "This verifies that a user without faculty access cannot open the faculty analytics area and is shown a restricted-access state.",
+    "category": "faculty",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the faculty area link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify restricted access messaging is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the faculty analytics dashboard is not displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Review semiology questions and complete a session",
+    "description": "This verifies that a learner can open the semiology review flow, answer generated questions, read explanations and pearls, and finish with a score summary.",
+    "category": "Repaso de semiología",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /repaso/semiologia"
+      },
+      {
+        "type": "action",
+        "description": "Start the review session"
+      },
+      {
+        "type": "action",
+        "description": "Answer a question"
+      },
+      {
+        "type": "action",
+        "description": "Continue through the question set"
+      },
+      {
+        "type": "action",
+        "description": "Review the explanation and clinical pearl"
+      },
+      {
+        "type": "action",
+        "description": "Finish the session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a session score summary is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify question explanations are available"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Study a semiology question set and finish the session summary",
+    "description": "This verifies that a learner can open the review module, answer questions, read the explanation content, and complete the session summary with a score.",
+    "category": "Sistema de Repaso con Banco de Preguntas Dinámico",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /repaso/semiologia"
+      },
+      {
+        "type": "action",
+        "description": "Select an answer choice for the current question"
+      },
+      {
+        "type": "action",
+        "description": "Move to the next question"
+      },
+      {
+        "type": "action",
+        "description": "Continue answering until the session summary appears"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify explanations and clinical pearls are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a session score is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Open faculty analytics after signing in as an instructor",
+    "description": "This verifies that an authorized instructor can sign in and access the faculty analytics area with progress summaries.",
+    "category": "faculty",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the faculty area link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the faculty analytics dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify student progress summaries are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Switch between normal and pathological sound modes",
+    "description": "This verifies that a student can change the sound profile during auscultation and continue hearing the updated mode.",
+    "category": "Laboratorio de Auscultación Interactivo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select a hotspot on the body map"
+      },
+      {
+        "type": "action",
+        "description": "Start auscultation"
+      },
+      {
+        "type": "action",
+        "description": "Switch to pathological sound mode"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the sound mode is changed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify playback continues with the selected focus"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "View faculty analytics dashboard",
+    "description": "This verifies that an authorized faculty user can open the faculty area and review student progress analytics and summaries.",
+    "category": "Panel de analítica docente",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the faculty area"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the analytics dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify student progress summaries are visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Access the main learning portal",
+    "description": "This verifies that a visitor can open the home portal and see the available module cards needed to start learning.",
+    "category": "Portal Principal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the available module cards are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a way to open the auscultation module is available"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Enter the review module from the portal",
+    "description": "This verifies that a visitor can choose the review module from the portal and arrive in the adaptive practice area.",
+    "category": "Portal Principal",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the review module card"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the review session area is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the question set is available"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Auscultation waveform renders during playback",
+    "description": "This verifies that starting auscultation shows the synthesized waveform so the user can confirm audio visualization is active.",
+    "category": "Auscultación",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select a cardiac or pulmonary hotspot"
+      },
+      {
+        "type": "action",
+        "description": "Start playback"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify waveform data is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the playback visualization is active"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Complete onboarding and return to the portal",
+    "description": "This verifies that a new student can finish onboarding and then access the learning portal with the available module cards.",
+    "category": "Onboarding",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /onboarding"
+      },
+      {
+        "type": "action",
+        "description": "Complete the onboarding setup"
+      },
+      {
+        "type": "action",
+        "description": "Finish the onboarding flow"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the portal is displayed after onboarding"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the available module cards are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Change anatomy layer and torso orientation",
+    "description": "This verifies that a student can switch between body layers and torso orientation to explore different listening targets.",
+    "category": "Laboratorio de Auscultación Interactivo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select the pulmonary layer"
+      },
+      {
+        "type": "action",
+        "description": "Change the torso orientation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the body map updates for the selected orientation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected layer remains available for hotspot selection"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Complete onboarding setup",
+    "description": "This verifies that a new student can review the welcome flow, finish the initial setup, and proceed into the platform.",
+    "category": "Flujo de Onboarding",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /onboarding"
+      },
+      {
+        "type": "action",
+        "description": "Review the welcome and setup flow"
+      },
+      {
+        "type": "action",
+        "description": "Complete the initial configuration steps"
+      },
+      {
+        "type": "action",
+        "description": "Finish the onboarding flow"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify onboarding is completed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user returns to the platform"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC019",
+    "title": "Load a course variant in the review flow",
+    "description": "This verifies that the review experience can open with a course or exam-period variant and show a matching generated question set.",
+    "category": "Repaso de semiología",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /repaso/semiologia"
+      },
+      {
+        "type": "action",
+        "description": "Choose a course or exam-period variant"
+      },
+      {
+        "type": "action",
+        "description": "Start the review session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the generated question set matches the selected variant"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the review session begins"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC020",
+    "title": "Review a different exam period and see a distinct question set",
+    "description": "This verifies that changing the exam period in the review module loads a different generated set of questions and updates the session context.",
+    "category": "Sistema de Repaso con Banco de Preguntas Dinámico",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /repaso/semiologia"
+      },
+      {
+        "type": "action",
+        "description": "Switch to a different exam period"
+      },
+      {
+        "type": "action",
+        "description": "Select an answer choice for the current question"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a new question set is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the session score updates as questions are answered"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC021",
+    "title": "Review a focus card and answer the mini-quiz",
+    "description": "This verifies that selecting a focus shows the semiology card and allows the student to answer the related mini-quiz.",
+    "category": "Laboratorio de Auscultación Interactivo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select a hotspot on the body map"
+      },
+      {
+        "type": "action",
+        "description": "Open the semiology card for the selected focus"
+      },
+      {
+        "type": "action",
+        "description": "Answer the mini-quiz"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the semiology card content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected focus is reflected in the simulator"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Open a clinical case and listen with the selected profile",
+    "description": "This verifies that a student can choose a clinical case, select a focus, and hear the case-specific sound profile.",
+    "category": "Laboratorio de Auscultación Interactivo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /auscultacion"
+      },
+      {
+        "type": "action",
+        "description": "Select a clinical case"
+      },
+      {
+        "type": "action",
+        "description": "Select a hotspot on the body map"
+      },
+      {
+        "type": "action",
+        "description": "Start auscultation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the chosen clinical case is active"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify playback is active for the selected focus"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Reject invalid credentials",
+    "description": "This verifies that an invalid email and password combination is rejected and the user stays on the sign-in page with an error message.",
+    "category": "Autenticación de Usuario",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with invalid@example.com"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with invalid-password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a credential error message is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the sign-in page remains visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC024",
+    "title": "Open module cards for abdomen and OSCE",
+    "description": "This verifies that a visitor can open available learning modules from the portal and reach the abdominal and OSCE destinations when exposed as module cards.",
+    "category": "Módulos de aprendizaje",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the abdomen module from the portal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the abdominal module is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Return to the portal"
+      },
+      {
+        "type": "action",
+        "description": "Open the OSCE module from the portal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the OSCE module is displayed"
+      }
+    ],
+    "priority": "Medium"
+  }
+]

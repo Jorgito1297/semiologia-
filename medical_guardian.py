@@ -45,11 +45,14 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 # Extensiones soportadas por el document_parser.py
-EXTENSIONES_SOPORTADAS = {'.pdf', '.pptx', '.docx', '.vtt', '.srt', '.mp4', '.mp3'}
+EXTENSIONES_SOPORTADAS = {'.pdf', '.pptx', '.docx', '.vtt', '.srt', '.mp4', '.mp3', '.m4a', '.wav', '.ppt', '.doc'}
 
 # Control de hilos y temporizadores para debouncing
 temporizadores_activos = {}
 bloqueo_temporizadores = threading.Lock()
+archivos_pendientes_por_curso = {}
+locks_pipeline_por_curso = {}
+bloqueo_pipelines = threading.Lock()
 
 # =====================================================================
 # 🔑 CARGA SEGURA DE CONFIGURACIÓN (.env)
@@ -74,6 +77,14 @@ def cargar_variables_entorno() -> dict:
 variables_entorno = cargar_variables_entorno()
 for clave_env, valor_env in variables_entorno.items():
     os.environ[clave_env] = valor_env
+
+# Ventana de batching para consolidar múltiples eventos por curso.
+try:
+    VENTANA_BATCH_SEGUNDOS = int(os.environ.get("GUARDIAN_BATCH_WINDOW_SECONDS", "20"))
+except ValueError:
+    VENTANA_BATCH_SEGUNDOS = 20
+if VENTANA_BATCH_SEGUNDOS < 5:
+    VENTANA_BATCH_SEGUNDOS = 5
 
 # =====================================================================
 # 🧭 RESOLUCIÓN DINÁMICA DE CURSO Y RUTAS
@@ -145,6 +156,12 @@ def determinar_curso_y_rutas(ruta_archivo: str) -> dict:
         "repaso_md": ruta_repaso_md,
         "syllabus": archivo_syllabus
     }
+
+def obtener_lock_curso(curso: str) -> threading.Lock:
+    with bloqueo_pipelines:
+        if curso not in locks_pipeline_por_curso:
+            locks_pipeline_por_curso[curso] = threading.Lock()
+        return locks_pipeline_por_curso[curso]
 
 # =====================================================================
 # 🛠️ PROCESAMIENTO DE ARCHIVO (PIPELINE)
@@ -233,7 +250,7 @@ def ejecutar_pipeline(ruta_archivo: str) -> bool:
                 capture_output=True,
                 text=True,
                 cwd=DIRECTORIO_BASE,
-                timeout=60
+                timeout=300
             )
             if resultado_ingest.returncode != 0:
                 print(f"[GUARDIÁN ADVERTENCIA]: La sincronización de vectores falló con código {resultado_ingest.returncode} (puede deberse a migración pendiente en Supabase).")
@@ -248,13 +265,16 @@ def ejecutar_pipeline(ruta_archivo: str) -> bool:
         if autodespliegue:
             print(f"[GUARDIÁN]: Desplegando en Firebase Hosting...")
             try:
+                entorno_despliegue = os.environ.copy()
+                entorno_despliegue["FIREBASE_SKIP_UPDATE_CHECK"] = "true"
                 resultado_despliegue = subprocess.run(
                     "firebase deploy --only hosting",
                     shell=True,
                     capture_output=True,
                     text=True,
                     cwd=DIRECTORIO_BASE,
-                    timeout=90
+                    timeout=180,
+                    env=entorno_despliegue
                 )
                 if resultado_despliegue.returncode != 0:
                     print(f"[GUARDIÁN ERROR]: Despliegue de Firebase falló con código {resultado_despliegue.returncode}")
@@ -273,13 +293,18 @@ def ejecutar_pipeline(ruta_archivo: str) -> bool:
         print(f"[GUARDIÁN ERROR]: Excepción al ejecutar generador de repasos: {error_review}")
         return False
 
-def procesar_archivo_estabilizado(ruta_archivo: str):
+def procesar_archivo_estabilizado(curso: str):
     """
     Función llamada tras el retraso del temporizador. 
     Verifica que el archivo esté completamente escrito antes de procesar.
     """
     with bloqueo_temporizadores:
-        temporizadores_activos.pop(ruta_archivo, None)
+        temporizadores_activos.pop(curso, None)
+        ruta_archivo = archivos_pendientes_por_curso.get(curso)
+
+    if not ruta_archivo:
+        print(f"[GUARDIÁN]: No hay archivo pendiente para el curso {curso.upper()}. Cancelando.")
+        return
         
     if not os.path.exists(ruta_archivo):
         print(f"[GUARDIÁN]: Archivo {os.path.basename(ruta_archivo)} ya no existe. Cancelando procesamiento.")
@@ -305,22 +330,39 @@ def procesar_archivo_estabilizado(ruta_archivo: str):
             
         time.sleep(1)
 
-    ejecutar_pipeline(ruta_archivo)
+    lock_curso = obtener_lock_curso(curso)
+    if not lock_curso.acquire(blocking=False):
+        print(f"[GUARDIÁN]: Pipeline de {curso.upper()} ya en ejecución. Reprogramando en 10s...")
+        with bloqueo_temporizadores:
+            temporizador = threading.Timer(10.0, procesar_archivo_estabilizado, args=[curso])
+            temporizadores_activos[curso] = temporizador
+            temporizador.start()
+        return
+
+    try:
+        ejecutar_pipeline(ruta_archivo)
+    finally:
+        lock_curso.release()
 
 def programar_procesamiento_archivo(ruta_archivo: str):
     """
-    Programa el procesamiento de un archivo en 5 segundos. 
+    Programa el procesamiento de un archivo en una ventana batch por curso.
     Si ya estaba programado, reinicia el temporizador (debouncing).
     """
+    informacion_curso = determinar_curso_y_rutas(ruta_archivo)
+    curso = informacion_curso["curso"]
+
     with bloqueo_temporizadores:
-        if ruta_archivo in temporizadores_activos:
-            temporizadores_activos[ruta_archivo].cancel()
-            print(f"[GUARDIÁN]: Reiniciando temporizador de 5s para {os.path.basename(ruta_archivo)}")
-            
-        temporizador = threading.Timer(5.0, procesar_archivo_estabilizado, args=[ruta_archivo])
-        temporizadores_activos[ruta_archivo] = temporizador
+        archivos_pendientes_por_curso[curso] = ruta_archivo
+
+        if curso in temporizadores_activos:
+            temporizadores_activos[curso].cancel()
+            print(f"[GUARDIÁN]: Reiniciando ventana batch de {VENTANA_BATCH_SEGUNDOS}s para curso {curso.upper()} (último archivo: {os.path.basename(ruta_archivo)})")
+
+        temporizador = threading.Timer(float(VENTANA_BATCH_SEGUNDOS), procesar_archivo_estabilizado, args=[curso])
+        temporizadores_activos[curso] = temporizador
         temporizador.start()
-        print(f"[GUARDIÁN]: Procesamiento programado en 5s para: {os.path.basename(ruta_archivo)}")
+        print(f"[GUARDIÁN]: Procesamiento programado en {VENTANA_BATCH_SEGUNDOS}s para curso {curso.upper()} (archivo: {os.path.basename(ruta_archivo)})")
 
 # =====================================================================
 # 👁️ EVENT HANDLER DE WATCHDOG
@@ -456,8 +498,8 @@ def principal():
 
     # Cargar rutas de monitoreo desde .env con valores por defecto
     ruta_teams_local = os.path.abspath(variables_entorno.get("LOCAL_TEAMS_PATH", os.path.join(DIRECTORIO_BASE, "teams_recordings")))
-    ruta_trabajo = os.path.abspath(variables_entorno.get("workspace", DIRECTORIO_BASE))
-    ruta_moodle = os.path.abspath(variables_entorno.get("material_moodle", os.path.join(DIRECTORIO_BASE, "material_moodle")))
+    ruta_trabajo = os.path.abspath(variables_entorno.get("WORKSPACE", variables_entorno.get("workspace", DIRECTORIO_BASE)))
+    ruta_moodle = os.path.abspath(variables_entorno.get("MATERIAL_MOODLE", variables_entorno.get("material_moodle", os.path.join(DIRECTORIO_BASE, "material_moodle"))))
 
     # Si se selecciona el modo simulación, ejecutarlo directamente
     if argumentos_analizador.simulate:

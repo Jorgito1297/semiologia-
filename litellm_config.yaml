@@ -1,0 +1,39 @@
+model_list:
+  # Modelo principal de código (Claude Code lo usará como claude-3-5-sonnet)
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: ollama/qwen2.5-coder:7b
+      api_base: http://localhost:11434
+
+  # Alias adicionales que Claude Code puede solicitar
+  - model_name: claude-3-5-haiku-20241022
+    litellm_params:
+      model: ollama/qwen2.5-coder:1.5b
+      api_base: http://localhost:11434
+
+  - model_name: claude-opus-4-5
+    litellm_params:
+      model: ollama/qwen2.5-coder:14b
+      api_base: http://localhost:11434
+
+  - model_name: claude-sonnet-4-5
+    litellm_params:
+      model: ollama/qwen3:8b
+      api_base: http://localhost:11434
+
+  # Modelo de embeddings
+  - model_name: text-embedding-3-small
+    litellm_params:
+      model: ollama/nomic-embed-text
+      api_base: http://localhost:11434
+
+litellm_settings:
+  drop_params: true          # Ignora parámetros no soportados por Ollama
+  set_verbose: false
+  num_retries: 3
+  request_timeout: 120       # Coincide con OLLAMA_TIMEOUT_SECONDS
+
+general_settings:
+  master_key: sk-litellm-local-semiologia  # Key falsa para Claude Code
+  port: 4111
+  store_model_in_db: false

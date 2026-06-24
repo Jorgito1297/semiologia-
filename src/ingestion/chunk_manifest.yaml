@@ -1,0 +1,382 @@
+# ============================================================
+# CHUNK INGESTION MANIFEST — MED-228 UCE (MAY-AGO 2026)
+# ============================================================
+# This file defines the academic metadata for each source document
+# that will be ingested through the Governance Pipeline.
+#
+# Rules:
+#   - week + block MUST be consistent (validated at ingestion time)
+#   - content_type + memory_domain MUST be a valid combination
+#   - cg_competencies MUST be non-empty and from the official set
+#   - validated_by MUST be a real instructor name
+#   - retrieval_priority: HIGH (coordinator), MEDIUM (instructor)
+#
+# Valid combinations:
+#   theoretical  + semantic    → ✅
+#   theoretical  + executive   → ✅
+#   procedural   + procedural  → ✅
+#   procedural   + perceptual  → ✅
+#   theoretical  + procedural  → ⚠️ HOLD (flagged for review)
+#   procedural   + semantic    → ❌ REJECT
+# ============================================================
+
+course_code: "MED-228"
+pipeline_run_id: "run-2026-06-06-v1"
+default_validated_by: "Dr. Rivas (UCE)"
+default_validated_date: "2026-06-06"
+
+sources:
+  # ──────────────────────────────────────────
+  # BLOQUE 1: Semanas 1-6
+  # Introducción, Historia Clínica, Cabeza y Cuello
+  # ──────────────────────────────────────────
+
+  - id: "llanio-t1-historia-clinica"
+    source_book: "Llanio Tomo I — Semiología"
+    source_chapter: "Capítulo 1: Historia Clínica"
+    source_pages: "1-45"
+    file: "public/semiologia/Llanio_Tomo_I_Semiologia.pdf"
+    file_type: "pdf"
+    page_range: [1, 45]
+    week: 1
+    block: "block_1"
+    topic: "Historia Clínica y Anamnesis"
+    subtopic: "Estructura y componentes de la historia clínica"
+    content_type: "theoretical"
+    memory_domain: "semantic"
+    cg_competencies: ["CG6", "CG2"]
+    evaluation_type: ["quiz", "osce"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "llanio-t1-examen-fisico-general"
+    source_book: "Llanio Tomo I — Semiología"
+    source_chapter: "Capítulo 2: Examen Físico General"
+    source_pages: "46-90"
+    file: "public/semiologia/Llanio_Tomo_I_Semiologia.pdf"
+    file_type: "pdf"
+    page_range: [46, 90]
+    week: 2
+    block: "block_1"
+    topic: "Examen Físico General"
+    subtopic: "Inspección, palpación, percusión, auscultación"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 700
+    overlap: 100
+
+  - id: "argente-semiologia-cabeza-cuello"
+    source_book: "Argente-Álvarez 2013 — Semiología Médica"
+    source_chapter: "Capítulo 5: Cabeza y Cuello"
+    source_pages: "120-175"
+    file: "public/semiologia/Argente_Semiologia_Medica.pdf"
+    file_type: "pdf"
+    page_range: [120, 175]
+    week: 4
+    block: "block_1"
+    topic: "Examen de Cabeza y Cuello"
+    subtopic: "Inspección y palpación de cabeza, cuello y tiroides"
+    content_type: "procedural"
+    memory_domain: "perceptual"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 750
+    overlap: 100
+
+  - id: "syllabus-semana1-objetivos"
+    source_book: "Syllabus Oficial UCE — MED-228"
+    source_chapter: "Semana 1: Introducción a la Semiología"
+    source_pages: "N/A"
+    file: "public/semiologia/programa_clase_med228.md"
+    file_type: "text"
+    week: 1
+    block: "block_1"
+    topic: "Introducción a la Semiología Médica"
+    subtopic: "Conceptos fundamentales y método clínico"
+    content_type: "theoretical"
+    memory_domain: "semantic"
+    cg_competencies: ["CG6", "CG2"]
+    evaluation_type: ["quiz"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 600
+    overlap: 80
+
+  # ──────────────────────────────────────────
+  # BLOQUE 2: Semanas 7-11
+  # Tórax, Cardiovascular, Presión, Pulsos
+  # ──────────────────────────────────────────
+
+  - id: "llanio-t1-torax-pulmones"
+    source_book: "Llanio Tomo I — Semiología"
+    source_chapter: "Capítulo 6: Aparato Respiratorio"
+    source_pages: "180-260"
+    file: "public/semiologia/Llanio_Tomo_I_Semiologia.pdf"
+    file_type: "pdf"
+    page_range: [180, 260]
+    week: 7
+    block: "block_2"
+    topic: "Semiología del Aparato Respiratorio"
+    subtopic: "Inspección, palpación, percusión y auscultación del tórax"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "llanio-t1-cardiovascular"
+    source_book: "Llanio Tomo I — Semiología"
+    source_chapter: "Capítulo 7: Aparato Cardiovascular"
+    source_pages: "261-350"
+    file: "public/semiologia/Llanio_Tomo_I_Semiologia.pdf"
+    file_type: "pdf"
+    page_range: [261, 350]
+    week: 9
+    block: "block_2"
+    topic: "Semiología Cardiovascular"
+    subtopic: "Ruidos cardíacos, soplos, presión arterial y pulso"
+    content_type: "procedural"
+    memory_domain: "perceptual"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "sindromes-pleuropulmonares-teoria"
+    source_book: "Argente-Álvarez 2013 — Semiología Médica"
+    source_chapter: "Capítulo 12: Síndromes Pleuropulmonares"
+    source_pages: "310-380"
+    file: "public/semiologia/Argente_Semiologia_Medica.pdf"
+    file_type: "pdf"
+    page_range: [310, 380]
+    week: 8
+    block: "block_2"
+    topic: "Síndromes Pleuropulmonares"
+    subtopic: "Condensación, derrame, neumotórax, atelectasia"
+    content_type: "theoretical"
+    memory_domain: "executive"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["quiz", "simulation"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 900
+    overlap: 150
+
+  # ──────────────────────────────────────────
+  # BLOQUE 3: Semanas 12-14
+  # Abdomen, Genitourinario, Extremidades
+  # ──────────────────────────────────────────
+
+  - id: "llanio-t2-abdomen"
+    source_book: "Llanio Tomo II — Semiología"
+    source_chapter: "Capítulo 1: Abdomen"
+    source_pages: "1-80"
+    file: "public/semiologia/Llanio_Tomo_II_Semiologia.pdf"
+    file_type: "pdf"
+    page_range: [1, 80]
+    week: 12
+    block: "block_3"
+    topic: "Semiología Abdominal"
+    subtopic: "Inspección, auscultación, palpación y percusión del abdomen"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "razonamiento-clinico-sindromes"
+    source_book: "Llanio Tomo II — Semiología"
+    source_chapter: "Capítulo 10: Razonamiento Clínico"
+    source_pages: "400-460"
+    file: "public/semiologia/Llanio_Tomo_II_Semiologia.pdf"
+    file_type: "pdf"
+    page_range: [400, 460]
+    week: 14
+    block: "block_3"
+    topic: "Razonamiento Clínico y Construcción Sindrómica"
+    subtopic: "Método hipotético-deductivo y construcción diagnóstica"
+    content_type: "theoretical"
+    memory_domain: "executive"
+    cg_competencies: ["CG8", "CG6", "CG2"]
+    evaluation_type: ["quiz", "simulation"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "HIGH"
+    chunk_size: 900
+    overlap: 150
+
+  - id: "bates-cap1-foundations"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 1: Foundations for Clinical Proficiency"
+    source_pages: "33-74"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [33, 74]
+    week: 2
+    block: "block_1"
+    topic: "La Historia Clínica"
+    subtopic: "Estructura general, anamnesis, motivo de consulta"
+    content_type: "theoretical"
+    memory_domain: "semantic"
+    cg_competencies: ["CG6", "CG2"]
+    evaluation_type: ["quiz"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap3-interviewing"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 3: Interviewing and the Health History"
+    source_pages: "95-138"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [95, 138]
+    week: 3
+    block: "block_1"
+    topic: "Anamnesis Sistemática"
+    subtopic: "Entrevista clínica y revisión por sistemas"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG6", "CG1"]
+    evaluation_type: ["osce"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap7-head-neck"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 7: The Head and Neck"
+    source_pages: "245-332"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [245, 332]
+    week: 5
+    block: "block_1"
+    topic: "Semiología de Cabeza y Cuello"
+    subtopic: "Exploración de cráneo, ojos, oídos, nariz, cavidad bucal y cuello/tiroides"
+    content_type: "procedural"
+    memory_domain: "perceptual"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap8-thorax-lungs"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 8: The Thorax and Lungs"
+    source_pages: "333-372"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [333, 372]
+    week: 7
+    block: "block_2"
+    topic: "Semiología del Aparato Respiratorio"
+    subtopic: "Inspección, palpación, percusión y auscultación pulmonar"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap4-vital-signs"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 4: Beginning the Physical Examination: General Survey, Vital Signs, and Pain"
+    source_pages: "141-176"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [141, 176]
+    week: 9
+    block: "block_2"
+    topic: "Toma de Presión Arterial y Signos Vitales"
+    subtopic: "Técnica de esfigmomanometría y registro de signos vitales"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG11"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap10-breasts"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 10: The Breasts and Axillae"
+    source_pages: "449-478"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [449, 478]
+    week: 11
+    block: "block_2"
+    topic: "Semiología de Mamas"
+    subtopic: "Inspección, palpación mamaria y examen de ganglios axilares"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG7"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap11-abdomen"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 11: The Abdomen"
+    source_pages: "479-538"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [479, 538]
+    week: 12
+    block: "block_3"
+    topic: "Semiología Abdominal"
+    subtopic: "División abdominal, ruidos hidroaéreos y palpación profunda"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+
+  - id: "bates-cap16-musculoskeletal"
+    source_book: "Bates' Guide to Physical Examination and History Taking 12th Ed"
+    source_chapter: "Chapter 16: The Musculoskeletal System"
+    source_pages: "655-740"
+    file: "public/semiologia/Bates_Guide_Physical_Examination.pdf"
+    file_type: "pdf"
+    page_range: [655, 740]
+    week: 14
+    block: "block_3"
+    topic: "Exploración de Extremidades"
+    subtopic: "Evaluación osteomuscular, rangos de movimiento y maniobras de articulaciones"
+    content_type: "procedural"
+    memory_domain: "procedural"
+    cg_competencies: ["CG8", "CG6"]
+    evaluation_type: ["osce", "practical_exam"]
+    assigned_to: "Dr. Rivas"
+    retrieval_priority: "MEDIUM"
+    chunk_size: 800
+    overlap: 120
+

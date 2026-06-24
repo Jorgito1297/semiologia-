@@ -1,0 +1,57 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # permite trigger manual desde GitHub Actions UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js
+        run: npm run build
+        env:
+          # Variables de build necesarias para inlinear NEXT_PUBLIC_*
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_METRICS_WRITE_KEY: ${{ secrets.NEXT_PUBLIC_METRICS_WRITE_KEY }}
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: 2.25.207.105
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            echo "=== Pulling latest code ==="
+            cd /var/www/semiologia
+            git pull origin main
+
+            echo "=== Installing production dependencies ==="
+            npm ci --omit=dev
+
+            echo "=== Building app ==="
+            npm run build
+
+            echo "=== Restarting PM2 ==="
+            pm2 restart semiologia || pm2 start npm --name "semiologia" -- start
+            pm2 save
+
+            echo "=== Deploy complete ==="
+            pm2 status

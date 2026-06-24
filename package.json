@@ -6,13 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "retrieval-validation": "node scripts/ci/validate-retrieval.cjs",
+    "neuroadaptive-validation": "node scripts/ci/validate-neuroadaptive.cjs",
+    "rls-validation": "node scripts/ci/validate-rls.cjs",
+    "rollback-validation": "node scripts/ci/validate-rollback.cjs",
+    "schema-validation": "node scripts/ci/validate-schema.cjs",
+    "compliance-validation": "node scripts/ci/validate-compliance.cjs",
+    "architecture-review-validation": "node scripts/ci/validate-architecture-review.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",
     "next": "16.2.7",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -22,6 +30,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.9"
   }
 }

@@ -1,7 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import { supabaseClient } from '@/services/supabase';
+import { isEnabled } from '@/config/feature-flags';
+import {
+  calculateFatigue,
+  calculateClinicalReadiness
+} from '@/utils/cognitive_metrics';
 
 interface Assignment {
   id: number;
@@ -281,58 +287,106 @@ const UNIVERSITY_TITLES: Record<string, string> = {
 };
 
 export default function DashboardPage() {
-  const [studentUser] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('study_user') || 'Estudiante';
-    }
-    return 'Cargando...';
-  });
-  const [studentUniv] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('study_university') || 'UCE';
-    }
-    return 'Cargando...';
-  });
-  const [isDemoMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('is_demo') !== 'false';
-    }
-    return true;
-  });
-  const [courses, setCourses] = useState<Record<string, Course>>(() => {
-    if (typeof window !== 'undefined') {
-      const localCache = localStorage.getItem('study_courses_state');
-      if (localCache) {
-        try {
-          return JSON.parse(localCache);
-        } catch (e) {
-          console.error(e);
+  const [studentUser, setStudentUser] = useState('Estudiante');
+  const [studentUniv, setStudentUniv] = useState('UCE');
+  const [isDemoMode, setIsDemoMode] = useState(true);
+
+  // --- CAPA EMOCIONAL (MOTIVATIONAL COGNITION LAYER) ---
+  const [sessionSeconds, setSessionSeconds] = useState(0);
+  const [responseCount, setResponseCount] = useState(0);
+  const [errorCount, setErrorCount] = useState(0);
+  const [, setConsecutiveErrors] = useState(0);
+  const [showBurnoutModal, setShowBurnoutModal] = useState(false);
+
+  const [simulatorAccuracy, setSimulatorAccuracy] = useState(75);
+  const [osceScore, setOsceScore] = useState(80);
+
+  // Hydration pattern: reading localStorage on mount is correct in 'use client' components.
+  // setState in useEffect is required here to avoid SSR hydration mismatch with localStorage.
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    setStudentUser(localStorage.getItem('study_user') || 'Estudiante');
+    setStudentUniv(localStorage.getItem('study_university') || 'UCE');
+    setIsDemoMode(localStorage.getItem('is_demo') !== 'false');
+    setSimulatorAccuracy(parseInt(localStorage.getItem('virtual_patient_accuracy') || '75', 10));
+    setOsceScore(parseInt(localStorage.getItem('osce_score') || '80', 10));
+
+    const timer = setInterval(() => {
+      setSessionSeconds((prev) => {
+        const nextSec = prev + 1;
+        if (nextSec === 2700) { // 45 minutos continuos
+          setShowBurnoutModal(true);
         }
+        return nextSec;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+
+  const handleDismissBurnout = () => {
+    setShowBurnoutModal(false);
+    setSessionSeconds(0);
+    setConsecutiveErrors(0);
+  };
+
+  const [courses, setCourses] = useState<Record<string, Course>>(DEFAULT_COURSES);
+  // Ref para acceder al valor actual de courses sin crear dependencia reactiva en useEffect
+  const coursesRef = useRef(courses);
+  useEffect(() => { coursesRef.current = courses; }, [courses]);
+
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    const localCache = localStorage.getItem('study_courses_state');
+    if (!localCache) return;
+
+    try {
+      const parsed = JSON.parse(localCache);
+      if (parsed && typeof parsed === 'object') {
+        setCourses(parsed);
       }
+    } catch (e) {
+      console.error("Error al cargar study_courses_state de localStorage:", e);
     }
-    return DEFAULT_COURSES;
-  });
+  }, []);
 
   const [globalProgress, setGlobalProgress] = useState<number>(() => {
     if (typeof window !== 'undefined') {
       const localCache = localStorage.getItem('study_courses_state');
-      const courseList = localCache ? JSON.parse(localCache) as Record<string, Course> : DEFAULT_COURSES;
+      let courseList: Record<string, Course> = DEFAULT_COURSES;
+      if (localCache) {
+        try {
+          const parsed = JSON.parse(localCache);
+          if (parsed && typeof parsed === 'object') {
+            courseList = parsed as Record<string, Course>;
+          }
+        } catch {
+          // localStorage corrupto o esquema antiguo — usar defaults
+        }
+      }
       const keys = Object.keys(courseList);
       if (keys.length > 0) {
         let totalProgress = 0;
+        let validCoursesCount = 0;
         keys.forEach(key => {
           const course = courseList[key];
-          const total = course.assignments.length + course.exams.length;
-          const completed = course.assignments.filter(a => a.status === 'completado').length +
-                            course.exams.filter(e => e.status === 'completado').length;
-          
-          totalProgress += total > 0 ? Math.round((completed / total) * 100) : 0;
+          if (course && typeof course === 'object') {
+            const assignments = Array.isArray(course.assignments) ? course.assignments : [];
+            const exams = Array.isArray(course.exams) ? course.exams : [];
+            const total = assignments.length + exams.length;
+            const completed = assignments.filter(a => a && a.status === 'completado').length +
+                              exams.filter(e => e && e.status === 'completado').length;
+            totalProgress += total > 0 ? Math.round((completed / total) * 100) : 0;
+            validCoursesCount++;
+          }
         });
-        return Math.round(totalProgress / keys.length);
+        return validCoursesCount > 0 ? Math.round(totalProgress / validCoursesCount) : 0;
       }
     }
     return 0;
   });
+
   
   // Estado de Panel Lateral
   const [detailOpen, setDetailOpen] = useState(false);
@@ -377,80 +431,82 @@ export default function DashboardPage() {
           .update({ last_active: new Date().toISOString() })
           .eq('auth_id', user.id);
 
-        const { data: dbCourses, error: coursesErr } = await supabaseClient
-          .from('moodle_courses')
-          .select('*');
+        if (isEnabled('ENABLE_MOODLE_SYNC')) {
+          const { data: dbCourses, error: coursesErr } = await supabaseClient
+            .from('moodle_courses')
+            .select('*');
 
-        if (coursesErr) throw coursesErr;
+          if (coursesErr) throw coursesErr;
 
-        if (!dbCourses || dbCourses.length === 0) {
-          // Sembrar datos iniciales si la DB está vacía
-          for (const courseKey of Object.keys(currentCourses)) {
-            const course = currentCourses[courseKey];
-            const { data: courseData, error: courseErr } = await supabaseClient
-              .from('moodle_courses')
-              .upsert({
-                user_id: user.id,
-                moodle_course_id: deterministicId(course.shortname),
-                fullname: course.fullname,
-                shortname: course.shortname
-              }, { onConflict: 'user_id, moodle_course_id' })
-              .select()
-              .single();
+          if (!dbCourses || dbCourses.length === 0) {
+            // Sembrar datos iniciales si la DB está vacía
+            for (const courseKey of Object.keys(currentCourses)) {
+              const course = currentCourses[courseKey];
+              const { data: courseData, error: courseErr } = await supabaseClient
+                .from('moodle_courses')
+                .upsert({
+                  user_id: user.id,
+                  moodle_course_id: deterministicId(course.shortname),
+                  fullname: course.fullname,
+                  shortname: course.shortname
+                }, { onConflict: 'user_id, moodle_course_id' })
+                .select()
+                .single();
 
-            if (courseErr || !courseData) continue;
+              if (courseErr || !courseData) continue;
 
-            for (const assign of course.assignments) {
-              await supabaseClient
+              for (const assign of course.assignments) {
+                await supabaseClient
+                  .from('moodle_assignments')
+                  .upsert({
+                    user_id: user.id,
+                    course_id: courseData.id,
+                    moodle_assign_id: assign.id,
+                    name: assign.title,
+                    duedate: new Date().toISOString(),
+                    submitted: assign.status === 'completado'
+                  }, { onConflict: 'user_id, moodle_assign_id' });
+              }
+
+              for (const exam of course.exams) {
+                await supabaseClient
+                  .from('moodle_exams')
+                  .upsert({
+                    user_id: user.id,
+                    course_id: courseData.id,
+                    moodle_event_id: exam.id,
+                    name: exam.title,
+                    description: "Hito evaluado para " + course.shortname,
+                    timestart: new Date().toISOString()
+                  }, { onConflict: 'user_id, moodle_event_id' });
+              }
+            }
+          } else {
+            // Sincronizar desde Supabase a local
+            const updatedCourses = { ...currentCourses };
+            for (const dbCourse of dbCourses) {
+              const courseKey = Object.keys(updatedCourses).find(key => 
+                updatedCourses[key].fullname.toLowerCase() === dbCourse.fullname.toLowerCase()
+              );
+
+              if (!courseKey) continue;
+
+              const { data: dbAssigns, error: assignErr } = await supabaseClient
                 .from('moodle_assignments')
-                .upsert({
-                  user_id: user.id,
-                  course_id: courseData.id,
-                  moodle_assign_id: assign.id,
-                  name: assign.title,
-                  duedate: new Date().toISOString(),
-                  submitted: assign.status === 'completado'
-                }, { onConflict: 'user_id, moodle_assign_id' });
-            }
+                .select('*')
+                .eq('course_id', dbCourse.id);
 
-            for (const exam of course.exams) {
-              await supabaseClient
-                .from('moodle_exams')
-                .upsert({
-                  user_id: user.id,
-                  course_id: courseData.id,
-                  moodle_event_id: exam.id,
-                  name: exam.title,
-                  description: "Hito evaluado para " + course.shortname,
-                  timestart: new Date().toISOString()
-                }, { onConflict: 'user_id, moodle_event_id' });
+              if (!assignErr && dbAssigns) {
+                dbAssigns.forEach((dbAssign: { moodle_assign_id: number; submitted: boolean }) => {
+                  const localAssign = updatedCourses[courseKey].assignments.find((a: Assignment) => a.id === dbAssign.moodle_assign_id);
+                  if (localAssign) {
+                    localAssign.status = dbAssign.submitted ? 'completado' : 'pendiente';
+                  }
+                });
+              }
             }
+            calculateAndSetProgress(updatedCourses);
           }
-        } else {
-          // Sincronizar desde Supabase a local
-          const updatedCourses = { ...currentCourses };
-          for (const dbCourse of dbCourses) {
-            const courseKey = Object.keys(updatedCourses).find(key => 
-              updatedCourses[key].fullname.toLowerCase() === dbCourse.fullname.toLowerCase()
-            );
-
-            if (!courseKey) continue;
-
-            const { data: dbAssigns, error: assignErr } = await supabaseClient
-              .from('moodle_assignments')
-              .select('*')
-              .eq('course_id', dbCourse.id);
-
-            if (!assignErr && dbAssigns) {
-              dbAssigns.forEach((dbAssign: { moodle_assign_id: number; submitted: boolean }) => {
-                const localAssign = updatedCourses[courseKey].assignments.find((a: Assignment) => a.id === dbAssign.moodle_assign_id);
-                if (localAssign) {
-                  localAssign.status = dbAssign.submitted ? 'completado' : 'pendiente';
-                }
-              });
-            }
-          }
-          calculateAndSetProgress(updatedCourses);
         }
       }
     } catch (e) {
@@ -459,35 +515,95 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('study_user');
-      const univ = localStorage.getItem('study_university');
-      const demo = localStorage.getItem('is_demo');
+    const checkAuthAndOnboarding = async () => {
+      if (typeof window !== 'undefined') {
+        const demo = localStorage.getItem('is_demo');
 
-      if (!user || !univ) {
-        window.location.href = '/login';
-        return;
-      }
+        if (demo === 'true') {
+          // --- MODO DEMO ---
+          const user = localStorage.getItem('study_user');
+          const univ = localStorage.getItem('study_university');
+          if (!user || !univ) {
+            window.location.href = '/login';
+            return;
+          }
 
-      const onboardingCompleted = localStorage.getItem('med224_completed');
-      if (!onboardingCompleted) {
-        window.location.href = '/onboarding';
-        return;
-      }
+          const onboardingCompleted = localStorage.getItem('med224_completed');
+          if (!onboardingCompleted) {
+            window.location.href = '/onboarding';
+            return;
+          }
+        } else {
+          // --- MODO PRODUCCIÓN (Supabase) ---
+          try {
+            const { data: { session }, error: sessionErr } = await supabaseClient.auth.getSession();
+            if (sessionErr || !session || !session.user) {
+              window.location.href = '/login';
+              return;
+            }
 
-      // Sincronizar desde Supabase si aplica
-      if (demo === 'false') {
-        setTimeout(() => {
-          syncFromSupabase(user, courses);
-        }, 0);
+            const email = session.user.email ?? '';
+            const user = email.split('@')[0] ?? 'Estudiante';
+            
+            localStorage.setItem('study_email', email);
+            localStorage.setItem('study_user', user);
+            localStorage.setItem('study_university', 'UCE');
+            localStorage.setItem('is_demo', 'false');
+
+            // Consultar si el estudiante ya completó el onboarding en DB
+            const { data: student, error: studentErr } = await supabaseClient
+              .from('students')
+              .select('completed_med224')
+              .eq('auth_id', session.user.id)
+              .maybeSingle();
+
+            if (studentErr) {
+              console.error("Error al obtener estudiante:", studentErr);
+            }
+
+            if (student && student.completed_med224) {
+              localStorage.setItem('med224_completed', 'true');
+            } else {
+              localStorage.removeItem('med224_completed');
+              window.location.href = '/onboarding';
+              return;
+            }
+
+            // Sincronizar desde Supabase (usa ref para evitar dependencia reactiva)
+            await syncFromSupabase(user, coursesRef.current);
+
+          } catch (e) {
+            console.error("Error en flujo de autenticación de producción:", e);
+            window.location.href = '/login';
+          }
+        }
       }
-    }
-  }, [courses, syncFromSupabase]);
+    };
+
+    checkAuthAndOnboarding();
+  // courses se lee via coursesRef.current para evitar el bucle:
+  // setCourses → re-run effect → setCourses → ...
+  }, [syncFromSupabase]);
 
   const toggleTaskStatus = async (courseKey: string, type: 'assignment' | 'exam', id: number, isChecked: boolean) => {
     const updatedCourses = { ...courses };
     const course = updatedCourses[courseKey];
     if (!course) return;
+
+    // --- TRACK FATIGUE AND ERRORS ---
+    setResponseCount(prev => prev + 1);
+    if (isChecked) {
+      setConsecutiveErrors(0);
+    } else {
+      setErrorCount(prev => prev + 1);
+      setConsecutiveErrors(prev => {
+        const next = prev + 1;
+        if (next >= 4) {
+          setShowBurnoutModal(true);
+        }
+        return next;
+      });
+    }
 
     const newStatus = isChecked ? 'completado' : 'pendiente';
 
@@ -601,6 +717,83 @@ export default function DashboardPage() {
               ></div>
             </div>
           </div>
+
+          {/* Métricas de Cognición y Fatiga Emocional */}
+          <div className="mt-6 border-t border-gray-800/80 pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            
+            {/* Medidor de Fatiga */}
+            {(() => {
+              const fatigue = calculateFatigue(sessionSeconds, responseCount, errorCount);
+              let barColor = "from-green-500 to-emerald-500";
+              let textColor = "text-green-400";
+              let label = "Óptimo (Foco Alto)";
+              if (fatigue > 75) {
+                barColor = "from-red-500 to-rose-500";
+                textColor = "text-red-400";
+                label = "Crítico (Requiere Pausa)";
+              } else if (fatigue > 40) {
+                barColor = "from-yellow-500 to-amber-500";
+                textColor = "text-yellow-400";
+                label = "Moderado (Fatiga Leve)";
+              }
+              return (
+                <div className="bg-gray-900/30 border border-gray-800/60 p-4 rounded-2xl flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-center text-xs font-semibold text-gray-400 mb-1">
+                      <span>MEDIDOR DE FATIGA COGNITIVA</span>
+                      <span className={`font-mono ${textColor}`}>{fatigue}%</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-950 rounded-full overflow-hidden p-0.5 border border-gray-900">
+                      <div
+                        className={`h-full bg-gradient-to-r ${barColor} rounded-full transition-all duration-300`}
+                        style={{ width: `${fatigue}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-2 font-medium">Estado: <span className={`font-bold ${textColor}`}>{label}</span></p>
+                </div>
+              );
+            })()}
+
+            {/* Clinical Readiness Score */}
+            {(() => {
+              const readiness = calculateClinicalReadiness(
+                globalProgress,
+                100,
+                simulatorAccuracy,
+                osceScore
+              );
+              return (
+                <div className="bg-gray-900/30 border border-gray-800/60 p-4 rounded-2xl flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-center text-xs font-semibold text-gray-400 mb-1">
+                      <span>PREPARACIÓN CLÍNICA (ACREDITACIÓN UCE)</span>
+                      <span className="font-mono text-cyan-400 font-bold">{readiness}%</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-950 rounded-full overflow-hidden p-0.5 border border-gray-900">
+                      <div
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-300"
+                        style={{ width: `${readiness}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-2 font-medium">Calificación UCE: <span className="font-bold text-cyan-400">{readiness >= 70 ? 'Listo para Rotación' : 'Refuerzo Pendiente'}</span></p>
+                </div>
+              );
+            })()}
+
+            {/* Copywriting Neurocognitivo / Zonas de Olvido */}
+            <div className="bg-gray-900/30 border border-gray-800/60 p-4 rounded-2xl flex flex-col justify-between">
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block">Sistemas con mayor riesgo de olvido clínico</span>
+                <p className="text-[11px] text-gray-300 leading-relaxed italic">
+                  &quot;Tu cerebro está listo para reforzar esta memoria antes de que se degrade. Planifica tus repasos activos hoy.&quot;
+                </p>
+              </div>
+              <p className="text-[9px] text-gray-500 mt-2">Basado en el algoritmo SM-2 UCE</p>
+            </div>
+
+          </div>
         </header>
 
         {/* Sección de Cursos */}
@@ -652,6 +845,22 @@ export default function DashboardPage() {
                   >
                     Estudiar Repaso Interactivo
                   </a>
+                  {key === 'semiologia' && (
+                    <div className="space-y-2">
+                      <Link
+                        href="/auscultacion"
+                        className="block text-center w-full py-2.5 bg-[#0e1629] hover:bg-[#15203c] text-cyan-400 border border-cyan-500/20 font-bold text-xs rounded-xl shadow-md transition-all transform active:scale-[0.98] cursor-pointer"
+                      >
+                        🔊 Laboratorio de Auscultación UCE
+                      </Link>
+                      <Link
+                        href="/abdomen"
+                        className="block text-center w-full py-2.5 bg-[#121020] hover:bg-[#1b1830] text-purple-400 border border-purple-500/20 font-bold text-xs rounded-xl shadow-md transition-all transform active:scale-[0.98] cursor-pointer"
+                      >
+                        🩺 Simulador de Abdomen, Cuello y Tórax
+                      </Link>
+                    </div>
+                  )}
                   <div className="grid grid-cols-3 gap-2">
                     <a
                       href={course.syllabusLink}
@@ -820,6 +1029,43 @@ export default function DashboardPage() {
           </>
         )}
       </div>
+
+      {/* MODAL DE PREVENCIÓN DE BURNOUT */}
+      {showBurnoutModal && (
+        <div className="fixed inset-0 bg-[#060913]/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="glass rounded-3xl p-8 max-w-md w-full border border-red-500/30 shadow-2xl text-center space-y-6 animate-fade-slide">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/20 text-3xl select-none animate-pulse">
+              ⚠️
+            </div>
+            
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-gray-100 font-display">Alerta de Sobrecarga Cognitiva</h3>
+              <p className="text-xs text-red-400 font-mono tracking-widest uppercase">Prevención de Burnout Clínico</p>
+            </div>
+
+            <p className="text-xs text-gray-300 leading-relaxed max-w-sm mx-auto">
+              Se ha detectado fatiga en tus respuestas o tiempo de estudio excesivo (más de 45 minutos continuos). 
+              Para garantizar la consolidación de memorias clínicas a largo plazo en tu corteza cerebral, 
+              **la cátedra sugiere firmemente tomar un descanso de 15 minutos.**
+            </p>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={handleDismissBurnout}
+                className="flex-1 py-3 bg-red-600/20 hover:bg-red-600/30 text-red-400 font-bold text-xs rounded-xl border border-red-500/30 transition-all cursor-pointer"
+              >
+                Seguiré bajo mi propio riesgo
+              </button>
+              <button
+                onClick={() => { handleDismissBurnout(); handleLogout(); }}
+                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-blue-500/20 transition-all cursor-pointer"
+              >
+                Tomar Descanso (Cerrar)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

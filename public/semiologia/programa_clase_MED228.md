@@ -1,82 +1,53 @@
-# 📋 PROGRAMA DE LA ASIGNATURA: Propedéutica Clínica y Semiología Médica (MED-228)
-**Código del Curso:** MED-228-T-1  
-**Dirigido a:** Estudiantes de Medicina (Tercer Año / Ciclo Clínico)  
-**Libro de Texto Base:** Propedéutica Clínica y Semiología Médica - Tomo I y II (Llanio Navarro)
+# 📋 PLANIFICACIÓN ACADÉMICA SEMESTRAL (PENSUM 36)
+**UNIVERSIDAD CENTRAL DEL ESTE**  
+**FACULTAD DE CIENCIAS DE LA SALUD**  
+**ESCUELA DE MEDICINA**  
+
+*   **Periodo:** MAYO-AGOSTO 2026
+*   **Asignatura:** Propedéutica Clínica y Semiología Médica (MED-228-T-1)
+*   **Docente:** Dr. Angel Augusto Tusen Madrigal
+*   **Créditos / Horas:** 3 Créditos (Teoría: 2h/semana | Práctica: 3h/semana)
+*   **Requisito:** MED-224 (Propedéutica I)
 
 ---
 
-## 🎯 OBJETIVOS DE LA ASIGNATURA
-1. Dominar el método clínico para realizar un diagnóstico sindrómico correcto.
-2. Desarrollar destreza en la anamnesis o interrogatorio y la relación médico-paciente.
-3. Dominar los cuatro pilares del examen físico: inspección, palpación, percusión y auscultación.
-4. Redactar de forma ordenada e integrada la Historia Clínica del paciente.
-5. Interpretar la semiología de los principales síntomas, signos y síndromes por sistemas.
+## I. CRONOGRAMA ACADÉMICO Y DISTRIBUCIÓN DE CONTENIDOS
+
+| Semana y Fechas | Unidad / Tema | Contenidos Específicos | CGs | Estrategia Enseñanza | Evaluación / Evidencia | Bibliografía |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Semana 1**<br>(04/05 - 09/05) | Introducción a la Semiología | Signos, síntomas, síndrome, signo patognomónico, propedéutica y método clínico. | CG6, CG2 | Clase magistral interactiva, discusión socrática del rol del médico. | Participación activa, quiz formativo inicial | Argente-Álvarez Cap. 1<br>Llanio Cap. 1 |
+| **Semana 2**<br>(11/05 - 16/05) | La Historia Clínica | Estructura general, anamnesis, motivo de consulta e Historia de la Enfermedad Actual (HEA). | CG6, CG2 | Taller de redacción de HEA, análisis de casos narrativos. | Práctica de redacción de HEA evaluada | Bickley Cap. 1<br>Argente-Álvarez Cap. 2 |
+| **Semana 3**<br>(18/05 - 23/05) | Anamnesis Sistemática | Antecedentes personales (patológicos y no patológicos). Revisión por sistemas y aparatos. | CG6, CG1 | Juego de rol médico-paciente enfocado en ética y privacidad. | Retroalimentación socrática de interrogatorio | Bickley Cap. 2<br>Surós Cap. 1 |
+| **Semana 4**<br>(25/05 - 30/05) | Métodos de Exploración | Examen físico general: Técnicas de Inspección, Palpación, Percusión y Auscultación (IPPA). | CG8, CG6 | Demostración práctica de maniobras básicas de percusión y tacto. | Lista de cotejo formativa en destrezas de exploración | Argente-Álvarez Cap. 4<br>Llanio Cap. 2 |
+| **Semana 5**<br>(01/06 - 06/06) | Semiología de Cabeza | Exploración de cráneo, ojos (fondo de ojo básico), nariz, oídos y cavidad bucal. | CG8, CG6 | Práctica en laboratorio con otoscopios y oftalmoscopios. | Simulación clínica formativa (Cabeza) | Bickley Cap. 7<br>Surós Cap. 3 |
+| **Semana 6**<br>(08/06 - 13/06) | Semiología de Cuello | Exploración física de cuello: glándula tiroides, adenopatías y pulsos carotídeos. | CG8, CG6, CG1 | Evaluación sumativa práctica y teórica. Maniobra de Quervain. | **PRIMER EXAMEN PARCIAL (30%)** | Llanio Cap. 5<br>Bickley Cap. 8 |
+| **Semana 7**<br>(15/06 - 20/06) | Semiología del Aparato Respiratorio | Examen pulmonar anterior y posterior. Líneas de referencia, ruidos respiratorios normales. | CG8, CG6 | Práctica clínica guiada de auscultación simétrica pulmonar. | Registro de hallazgos en portafolio de auscultación | Llanio Cap. 6<br>Bickley Cap. 9 |
+| **Semana 8**<br>(22/06 - 27/06) | Síndromes Pulmonares y Cardiovasculares | Semiología del derrame pleural, neumotórax y condensación. Focos de auscultación cardíaca y soplos. | CG8, CG6 | Discusión de casos de síndromes pleuropulmonares (Argente). | Cuestionario interactivo clínico (Flashcards/Quiz) | Argente-Álvarez Cap. 12<br>Llanio Cap. 7 |
+| **Semana 9**<br>(29/06 - 04/07) | Toma de Presión Arterial | Técnica correcta de esfigmomanometría. Fases de Korotkoff. Clasificación de hipertensión ACC/AHA. | CG8, CG11 | Taller práctico intensivo de toma y registro de presión arterial. | Evaluación práctica de técnica de toma de presión | Bickley Cap. 4<br>Argente-Álvarez Cap. 15 |
+| **Semana 10**<br>(06/07 - 11/07) | Examen de Pulsos | Pulsos arteriales periféricos (características, amplitud) y pulsos venosos (presión venosa yugular). | CG8, CG6 | Simulación de pacientes con alteraciones del pulso arterial. | Evaluación formativa de mapeo de pulsos en simulación | Surós Cap. 4<br>Llanio Cap. 7 |
+| **Semana 11**<br>(13/07 - 18/07) | Semiología de Mamas | Inspección y palpación mamaria. Cadena linfática axilar. Signos de alarma oncológica. | CG8, CG7 | Uso de simuladores anatómicos para detección de masas mamarias. | **SEGUNDO EXAMEN PARCIAL (30%)** | Bickley Cap. 10 |
+| **Semana 12**<br>(20/07 - 25/07) | Semiología Abdominal | División topográfica del abdomen. Inspección, auscultación (ruidos hidroaéreos), palpación y percusión. | CG8, CG6 | Taller práctico de palpación superficial y profunda (puntos dolorosos). | Lista de cotejo práctica de exploración abdominal | Llanio Tomo II Cap. 1<br>Bickley Cap. 11 |
+| **Semana 13**<br>(27/07 - 01/08) | Semiología Genitourinaria | Examen físico genitourinario básico. Puntos pielorrenales y puñopercusión de Murphy. | CG8, CG6 | Discusión clínica y demostración mediante modelos anatómicos. | Resolución de viñetas clínicas de cólico renal | Surós Cap. 6<br>Llanio Tomo II |
+| **Semana 14**<br>(03/08 - 08/08) | Exploración de Extremidades | Evaluación de articulaciones, rangos de movimiento, pulsos distales, edemas y varices. | CG8, CG6 | Maniobras de exploración osteomuscular en extremidades inferiores. | Evaluación formativa de exploración articular | Bickley Cap. 16 |
+| **Semana 15**<br>(10/08 - 15/08) | Integración Sindrómica | Razonamiento diagnóstico y método clínico. Integración de hallazgos en síndromes principales. | CG6, CG8, CG2 | Simulaciones OSCE formativas integrales de final de curso. | OSCE formativo y portafolio final de prácticas | Llanio Tomo II Cap. 10<br>First Aid Step 2 CS |
+| **Semana 16**<br>(17/08 - 22/08) | Evaluación Final | Evaluación teórico-práctica global de la asignatura. | Todas las CGs | Evaluación final global de competencias. | **EVALUACIÓN FINAL GLOBAL (40%)** | Bibliografía Completa |
 
 ---
 
-## 📅 CONTENIDO PROGRAMÁTICO POR SEMANAS
+## II. SISTEMA DE EVALUACIÓN Y CALIFICACIÓN
 
-### 🧱 MÓDULO I: Introducción al Método Clínico e Historia Clínica
-*   **Semana 1:**
-    *   *Tema:* Concepto de Semiología, Propedéutica y Método Clínico. Ética médica y relación médico-paciente.
-    *   *Estudio en Texto:* Tomo I, Capítulos 1 - 3.
-*   **Semana 2:**
-    *   *Tema:* La Anamnesis (Interrogatorio). Datos de filiación, motivo de consulta, historia de la enfermedad actual (HEA), antecedentes personales y familiares.
-    *   *Estudio en Texto:* Tomo I, Capítulos 4 - 6.
-
-### 🔍 MÓDULO II: Examen Físico General y Regional
-*   **Semana 3:**
-    *   *Tema:* Examen físico general: Biotipo constitucional, marcha, actitud en el lecho, facies. Examen de piel, mucosas, faneras (uñas y pelo) y tejido celular subcutáneo (edemas).
-    *   *Estudio en Texto:* Tomo I, Capítulos 7 - 12.
-*   **Semana 4:**
-    *   *Tema:* Constantes vitales (temperatura, pulso arterial, respiración, presión arterial). Examen físico regional (cabeza, cuello, tórax, abdomen y extremidades en general).
-    *   *Estudio en Texto:* Tomo I, Capítulos 13 - 15.
-
-### 🫀 MÓDULO III: Semiología y Propedéutica del Sistema Cardiovascular
-*   **Semana 5:**
-    *   *Tema:* Interrogatorio del aparato cardiovascular: dolor torácico (isquémico vs. pleurítico vs. pericardítico), disnea (escala NYHA, ortopnea, DPN), palpitaciones, síncope y claudicación intermitente.
-    *   *Estudio en Texto:* Tomo I, Capítulos 18 - 20.
-*   **Semana 6:**
-    *   *Tema:* Examen físico cardiovascular I: Inspección y palpación del área precordial (choque de la punta). Examen del pulso arterial (amplitud, frecuencia, ritmo) y del pulso venoso yugular (ingurgitación yugular y reflujo hepatojugular).
-    *   *Estudio en Texto:* Tomo I, Capítulos 21 - 22.
-*   **Semana 7:**
-    *   *Tema:* Examen físico cardiovascular II: Auscultación cardíaca. Focos clásicos. Ruidos cardíacos fundamentales (R1, R2, desdoblamientos). Ruidos agregados (R3, R4, clics, chasquidos). Soplos cardíacos (clasificación de Levine, sístole y diástole).
-    *   *Estudio en Texto:* Tomo I, Capítulo 23.
-
-### 🫁 MÓDULO IV: Semiología y Propedéutica del Sistema Respiratorio
-*   **Semana 8:**
-    *   *Tema:* Sintomatología respiratoria: tos, expectoración (esputo), hemoptisis, disnea respiratoria, dolor torácico no cardíaco.
-    *   *Estudio en Texto:* Tomo I, Capítulos 25 - 26.
-*   **Semana 9:**
-    *   *Tema:* Examen físico respiratorio: Inspección estática y dinámica. Palpación (expansibilidad torácica y vibraciones vocales). Percusión (sonoridad, matidez, timpanismo).
-    *   *Estudio en Texto:* Tomo I, Capítulos 27 - 28.
-*   **Semana 10:**
-    *   *Tema:* Auscultación pulmonar: Ruidos respiratorios normales (murmullo vesicular, soplo laringotraqueal). Ruidos adventicios o agregados (estertores secos: sibilantes y roncus; estertores húmedos: crepitantes, subcrepitantes; frote pleural). Síndromes pleuropulmonares (condensación, atelectasia, derrame pleural, neumotórax).
-    *   *Estudio en Texto:* Tomo I, Capítulos 29 - 31.
-
-### 🍏 MÓDULO V: Semiología y Propedéutica del Aparato Digestivo y Renal
-*   **Semana 11:**
-    *   *Tema:* Sintomatología digestiva: dolor abdominal, disfagia, náuseas, vómitos, hematemesis, melena, diarrea, constipación e ictericia.
-    *   *Estudio en Texto:* Tomo II, Capítulos 34 - 36.
-*   **Semana 12:**
-    *   *Tema:* Examen físico del abdomen: División topográfica (9 regiones). Inspección, auscultación de ruidos hidroaéreos, percusión general y palpación superficial y profunda. Maniobras de palpación de hígado y bazo. Puntos dolorosos abdominales.
-    *   *Estudio en Texto:* Tomo II, Capítulos 37 - 40.
-*   **Semana 13:**
-    *   *Tema:* Semiología del aparato renal: dolor renal, alteraciones de la micción (disuria, poliuria, oliguria, hematuria). Maniobras de palpación renal (Guyon, peloteo). Puntos renoureterales.
-    *   *Estudio en Texto:* Tomo II, Capítulos 43 - 45.
-
-### 🧠 MÓDULO VI: Semiología Neurológica
-*   **Semana 14:**
-    *   *Tema:* Examen neurológico I: Nivel de conciencia (Escala de coma de Glasgow). Examen de las funciones mentales superiores. Examen de los 12 pares craneales.
-    *   *Estudio en Texto:* Tomo II, Capítulos 48 - 50.
-*   **Semana 15:**
-    *   *Tema:* Examen neurológico II: Examen del sistema motor (fuerza, tono muscular, trofismo). Reflejos osteotendinosos y cutáneos (Babinski). Examen del sistema sensitivo. Coordinación y marcha. Signos de irritación meníngea.
-    *   *Estudio en Texto:* Tomo II, Capítulos 51 - 54.
+| Elemento de Evaluación | Ponderación | Semana / Criterios |
+| :--- | :--- | :--- |
+| **Primer Examen Parcial** | 30% | Semana 6. Evaluación de contenidos de Semanas 1 a 5 (Teoría y Práctica). |
+| **Segundo Examen Parcial** | 30% | Semana 11. Evaluación de contenidos de Semanas 7 a 10 (Teoría y Práctica). |
+| **Evaluación Final Global** | 40% | Semana 16. Examen práctico tipo OSCE (20%) y examen teórico acumulativo (20%). |
 
 ---
 
-## 📝 EVALUACIÓN DE LA ASIGNATURA
-*   **Evaluación Práctica Semanal:** 30% (Desempeño en sala clínica y simulación de maniobras).
-*   **Examen Parcial de Técnicas Clínicas:** 20% (Evaluación en vivo de interrogatorio y examen físico).
-*   **Portafolio de Historias Clínicas:** 20% (Redacción y análisis de casos asignados).
-*   **Examen Final Teórico-Práctico (Tipo USMLE/Caso Clínico):** 30%.
+## III. REFERENCIAS BIBLIOGRÁFICAS
+
+*   **1. Argente, H.A. y Álvarez, M.E. (2013).** *Semiología Médica: Fisiopatología, Semiotecnia y Propedéutica. Enseñanza basada en el paciente.* (2ª ed.). Buenos Aires: Editorial Médica Panamericana. **[Texto Base]**
+*   **2. Bickley, L.S. (2017).** *Bates. Guía de Exploración Física e Historia Clínica.* (12ª ed.). Filadelfia: Wolters Kluwer / Ovid.
+*   **3. Goic, A., Chamorro, G. y Reyes, H. (2010).** *Semiología Médica.* (3ª ed.). Santiago de Chile: Editorial Mediterráneo.
+*   **4. Surós, A. y Surós, J. (2004).** *Semiología Médica y Técnica Exploratoria.* (8ª ed.). Barcelona: Masson.
+*   **5. Tao, Le y Bhushan, Vikas. (2017).** *First Aid for the USMLE Step 2 CS.* (6ª ed.). Nueva York: McGraw-Hill Education. **[Referencia de Simulación]**

@@ -3,7 +3,16 @@
 -- Description: Core academic structure for MED-228 UCE
 -- Author: Database Agent
 -- Validated by: [Nombre del Docente]
--- Rollback: DROP SCHEMA IF EXISTS med228 CASCADE;
+-- Rollback:
+--   DROP TABLE IF EXISTS public.academic_blocks CASCADE;
+--   DROP TABLE IF EXISTS public.competencies CASCADE;
+--   DROP TABLE IF EXISTS public.courses CASCADE;
+--   DROP TYPE IF EXISTS public.content_type CASCADE;
+--   DROP TYPE IF EXISTS public.memory_domain CASCADE;
+--   DROP TYPE IF EXISTS public.evaluation_type CASCADE;
+--   DROP TYPE IF EXISTS public.block_type CASCADE;
+--   DROP TYPE IF EXISTS public.cg_competency CASCADE;
+--           (NOTE: no med228 schema exists — all objects are in public)
 -- ============================================
 
 BEGIN;

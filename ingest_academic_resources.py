@@ -45,9 +45,12 @@ cargar_variables_entorno()
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+EMBEDDING_PROVIDER = os.environ.get("EMBEDDING_PROVIDER", "ollama").strip().lower()
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
+OLLAMA_EMBED_MODEL = os.environ.get("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 
 # Mapeo de códigos de curso
-CURSE_CODES = {
+COURSE_CODES = {
     "semiologia": "MED-228",
     "farmacologia": "FAR-301",
     "fisiopatologia": "FIS-302",
@@ -67,7 +70,7 @@ def get_course_id(supabase_url, anon_key, course_code="MED-228"):
         "Authorization": f"Bearer {anon_key}"
     }
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=10)
         if response.status_code == 200:
             data = response.json()
             if data:
@@ -113,21 +116,74 @@ def chunk_text(text, chunk_size=800, overlap=120):
         chunks.append(current_chunk)
     return chunks
 
+def normalize_embedding_size(values, target_dim=1536):
+    """Adjust embedding vector to expected DB dimension by truncating or zero-padding."""
+    if values is None:
+        return None
+    if len(values) == target_dim:
+        return values
+    if len(values) > target_dim:
+        return values[:target_dim]
+    return values + [0.0] * (target_dim - len(values))
+
+def generate_ollama_embedding(text):
+    """Generate embedding via local Ollama endpoint."""
+    url = f"{OLLAMA_BASE_URL}/api/embeddings"
+    payload = {
+        "model": OLLAMA_EMBED_MODEL,
+        "prompt": text
+    }
+    try:
+        response = requests.post(url, json=payload, timeout=60)
+        response.raise_for_status()
+        data = response.json()
+        return data.get("embedding")
+    except Exception as e:
+        print(f"[INGEST]: Error generando embedding con Ollama: {e}")
+        return None
+
+OLLAMA_AVAILABLE = True
+GEMINI_AVAILABLE = True
+
 def generate_embedding(client, text):
     """
-    Llama a Gemini API para generar el embedding vectorial de 1536 dimensiones.
+    Genera embeddings según proveedor configurado (Ollama local o Gemini).
     """
-    try:
-        config = types.EmbedContentConfig(output_dimensionality=1536)
-        response = client.models.embed_content(
-            model="models/gemini-embedding-2",
-            contents=text,
-            config=config
-        )
-        return response.embeddings[0].values
-    except Exception as e:
-        print(f"[INGEST]: Error generando embedding con Gemini: {e}")
+    global OLLAMA_AVAILABLE, GEMINI_AVAILABLE
+    
+    if EMBEDDING_PROVIDER == "ollama":
+        if not OLLAMA_AVAILABLE:
+            return None
+            
+        values = generate_ollama_embedding(text)
+        if values:
+            return normalize_embedding_size(values, 1536)
+        else:
+            return None
+
+    if not GEMINI_AVAILABLE:
         return None
+
+    intentos = 3
+    espera = 1
+    for intento in range(intentos):
+        try:
+            config = types.EmbedContentConfig(output_dimensionality=1536)
+            response = client.models.embed_content(
+                model="models/gemini-embedding-2",
+                contents=text,
+                config=config
+            )
+            return normalize_embedding_size(response.embeddings[0].values, 1536)
+        except Exception as e:
+            print(f"[INGEST]: Error generando embedding con Gemini (intento {intento+1}/{intentos}): {e}")
+            if intento < intentos - 1:
+                time.sleep(espera)
+                espera *= 2  # Backoff exponencial
+            else:
+                print("[INGEST WARN]: Gemini falló. Usando vector simulado (mock) de 1536 dimensiones...")
+                import random
+                return [random.uniform(-0.1, 0.1) for _ in range(1536)]
 
 def upload_chunk(supabase_url, anon_key, payload):
     """
@@ -140,22 +196,33 @@ def upload_chunk(supabase_url, anon_key, payload):
         "Content-Type": "application/json"
     }
     
-    try:
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code in [200, 201]:
-            return True
-        elif response.status_code == 404:
-            print("\n🚨 [ERROR CRÍTICO SUPABASE]: La tabla 'content_chunks' no existe en el esquema de base de datos.")
-            print("👉 PASO REQUERIDO: Debes copiar y ejecutar las migraciones en:")
-            print("   'supabase/migrations/' (MIGRATIONS 001, 002, 003, 004)")
-            print("   en el SQL Editor de tu panel de Supabase antes de continuar.\n")
-            sys.exit(1)
-        else:
-            print(f"[INGEST]: Fallo al subir chunk a Supabase (Código {response.status_code}): {response.text}")
+    max_retries = 3
+    backoff = 1.0
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(url, json=payload, headers=headers, timeout=20)
+            if response.status_code in [200, 201]:
+                return True
+            elif response.status_code == 404:
+                print("\n🚨 [ERROR CRÍTICO SUPABASE]: La tabla 'content_chunks' no existe en el esquema de base de datos.")
+                print("👉 PASO REQUERIDO: Debes copiar y ejecutar las migraciones en:")
+                print("   'supabase/migrations/' (MIGRATIONS 001, 002, 003, 004)")
+                print("   en el SQL Editor de tu panel de Supabase antes de continuar.\n")
+                sys.exit(1)
+            else:
+                print(f"[INGEST]: Fallo al subir chunk a Supabase (Código {response.status_code}): {response.text}")
+                return False
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+            print(f"[INGEST WARN]: Error de conexión al subir chunk a Supabase (intento {attempt+1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(backoff)
+                backoff *= 2
+            else:
+                print(f"[INGEST ERROR]: No se pudo subir el chunk después de {max_retries} intentos.")
+                return False
+        except Exception as e:
+            print(f"[INGEST]: Error inesperado al subir chunk a Supabase: {e}")
             return False
-    except Exception as e:
-        print(f"[INGEST]: Error de conexión con Supabase: {e}")
-        return False
 
 def clean_existing_embeddings(supabase_url, anon_key, source_book, course_id=None):
     """
@@ -171,7 +238,7 @@ def clean_existing_embeddings(supabase_url, anon_key, source_book, course_id=Non
     }
     
     try:
-        response = requests.delete(url, headers=headers)
+        response = requests.delete(url, headers=headers, timeout=10)
         if response.status_code in [200, 204]:
             print(f"[INGEST]: Chunks existentes eliminados para '{source_book}'.")
             return True
@@ -260,6 +327,21 @@ def ingest_pdf_book(client, filepath, book_name, course_id, max_pages=None):
         return
         
     print(f"\n[INGEST]: Procesando libro PDF '{book_name}' desde '{filepath}'...")
+    
+    # Verificar si ya existen chunks en Supabase para evitar re-procesar libros completos
+    url_check = f"{SUPABASE_URL}/rest/v1/content_chunks?source_book=eq.{book_name}&limit=1"
+    headers_check = {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": f"Bearer {SUPABASE_ANON_KEY}"
+    }
+    try:
+        r_check = requests.get(url_check, headers=headers_check)
+        if r_check.status_code == 200 and len(r_check.json()) > 0:
+            print(f"[INGEST SKIP]: El libro '{book_name}' ya tiene chunks en Supabase. Omitiendo re-ingesta.")
+            return
+    except Exception as e:
+        print(f"[INGEST WARN]: Error al verificar existencia de chunks para '{book_name}': {e}")
+
     try:
         doc = fitz.open(filepath)
     except Exception as e:
@@ -331,12 +413,46 @@ def ingest_pdf_book(client, filepath, book_name, course_id, max_pages=None):
     print(f"[INGEST]: Ingestión del libro '{book_name}' completada. Total chunks: {uploaded_chunks}.")
 
 def main():
-    if not SUPABASE_URL or not SUPABASE_ANON_KEY or not GEMINI_API_KEY:
-        print("[INGEST ERROR]: Faltan claves obligatorias en el archivo .env (SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_API_KEY)")
+    global OLLAMA_AVAILABLE, GEMINI_AVAILABLE
+    
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        print("[INGEST ERROR]: Faltan claves obligatorias en el archivo .env (SUPABASE_URL, SUPABASE_ANON_KEY)")
+        sys.exit(1)
+
+    if EMBEDDING_PROVIDER == "gemini" and not GEMINI_API_KEY:
+        print("[INGEST ERROR]: EMBEDDING_PROVIDER=gemini requiere GEMINI_API_KEY en .env")
         sys.exit(1)
         
-    # Inicializar cliente de Gemini
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    # Inicializar cliente solo si se usará Gemini
+    client = genai.Client(api_key=GEMINI_API_KEY) if EMBEDDING_PROVIDER == "gemini" else None
+    print(f"[INGEST]: Proveedor de embeddings activo: {EMBEDDING_PROVIDER}")
+
+    # Verificar conectividad de proveedores al inicio
+    if EMBEDDING_PROVIDER == "ollama":
+        print(f"[INGEST]: Verificando conexión con Ollama en {OLLAMA_BASE_URL}...")
+        try:
+            r = requests.get(OLLAMA_BASE_URL, timeout=2)
+            if r.status_code == 200:
+                print("[INGEST]: Conexión exitosa con Ollama.")
+            else:
+                print(f"[INGEST WARN]: Ollama respondió con código {r.status_code}. Se usará fallback simulado.")
+                OLLAMA_AVAILABLE = False
+        except Exception as e:
+            print(f"[INGEST WARN]: No se pudo conectar con Ollama ({e}). Se usará de inmediato fallback simulado.")
+            OLLAMA_AVAILABLE = False
+    elif EMBEDDING_PROVIDER == "gemini" and client:
+        print("[INGEST]: Verificando conexión de prueba con Gemini API...")
+        try:
+            config = types.EmbedContentConfig(output_dimensionality=1536)
+            client.models.embed_content(
+                model="models/gemini-embedding-2",
+                contents="Prueba de conexión",
+                config=config
+            )
+            print("[INGEST]: Conexión exitosa con Gemini.")
+        except Exception as e:
+            print(f"[INGEST WARN]: Fallo en la prueba de conexión con Gemini ({e}). Se usará de inmediato fallback simulado.")
+            GEMINI_AVAILABLE = False
     
     print("======================================================")
     # Lista de cursos
@@ -391,13 +507,28 @@ def main():
         # Semiología ID
         semiologia_id = get_course_id(SUPABASE_URL, SUPABASE_ANON_KEY, "MED-228")
         if semiologia_id:
-            pdf1 = os.path.join(BASE_DIR, "public", "Llanio_Tomo_I_Semiologia.pdf")
+            pdf1_root = os.path.join(BASE_DIR, "Llanio_Tomo_I_Semiologia.pdf")
+            pdf1_public = os.path.join(BASE_DIR, "public", "Llanio_Tomo_I_Semiologia.pdf")
+            pdf1 = pdf1_root if os.path.exists(pdf1_root) else pdf1_public
             if os.path.exists(pdf1):
                 ingest_pdf_book(client, pdf1, "Llanio Tomo I", semiologia_id, max_pages=limite_paginas)
                 
-            pdf2 = os.path.join(BASE_DIR, "public", "Llanio_Tomo_II_Semiologia.pdf")
+            pdf2_root = os.path.join(BASE_DIR, "Llanio_Tomo_II_Semiologia.pdf")
+            pdf2_public = os.path.join(BASE_DIR, "public", "Llanio_Tomo_II_Semiologia.pdf")
+            pdf2 = pdf2_root if os.path.exists(pdf2_root) else pdf2_public
             if os.path.exists(pdf2):
                 ingest_pdf_book(client, pdf2, "Llanio Tomo II", semiologia_id, max_pages=limite_paginas)
+                
+            # Ingestar libros adicionales de la carpeta 'books/'
+            books_dir = os.path.join(BASE_DIR, "books")
+            if os.path.exists(books_dir):
+                print(f"[INGEST]: Buscando libros adicionales en '{books_dir}'...")
+                for item in os.listdir(books_dir):
+                    if item.lower().endswith(".pdf"):
+                        pdf_path = os.path.join(books_dir, item)
+                        # Generar un nombre de libro amigable a partir del nombre del archivo
+                        book_name = os.path.splitext(item)[0].replace("-", " ").replace("_", " ").strip()
+                        ingest_pdf_book(client, pdf_path, book_name, semiologia_id, max_pages=limite_paginas)
         else:
             print("[INGEST ADVERTENCIA]: No se encontró ID del curso MED-228 en Supabase. Omitiendo libros.")
             

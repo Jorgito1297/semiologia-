@@ -160,6 +160,85 @@ def extract_pdf(pdf_path: str) -> str:
     return "\n\n".join(extracted_pages)
 
 # =====================================================================
+# 🖥️ CONVERSORES COM (Automatización Office para formatos legacy)
+# =====================================================================
+def convert_ppt_to_pptx(ppt_path: str) -> str:
+    """
+    Convierte un archivo .ppt legacy a .pptx moderno usando PowerPoint COM.
+    Retorna la ruta del archivo .pptx generado.
+    """
+    import win32com.client
+    ppt_path_abs = os.path.abspath(ppt_path)
+    pptx_path_abs = os.path.splitext(ppt_path_abs)[0] + ".pptx"
+    
+    if os.path.exists(pptx_path_abs):
+        return pptx_path_abs
+        
+    print(f"[PARSER COM]: Convirtiendo {os.path.basename(ppt_path)} a PPTX...")
+    powerpoint = None
+    presentation = None
+    try:
+        powerpoint = win32com.client.Dispatch("PowerPoint.Application")
+        # Open(FileName, ReadOnly, Untitled, WithWindow)
+        presentation = powerpoint.Presentations.Open(ppt_path_abs, ReadOnly=True, Untitled=False, WithWindow=False)
+        # 24 = ppSaveAsOpenXMLPresentation (formato pptx estándar)
+        presentation.SaveAs(pptx_path_abs, 24)
+        print(f"[PARSER COM]: Conversión exitosa -> {os.path.basename(pptx_path_abs)}")
+        return pptx_path_abs
+    except Exception as e:
+        print(f"[PARSER COM ERROR]: Error al convertir PPT a PPTX '{ppt_path}': {e}")
+        raise e
+    finally:
+        if presentation:
+            try:
+                presentation.Close()
+            except Exception:
+                pass
+        if powerpoint:
+            try:
+                powerpoint.Quit()
+            except Exception:
+                pass
+
+def convert_doc_to_docx(doc_path: str) -> str:
+    """
+    Convierte un archivo .doc legacy a .docx moderno usando Word COM.
+    Retorna la ruta del archivo .docx generado.
+    """
+    import win32com.client
+    doc_path_abs = os.path.abspath(doc_path)
+    docx_path_abs = os.path.splitext(doc_path_abs)[0] + ".docx"
+    
+    if os.path.exists(docx_path_abs):
+        return docx_path_abs
+        
+    print(f"[PARSER COM]: Convirtiendo {os.path.basename(doc_path)} a DOCX...")
+    word = None
+    document = None
+    try:
+        word = win32com.client.Dispatch("Word.Application")
+        word.Visible = False
+        document = word.Documents.Open(doc_path_abs, ReadOnly=True)
+        # 12 = wdFormatXMLDocument (formato docx estándar)
+        document.SaveAs2(docx_path_abs, FileFormat=12)
+        print(f"[PARSER COM]: Conversión exitosa -> {os.path.basename(docx_path_abs)}")
+        return docx_path_abs
+    except Exception as e:
+        print(f"[PARSER COM ERROR]: Error al convertir DOC a DOCX '{doc_path}': {e}")
+        raise e
+    finally:
+        if document:
+            try:
+                document.Close()
+            except Exception:
+                pass
+        if word:
+            try:
+                word.Quit()
+            except Exception:
+                pass
+
+# =====================================================================
 # 📊 PARSER 2: PRESENTACIONES PPTX (Diapositivas & Notas del Docente)
 # =====================================================================
 def extract_pptx(pptx_path: str) -> str:
@@ -486,12 +565,24 @@ if __name__ == "__main__":
         parsed_text = extract_pdf(filepath)
     elif ext == 'pptx':
         parsed_text = extract_pptx(filepath)
+    elif ext == 'ppt':
+        try:
+            pptx_path = convert_ppt_to_pptx(filepath)
+            parsed_text = extract_pptx(pptx_path)
+        except Exception as e:
+            parsed_text = f"Error al procesar PPT: {e}"
     elif ext == 'docx':
         parsed_text = extract_docx(filepath)
+    elif ext == 'doc':
+        try:
+            docx_path = convert_doc_to_docx(filepath)
+            parsed_text = extract_docx(docx_path)
+        except Exception as e:
+            parsed_text = f"Error al procesar DOC: {e}"
     elif ext in ['vtt', 'srt']:
         with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
             parsed_text = sanitize_transcript(f.read())
-    elif ext in ['mp4', 'mp3']:
+    elif ext in ['mp4', 'mp3', 'm4a', 'wav']:
         api_key = os.environ.get("GEMINI_API_KEY")
         if not api_key:
             # Intentar cargar de .env local

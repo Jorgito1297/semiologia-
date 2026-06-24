@@ -1,0 +1,72 @@
+# Routing de modelos IA — NEXUS AI System
+# ==========================================
+# Define qué modelo se usa para cada tipo de tarea.
+# Modifica este archivo para ajustar el comportamiento de los agentes.
+
+# ── MODELOS LOCALES (Ollama) ────────────────────────────────────────────────
+# Gratis, privados, sin latencia de red, corren en tu GPU/CPU
+
+local:
+  # Modelo de chat general — balanceo de velocidad y calidad
+  chat: "qwen3:8b"
+
+  # Modelo especializado en código — mejor para TypeScript/Python/SQL
+  code: "qwen2.5-coder:7b"
+
+  # Modelo de embeddings — vectorización para RAG
+  embeddings: "nomic-embed-text"
+
+# ── MODELOS CLOUD (OpenRouter) ──────────────────────────────────────────────
+# Requiere OPENROUTER_API_KEY. Solo usar cuando local no alcanza.
+
+cloud:
+  # Razonamiento complejo y arquitectura (más caro, más potente)
+  heavy_reasoning: "anthropic/claude-3.5-sonnet"
+
+  # Contexto largo (> 32k tokens, documentos grandes)
+  long_context: "google/gemini-1.5-pro"
+
+  # Fallback económico para tareas simples en cloud
+  cheap_fallback: "meta-llama/llama-3.1-8b-instruct:free"
+
+# ── REGLAS DE ROUTING ────────────────────────────────────────────────────────
+
+routing_rules:
+  # Usar Ollama local por defecto
+  default: local.chat
+
+  # Reglas por tipo de tarea
+  tasks:
+    code_generation: local.code
+    code_review: local.code
+    test_generation: local.code
+    rag_query: local.chat
+    documentation: local.chat
+    quick_question: local.chat
+    architecture_analysis: local.chat  # si falla → cloud.heavy_reasoning
+    complex_reasoning: cloud.heavy_reasoning
+    long_document_analysis: cloud.long_context
+
+  # Umbral de tokens para escalar a cloud automáticamente
+  # Si el contexto supera este número, usar cloud.long_context
+  cloud_escalation_threshold_tokens: 30000
+
+  # Si Ollama falla después de N reintentos, usar cloud
+  fallback_to_cloud_after_retries: 3
+
+# ── PARÁMETROS POR DEFECTO ──────────────────────────────────────────────────
+
+defaults:
+  temperature:
+    code: 0.1       # Muy determinista
+    chat: 0.3       # Balance
+    creative: 0.7   # Para documentación creativa
+
+  max_tokens: 4096
+
+  timeout_seconds: 120
+
+  # Chunk size para RAG
+  rag_chunk_size_words: 500
+  rag_chunk_overlap_words: 50
+  rag_top_k: 5

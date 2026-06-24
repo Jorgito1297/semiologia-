@@ -330,7 +330,7 @@ def sync_all_courses(dry_run: bool = False):
         
         course_key = resolve_course_key(fullname, shortname)
         if not course_key:
-            # Omitir cursos no configurados en el selector de 7 materias
+            print(f"[MOODLE]: Ignorando curso no mapeado: {fullname} (Shortname: {shortname}, ID: {course_id})")
             continue
             
         print(f"\n[MOODLE]: >>> Sincronizando curso detectado: {fullname} -> carpeta: '{course_key}' (ID: {course_id})")
@@ -345,8 +345,11 @@ def sync_all_courses(dry_run: bool = False):
         print(f"[MOODLE]: Se encontraron {len(modules)} recursos en {course_key.upper()}.")
         
         course_download_count = 0
+        allowed_extensions = ["pdf", "pptx", "ppt", "docx", "doc", "txt", "xlsx", "xls", "zip"]
+        
         for mod in modules:
             mod_type = mod.get("modname")
+            mod_name = mod.get("name", "Recurso")
             
             # Recurso tipo archivo simple
             if mod_type == "resource":
@@ -355,15 +358,18 @@ def sync_all_courses(dry_run: bool = False):
                     fileurl = content.get("fileurl")
                     
                     ext = filename.split(".")[-1].lower()
-                    if ext in ["pdf", "pptx", "docx"]:
+                    if ext in allowed_extensions:
                         dest_path = os.path.join(output_dir, filename)
                         if os.path.exists(dest_path):
+                            print(f"  [EXISTENTE]: {filename}")
                             continue
                             
-                        print(f"[MOODLE]: Nuevo archivo: {filename}")
+                        print(f"  [NUEVO ARCHIVO]: {filename} ({ext})")
                         client.download_file(fileurl, dest_path)
                         course_download_count += 1
                         total_download_count += 1
+                    else:
+                        print(f"  [OMITIDO - EXT]: {filename} (Extensión .{ext} no soportada)")
                         
             # Recurso tipo carpeta
             elif mod_type == "folder":
@@ -372,15 +378,18 @@ def sync_all_courses(dry_run: bool = False):
                     fileurl = content.get("fileurl")
                     
                     ext = filename.split(".")[-1].lower()
-                    if ext in ["pdf", "pptx", "docx"]:
+                    if ext in allowed_extensions:
                         dest_path = os.path.join(output_dir, filename)
                         if os.path.exists(dest_path):
+                            print(f"  [EXISTENTE EN CARPETA {mod_name}]: {filename}")
                             continue
                             
-                        print(f"[MOODLE]: Nuevo archivo en carpeta [{mod.get('name')}]: {filename}")
+                        print(f"  [NUEVO ARCHIVO EN CARPETA {mod_name}]: {filename} ({ext})")
                         client.download_file(fileurl, dest_path)
                         course_download_count += 1
                         total_download_count += 1
+                    else:
+                        print(f"  [OMITIDO EN CARPETA - EXT]: {filename} (Extensión .{ext} no soportada)")
                         
         print(f"[MOODLE]: Sincronización de {course_key.upper()} completada. {course_download_count} archivos nuevos.")
         

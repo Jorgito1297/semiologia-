@@ -1,0 +1,129 @@
+version: '3.9'
+
+# =============================================================================
+# NEXUS VAULT — Development Compose Override
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+#
+# Changes vs production:
+#  • No nginx (connect directly to services on localhost ports)
+#  • Backend mounts src volume for hot reload (ts-node / nodemon)
+#  • All service ports exposed on localhost
+#  • pino-pretty logging enabled
+#  • No TLS
+# =============================================================================
+
+services:
+  # ── Remove nginx in dev (direct port access) ──────────────────────────────
+  nginx:
+    profiles:
+      - donotstart
+
+  # ── FRONTEND — Vite dev server with HMR ──────────────────────────────────
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+      target: development
+    command: npm run dev -- --host 0.0.0.0 --port 3010
+    environment:
+      NODE_ENV: development
+      VITE_API_URL: http://backend:4000
+      VITE_FIREBASE_API_KEY: ${VITE_FIREBASE_API_KEY}
+      VITE_FIREBASE_AUTH_DOMAIN: ${VITE_FIREBASE_AUTH_DOMAIN}
+      VITE_FIREBASE_PROJECT_ID: ${VITE_FIREBASE_PROJECT_ID}
+      VITE_FIREBASE_STORAGE_BUCKET: ${VITE_FIREBASE_STORAGE_BUCKET}
+      VITE_FIREBASE_MESSAGING_SENDER_ID: ${VITE_FIREBASE_MESSAGING_SENDER_ID}
+      VITE_FIREBASE_APP_ID: ${VITE_FIREBASE_APP_ID}
+      VITE_APP_NAME: ${VITE_APP_NAME:-NEXUS VAULT}
+    volumes:
+      - ./apps/frontend:/app:delegated
+      - /app/node_modules  # anonymous volume so host node_modules don't shadow
+    ports:
+      - '3010:3010'
+    networks:
+      - nexus_internal
+
+  # ── BACKEND — NestJS with hot reload via nodemon/ts-node ─────────────────
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+      target: development
+    command: npm run start:dev
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      DATABASE_URL: postgresql://nexusvault:nexusvault_secret@nexus-vault-postgres:5432/nexusvault_db?schema=public
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+      FIREBASE_CLIENT_EMAIL: ${FIREBASE_CLIENT_EMAIL}
+      FIREBASE_PRIVATE_KEY: ${FIREBASE_PRIVATE_KEY}
+      S3_ENDPOINT: http://nexus-vault-minio:9000
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-minioadmin}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:-minioadmin_secret}
+      S3_BUCKET: ${S3_BUCKET:-nexusvault-files}
+      S3_REGION: ${S3_REGION:-us-east-1}
+      S3_FORCE_PATH_STYLE: 'true'
+      JWT_SECRET: ${JWT_SECRET:-dev_jwt_secret_not_for_prod}
+      ALLOWED_ORIGINS: 'http://localhost:3010'
+      THROTTLE_TTL: '60'
+      THROTTLE_LIMIT: '1000'   # relaxed for dev
+      REDIS_URL: redis://nexus-vault-redis:6379
+      # pino-pretty: NestJS will pick this up if configured
+      PINO_PRETTY: 'true'
+    volumes:
+      - ./apps/backend/src:/app/src:delegated
+      - ./prisma:/app/prisma:delegated
+      - /app/node_modules
+    ports:
+      - '4000:4000'
+      - '9229:9229'  # Node.js debugger (--inspect)
+    networks:
+      - nexus_internal
+    # Override healthcheck to be more lenient during development
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://127.0.0.1:4000/api/v1/health']
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── POSTGRES — expose port for direct DB access (TablePlus, DBeaver, etc.)
+  postgres:
+    ports:
+      - '5435:5432'
+    environment:
+      POSTGRES_DB: nexusvault_db
+      POSTGRES_USER: nexusvault
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nexusvault_secret}
+
+  # ── MINIO — expose API + console
+  minio:
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+
+  # ── REDIS — expose for direct access (redis-cli, RedisInsight)
+  redis:
+    ports:
+      - '6380:6379'
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass ${REDIS_PASSWORD:-redis_secret}
+
+  # ── PROMETHEUS — expose for direct scraping / debug
+  prometheus:
+    ports:
+      - '9090:9090'
+
+  # ── GRAFANA — expose on 3011 for dev dashboard access
+  grafana:
+    ports:
+      - '3011:3000'
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+
+networks:
+  nexus_internal:
+    internal: false

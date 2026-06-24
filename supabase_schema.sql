@@ -169,3 +169,29 @@ CREATE POLICY "moodle_assignments_owner_policy" ON public.moodle_assignments
 -- Políticas para exámenes
 CREATE POLICY "moodle_exams_owner_policy" ON public.moodle_exams
     FOR ALL USING (auth.uid() = user_id);
+
+-- ==========================================
+-- 6. TABLA DE SESIONES DE AUSCULTACIÓN CLÍNICA (TRACKING)
+-- ==========================================
+CREATE TABLE IF NOT EXISTS public.auscultation_sessions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    focus_id TEXT NOT NULL,
+    layer TEXT NOT NULL,
+    diagnosis TEXT NOT NULL,
+    is_correct BOOLEAN NOT NULL,
+    score INTEGER NOT NULL DEFAULT 0,
+    metadata JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Habilitar RLS
+ALTER TABLE public.auscultation_sessions ENABLE ROW LEVEL SECURITY;
+
+-- Políticas para sesiones de auscultación
+CREATE POLICY "auscultation_sessions_select_policy" ON public.auscultation_sessions
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "auscultation_sessions_insert_policy" ON public.auscultation_sessions
+    FOR INSERT WITH CHECK (true);
+

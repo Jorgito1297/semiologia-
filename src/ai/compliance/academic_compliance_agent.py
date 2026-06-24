@@ -11,6 +11,7 @@ import os
 import json
 import datetime
 import requests
+from typing import Optional
 
 # Base directory setup
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -34,6 +35,42 @@ REJECT_COMBINATIONS = {
     ("procedural", "semantic")
 }
 
+class ValidationResult(tuple):
+    """
+    Custom class that acts as both a tuple (status, reason) and a dictionary
+    with keys: success, is_active, status, reason.
+    This ensures compatibility with both standard test scripts and the ingestion pipeline.
+    """
+    def __new__(cls, status, reason):
+        return super(ValidationResult, cls).__new__(cls, (status, reason))
+        
+    def __init__(self, status, reason):
+        super().__init__()
+        self.status = status
+        self.reason = reason
+        self.success = status in ("APPROVED", "HOLD")
+        self.is_active = status == "APPROVED"
+        
+    def __getitem__(self, key):
+        if isinstance(key, int):
+            return super().__getitem__(key)
+        if key == "status":
+            return self.status
+        elif key == "reason":
+            return self.reason
+        elif key == "success":
+            return self.success
+        elif key == "is_active":
+            return self.is_active
+        else:
+            raise KeyError(key)
+            
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
+
 def load_logs() -> list:
     if os.path.exists(LOGS_FILE):
         try:
@@ -48,7 +85,11 @@ def save_logs(logs: list):
     with open(LOGS_FILE, "w", encoding="utf-8") as f:
         json.dump(logs, f, indent=2, ensure_ascii=False)
 
-def log_action(chunk_id, topic, week, block, cgs, validated_by, status, reason):
+# ============================================================
+# PATCH B-05: Firma corregida de log_action
+# ============================================================
+def log_action(chunk_id, topic, week, block, cgs, validated_by, status, reason,
+               memory_domain, content_type):
     logs = load_logs()
     logs.append({
         "timestamp": datetime.datetime.now().isoformat(),
@@ -56,6 +97,8 @@ def log_action(chunk_id, topic, week, block, cgs, validated_by, status, reason):
         "topic": topic,
         "week": week,
         "block": block,
+        "content_type": content_type,
+        "memory_domain": memory_domain,
         "cg_competencies": cgs,
         "validated_by": validated_by,
         "status": status,
@@ -84,155 +127,126 @@ def suggest_cgs_by_topic(topic: str) -> list:
         suggestions.append("CG11")
     
     if not suggestions:
-        suggestions.append("CG6") # Default core competency for Semiology
+        suggestions.append("CG6")
     return suggestions
 
-def validate_chunk(payload: dict) -> dict:
+# ============================================================
+# PATCH B-05: validate_chunk actualizado
+# ============================================================
+def validate_chunk(chunk: dict) -> ValidationResult:
     """
     Validates a content chunk metadata payload against academic compliance rules.
     """
-    topic = payload.get("topic", "Sin Tema")
-    week = payload.get("week")
-    block = payload.get("block")
-    cgs = payload.get("cg_competencies", [])
-    validated_by = payload.get("validated_by")
-    content_type = payload.get("content_type")
-    memory_domain = payload.get("memory_domain")
-    chunk_id = payload.get("chunk_index", "N/A")
+    topic         = chunk.get("topic", "Sin Tema")
+    week          = chunk.get("week")
+    block         = chunk.get("block")
+    cgs           = chunk.get("cg_competencies", [])
+    validated_by  = chunk.get("validated_by")
+    content_type  = chunk.get("content_type", "")
+    memory_domain = chunk.get("memory_domain", "")
+    chunk_id      = chunk.get("chunk_index", chunk.get("id", "unknown"))
 
     # STEP 1: Medical Validation Check
     if not validated_by or str(validated_by).strip() == "" or str(validated_by).lower() in ["n/a", "none", "null"]:
-        reason = "Content cannot be activated without medical validation. Please have a qualified instructor review and sign off."
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+        reason = "REJECTED: validated_by is empty — medical validation required"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
 
     # STEP 2: Competency Mapping Check
     if not cgs or len(cgs) == 0:
         suggested = suggest_cgs_by_topic(topic)
-        reason = f"Competencies array (cg_competencies) cannot be empty. Suggested competencies for topic '{topic}': {suggested}"
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason,
-            "suggested_cgs": suggested
-        }
+        reason = f"REJECTED: cg_competencies array is empty. Suggested competencies: {suggested}"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
 
     # Verify all codes are official
     invalid_cgs = [cg for cg in cgs if cg not in OFFICIAL_CGS]
     if invalid_cgs:
-        reason = f"Invalid competency codes: {invalid_cgs}. Must be subset of {list(OFFICIAL_CGS)}"
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+        reason = f"REJECTED: invalid CG codes for MED-228: {invalid_cgs}"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
 
     # Verify topic-specific CG alignment
     topic_lower = topic.lower()
     if any(k in topic_lower for k in ["historia", "clínica", "clinica", "anamnesis"]) and "CG6" not in cgs:
-        reason = f"Topic '{topic}' requires competency CG6 (Integral Clinical History). Found: {cgs}"
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+        reason = f"REJECTED: topic '{topic}' requires competency CG6 (Integral Clinical History)"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
 
     # STEP 3: Week/Block Consistency Check
     if week is None:
-        reason = "Week is required."
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+        reason = "REJECTED: week is required."
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
     
-    expected_block = None
-    if 1 <= week <= 6:
-        expected_block = "block_1"
-    elif 7 <= week <= 11:
-        expected_block = "block_2"
-    elif 12 <= week <= 14:
-        expected_block = "block_3"
-    elif 15 <= week <= 16:
-        expected_block = "final"
-    else:
-        reason = f"Week {week} is out of bounds (1-16)."
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+    BLOCK_WEEKS = {
+        "block_1": range(1, 7),
+        "block_2": range(7, 12),
+        "block_3": range(12, 15),
+        "final":   range(15, 17),
+    }
 
-    if block != expected_block:
-        reason = f"Academic Block mismatch for Week {week}. Expected '{expected_block}', found '{block}'."
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+    if block not in BLOCK_WEEKS or week not in BLOCK_WEEKS[block]:
+        reason = f"REJECTED: week {week} does not match block {block}"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
 
     # STEP 4: Content Type / Memory Domain Coherence Check
     combo = (content_type, memory_domain)
     if combo in VALID_COMBINATIONS:
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "APPROVED", "Checks passed.")
-        return {
-            "success": True,
-            "is_active": True,
-            "status": "APPROVED",
-            "reason": "Approved"
-        }
+        reason = "APPROVED: all compliance checks passed"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "APPROVED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("APPROVED", reason)
     elif combo in REJECT_COMBINATIONS or (content_type == "procedural" and memory_domain == "semantic"):
-        reason = f"Invalid content_type + memory_domain combination: '{content_type}' + '{memory_domain}' is strictly prohibited."
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason)
-        return {
-            "success": False,
-            "is_active": False,
-            "status": "REJECTED",
-            "reason": reason
-        }
+        reason = f"REJECTED: invalid content_type + memory_domain combination: '{content_type}' + '{memory_domain}'"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "REJECTED", reason,
+                   memory_domain, content_type)
+        return ValidationResult("REJECTED", reason)
     else:
-        # Held for review (is_active is set to False, but allows database indexing)
-        reason = f"Content type vs memory domain combination flagged for review: '{content_type}' + '{memory_domain}' is on hold."
-        log_action(chunk_id, topic, week, block, cgs, validated_by, "HOLD", reason)
-        return {
-            "success": True, # Still allows indexing, but is_active = False
-            "is_active": False,
-            "status": "HOLD",
-            "reason": reason
-        }
+        reason = f"HOLD: content_type '{content_type}' with memory_domain '{memory_domain}' requires human review"
+        log_action(chunk_id, topic, week, block, cgs, validated_by, "HOLD", reason,
+                   memory_domain, content_type)
+        return ValidationResult("HOLD", reason)
 
-def generate_accreditation_report(supabase_url=None, supabase_key=None):
+# ============================================================
+# PATCH B-06: generate_accreditation_report sin mock
+# ============================================================
+def generate_accreditation_report(
+    supabase_data: Optional[dict] = None,
+    supabase_url: Optional[str] = None,
+    supabase_key: Optional[str] = None
+) -> dict:
     """
-    Queries database metrics to output the official UCE MED-228 compliance and accreditation report.
+    Genera el reporte de acreditación UCE para MED-228 en formato JSON/dict.
+    Si supabase_data está disponible, lo usa. Si no, intenta consultar la base de datos viva.
+    De lo contrario, lee de compliance_logs.json.
+    NUNCA usa datos ficticios hardcodeados.
     """
     total_chunks = 0
     active_chunks = 0
-    pending_chunks = 0
-    
     cg_counts = {cg: 0 for cg in OFFICIAL_CGS}
-    block_counts = {"block_1": 0, "block_2": 0, "block_3": 0, "final": 0}
     domain_counts = {"semantic": 0, "procedural": 0, "executive": 0, "perceptual": 0}
+    block_counts = {"block_1": 0, "block_2": 0, "block_3": 0, "final": 0}
+    data_source = "compliance_logs.json (offline mode)"
     
-    # Try fetching from Supabase if keys provided
-    fetched_from_db = False
-    if supabase_url and supabase_key:
+    # 1. Usar supabase_data
+    if supabase_data:
+        total_chunks  = supabase_data.get("total_chunks", 0)
+        active_chunks = supabase_data.get("active_chunks", 0)
+        cg_counts     = supabase_data.get("cg_counts", {cg: 0 for cg in OFFICIAL_CGS})
+        domain_counts = supabase_data.get("domain_counts", {})
+        block_counts  = supabase_data.get("block_counts", {})
+        data_source   = "supabase"
+    
+    # 2. Consultar base de datos viva
+    elif supabase_url and supabase_key:
         try:
             url = f"{supabase_url}/rest/v1/content_chunks?select=is_active,block,memory_domain,cg_competencies"
             headers = {"apikey": supabase_key, "Authorization": f"Bearer {supabase_key}"}
@@ -244,137 +258,148 @@ def generate_accreditation_report(supabase_url=None, supabase_key=None):
                     is_active = item.get("is_active", False)
                     if is_active:
                         active_chunks += 1
-                    else:
-                        pending_chunks += 1
-                    
                     b = item.get("block")
                     if b in block_counts:
                         block_counts[b] += 1
-                        
                     dom = item.get("memory_domain")
                     if dom in domain_counts:
                         domain_counts[dom] += 1
-                        
                     cgs = item.get("cg_competencies", [])
                     if isinstance(cgs, list):
                         for cg in cgs:
                             if cg in cg_counts:
                                 cg_counts[cg] += 1
-                fetched_from_db = True
-        except Exception as e:
-            print(f"[COMPLIANCE]: Warning - Failed to fetch database metrics: {e}. Falling back to logs.")
-            
-    # Fallback to local logs
-    if not fetched_from_db:
+                data_source = "Live database query"
+        except Exception:
+            pass
+
+    # 3. Fallback a logs locales
+    if total_chunks == 0 and not supabase_data:
         logs = load_logs()
+        approved = [l for l in logs if l.get("status") == "APPROVED"]
         total_chunks = len(logs)
-        for log in logs:
-            status = log.get("status")
-            if status == "APPROVED":
-                active_chunks += 1
-            elif status == "HOLD":
-                pending_chunks += 1
-            else:
-                continue
-                
-            b = log.get("block")
-            if b in block_counts:
-                block_counts[b] += 1
-                
-            dom = log.get("memory_domain")
-            if dom in domain_counts:
-                domain_counts[dom] += 1
-                
-            cgs = log.get("cg_competencies", [])
-            for cg in cgs:
-                if cg in cg_counts:
-                    cg_counts[cg] += 1
+        active_chunks = len(approved)
+        for log in approved:
+            for cg in log.get("cg_competencies", []):
+                cg_counts[cg] = cg_counts.get(cg, 0) + 1
+            domain = log.get("memory_domain")
+            if domain in domain_counts:
+                domain_counts[domain] = domain_counts.get(domain, 0) + 1
+            block = log.get("block")
+            if block in block_counts:
+                block_counts[block] = block_counts.get(block, 0) + 1
 
-    # Ensure some realistic counts if both are empty (Mock data representation for fallback)
+    # Analizar warnings y mock status
+    is_mock = False
+    warnings = []
+
     if total_chunks == 0:
-        total_chunks = 247
-        active_chunks = 231
-        pending_chunks = 16
-        cg_counts = {"CG1": 18, "CG2": 67, "CG6": 89, "CG7": 34, "CG8": 52, "CG11": 12}
-        block_counts = {"block_1": 98, "block_2": 87, "block_3": 52, "final": 10}
-        domain_counts = {"semantic": 112, "procedural": 89, "executive": 31, "perceptual": 15}
+        is_mock = True
+        warnings.append(
+            "WARNING: No chunks found in data source. The database may be empty or the ingestion pipeline "
+            "has not been run. This report reflects real data: 0 chunks. Do NOT interpret this as a system "
+            "error — run the PDF ingestion pipeline before generating accreditation reports."
+        )
 
-    pct_active = (active_chunks / total_chunks * 100) if total_chunks > 0 else 0
-    pct_pending = (pending_chunks / total_chunks * 100) if total_chunks > 0 else 0
+    if active_chunks < 60:
+        warnings.append(
+            f"WARNING: Only {active_chunks} active chunks found. Minimum required for Phase 2 activation: 60 chunks."
+        )
 
-    report = []
-    report.append("═══════════════════════════════════════════")
-    report.append("ACADEMIC COMPLIANCE REPORT — MED-228")
-    report.append("UCE | Pensum 36 | MAY–AGO 2026")
-    report.append(f"Generated: {datetime.date.today().isoformat()}")
-    report.append("═══════════════════════════════════════════\n")
-    
-    report.append("CONTENT COVERAGE:")
-    report.append(f"  Total chunks indexed     : {total_chunks}")
-    report.append(f"  Validated and active     : {active_chunks} ({pct_active:.1f}%)")
-    report.append(f"  Pending validation       : {pending_chunks} ({pct_pending:.1f}%)\n")
-    
-    report.append("COMPETENCY COVERAGE:")
+    MIN_CHUNKS_PER_CG = 5
     for cg in sorted(OFFICIAL_CGS):
         count = cg_counts.get(cg, 0)
-        pct = (count / total_chunks * 100) if total_chunks > 0 else 0
+        if count < MIN_CHUNKS_PER_CG:
+            warnings.append(
+                f"WARNING: {cg} has only {count} chunks (minimum required: {MIN_CHUNKS_PER_CG})"
+            )
+
+    report = {
+        "generated_at": datetime.datetime.now().isoformat(),
+        "course": "MED-228 — Propedéutica Clínica y Semiología Médica",
+        "institution": "UCE | Pensum 36 | MAY-AGO 2026",
+        "data_source": data_source,
+        "is_mock": is_mock,
+        "warnings": warnings,
+        "content_coverage": {
+            "total_chunks": total_chunks,
+            "active_validated_chunks": active_chunks,
+            "pending_validation": total_chunks - active_chunks,
+            "validation_rate_pct": (
+                round(active_chunks / total_chunks * 100, 1)
+                if total_chunks > 0 else 0
+            ),
+        },
+        "competency_coverage": cg_counts,
+        "memory_domain_distribution": domain_counts,
+        "block_coverage": block_counts,
+        "phase_2_ready": (
+            active_chunks >= 60
+            and all(cg_counts.get(cg, 0) >= MIN_CHUNKS_PER_CG for cg in OFFICIAL_CGS)
+            and not is_mock
+        ),
+    }
+    return report
+
+def format_report_to_markdown(report: dict) -> str:
+    lines = []
+    lines.append("═══════════════════════════════════════════")
+    lines.append("ACADEMIC COMPLIANCE REPORT — MED-228")
+    lines.append("UCE | Pensum 36 | MAY–AGO 2026")
+    lines.append(f"Generated: {report['generated_at'][:10]}")
+    lines.append(f"DATA SOURCE: {report['data_source']}")
+    lines.append("═══════════════════════════════════════════\n")
+    
+    cov = report["content_coverage"]
+    lines.append("CONTENT COVERAGE:")
+    lines.append(f"  Total chunks indexed     : {cov['total_chunks']}")
+    lines.append(f"  Validated and active     : {cov['active_validated_chunks']} ({cov['validation_rate_pct']:.1f}%)")
+    lines.append(f"  Pending validation       : {cov['pending_validation']}\n")
+    
+    lines.append("COMPETENCY COVERAGE:")
+    for cg in sorted(report["competency_coverage"].keys()):
+        count = report["competency_coverage"][cg]
+        pct = (count / cov["total_chunks"] * 100) if cov["total_chunks"] > 0 else 0
         status_symbol = "✅"
         if cg == "CG11" and count < 15:
             status_symbol = "⚠️ below minimum (15 chunks)"
-        report.append(f"  {cg}  → {count} chunks ({pct:.1f}%) {status_symbol if cg == 'CG11' else ''}")
-    report.append("")
+        lines.append(f"  {cg}  → {count} chunks ({pct:.1f}%) {status_symbol if cg == 'CG11' else ''}")
+    lines.append("")
     
-    report.append("BLOCK COVERAGE:")
+    lines.append("BLOCK COVERAGE:")
     for b in ["block_1", "block_2", "block_3", "final"]:
-        count = block_counts.get(b, 0)
+        count = report["block_coverage"].get(b, 0)
         status = "✅"
         if b == "block_3" and count < 70:
             status = "⚠️ (target: 70+)"
         name = b.replace("_", " ").title()
-        report.append(f"  {name:<22} → {count:<3} chunks  {status}")
-    report.append("")
+        lines.append(f"  {name:<22} → {count:<3} chunks  {status}")
+    lines.append("")
     
-    report.append("MEMORY DOMAIN DISTRIBUTION:")
+    lines.append("MEMORY DOMAIN DISTRIBUTION:")
     for dom in ["semantic", "procedural", "executive", "perceptual"]:
-        count = domain_counts.get(dom, 0)
-        pct = (count / total_chunks * 100) if total_chunks > 0 else 0
+        count = report["memory_domain_distribution"].get(dom, 0)
+        pct = (count / cov["total_chunks"] * 100) if cov["total_chunks"] > 0 else 0
         status = ""
         if dom == "perceptual" and pct < 10.0:
             status = "⚠️ below recommended (target: 10%+)"
-        report.append(f"  {dom:<12} → {count:<3} chunks ({pct:.1f}%) {status}")
-    report.append("")
+        lines.append(f"  {dom:<12} → {count:<3} chunks ({pct:.1f}%) {status}")
+    lines.append("")
     
-    # Try fetching student metrics
-    students_count = 45
-    avg_cg6 = 71.2
-    avg_cg2 = 58.4
-    at_risk = 3
-    block1_complete = 41
+    if report["warnings"]:
+        lines.append("WARNINGS & VERDICTS:")
+        for warning in report["warnings"]:
+            lines.append(f"  - {warning}")
+        lines.append("")
+        
+    lines.append("RECOMMENDATIONS:")
+    lines.append("  1. Add 3+ CG11 chunks (ICT in clinical activities)")
+    lines.append("  2. Add perceptual domain content (audio cases, image exercises)")
+    lines.append("  3. Complete Block 3 content before Week 12")
+    lines.append("  4. Run batch ingestion pipeline to populate RAG chunks")
+    lines.append("═══════════════════════════════════════════")
     
-    if supabase_url and supabase_key:
-        try:
-            res_stud = requests.get(f"{supabase_url}/rest/v1/students?select=id", headers=headers)
-            if res_stud.status_code == 200:
-                students_count = len(res_stud.json())
-                if students_count == 0:
-                    students_count = 45 # Fallback to standard cohort
-        except Exception:
-            pass
-
-    report.append(f"STUDENT COHORT SUMMARY ({students_count} students):")
-    report.append(f"  Avg CG6 mastery   : {avg_cg6:.1f}% ✅")
-    report.append(f"  Avg CG2 mastery   : {avg_cg2:.1f}% ⚠️")
-    report.append(f"  Students at risk  : {at_risk} ({at_risk/students_count*100:.1f}%)")
-    report.append(f"  Block 1 completed : {block1_complete}/{students_count} ({block1_complete/students_count*100:.1f}%)\n")
-    
-    report.append("RECOMMENDATIONS:")
-    report.append("  1. Add 3+ CG11 chunks (ICT in clinical activities)")
-    report.append("  2. Add perceptual domain content (audio cases, image exercises)")
-    report.append(f"  3. Review at-risk students (total {at_risk}) — trigger adaptive review")
-    report.append("  4. Complete Block 3 content before Week 12")
-    report.append("═══════════════════════════════════════════")
-    
-    return "\n".join(report)
+    return "\n".join(lines)
 
 def generate_student_progress(student_id: str, supabase_url: str = None, supabase_key: str = None) -> dict:
     """
@@ -455,7 +480,9 @@ def generate_student_progress(student_id: str, supabase_url: str = None, supabas
     return report
 
 def write_accreditation_report(supabase_url=None, supabase_key=None):
-    report_text = generate_accreditation_report(supabase_url, supabase_key)
+    report_dict = generate_accreditation_report(supabase_url=supabase_url, supabase_key=supabase_key)
+    report_text = format_report_to_markdown(report_dict)
+    
     analytics_dir = os.path.join(BASE_DIR, "src", "analytics", "academic")
     os.makedirs(analytics_dir, exist_ok=True)
     

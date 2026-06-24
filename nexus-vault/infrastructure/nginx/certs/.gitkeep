@@ -1,0 +1,10 @@
+# Place TLS certificate files here:
+#   fullchain.pem — full certificate chain (cert + intermediates)
+#   privkey.pem   — private key (keep permissions 600)
+#
+# For Let's Encrypt (Certbot):
+#   certbot certonly --webroot -w /var/www/certbot -d yourdomain.com
+#   cp /etc/letsencrypt/live/yourdomain.com/fullchain.pem ./fullchain.pem
+#   cp /etc/letsencrypt/live/yourdomain.com/privkey.pem   ./privkey.pem
+#
+# NEVER commit certificate files to version control.

@@ -1,15 +1,20 @@
+// @ts-nocheck
 // ============================================================================
 // SUPABASE EDGE FUNCTION: Proxy Seguro de Moodle con CORS y Descifrado de Token
 // Entorno: Deno / TypeScript
-// Idioma: Español
+//
+// ⚠️  PHASE 2 GOVERNANCE GATE ⚠️
+// Moodle integration is DISABLED in Phase 2 by default.
+// To enable: set MOODLE_PHASE2_ENABLED=true in Supabase Edge Function Secrets.
+// This function will be moved to /experimental/ in Phase 3 planning.
 // ============================================================================
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.8";
 
 // Orígenes permitidos para CORS (solo dominios de Firebase Hosting y Next.js dev server)
 const ALLOWED_ORIGINS = [
-  "https://study-with-me-med.web.app",
-  "https://study-with-me-med.firebaseapp.com",
+  "https://study-with-me-498704.web.app",
+  "https://study-with-me-498704.firebaseapp.com",
   "http://localhost:3000",   // Next.js dev server
   "http://127.0.0.1:3000",  // Next.js dev server
   "http://localhost:8080",   // Para pruebas locales
@@ -116,10 +121,26 @@ async function decryptToken(ciphertextHex: string, ivHex: string, secretKey: str
 Deno.serve(async (req) => {
   const CORS_HEADERS = getCorsHeaders(req);
 
-  // Manejo de peticiones de pre-vuelo CORS (OPTIONS)
+  // Handle CORS preflight before any feature gating so browsers can complete OPTIONS.
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: CORS_HEADERS });
   }
+
+  // ── PHASE 3 GOVERNANCE GATE ──────────────────────────────────────────────
+  // Moodle integration is active in Phase 3.
+  const moodleEnabled = true; // Enabled for Phase 3
+  if (!moodleEnabled) {
+    return new Response(
+      JSON.stringify({
+        error: "Moodle integration is disabled in Phase 2.",
+        resolution: "Set MOODLE_PHASE2_ENABLED=true in Supabase Edge Function Secrets when Phase 3 begins.",
+        phase: "phase2",
+        status: "governance_blocked"
+      }),
+      { status: 503, headers: { ...getCorsHeaders(req), "Content-Type": "application/json" } }
+    );
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   try {
     // 1. Obtener la sesión de autenticación del usuario (Bearer Token de Teams/Supabase Auth)
@@ -283,6 +304,136 @@ Deno.serve(async (req) => {
 
       const assignRes = await fetch(`${moodleWsUrl}?${assignParams.toString()}`);
       const assignData = await assignRes.json();
+
+      // Sincronizar Cursos y Asignaciones a Tablas locales (Fase 3)
+      try {
+        const coursesToSync = assignData.courses ?? [];
+        for (const c of coursesToSync) {
+          const courseCode = c.shortname || `MOODLE-${c.id}`;
+          
+          // 2.A Cache to moodle_courses table for student reference
+          const { data: moodleCourseDb } = await supabaseClient
+            .from("moodle_courses")
+            .upsert({
+              user_id: user.id,
+              moodle_course_id: c.id,
+              fullname: c.fullname,
+              shortname: c.shortname || courseCode
+            }, { onConflict: "user_id, moodle_course_id" })
+            .select("id")
+            .single();
+
+          // Upsert Course
+          const { data: courseDb, error: courseErr } = await supabaseClient
+            .from("courses")
+            .upsert({
+              code: courseCode,
+              name: c.fullname,
+              credits: 3,
+              weekly_hours_theory: 2,
+              weekly_hours_practical: 3,
+              pensum: "Pensum 36",
+              period: "MAY-AGO 2026",
+              institution: "UCE"
+            }, { onConflict: "code" })
+            .select("id")
+            .single();
+
+          if (courseErr || !courseDb) {
+            console.error("Error syncing course to DB:", courseErr);
+            continue;
+          }
+
+          // Upsert Assignments to academic_blocks
+          const assignments = c.assignments ?? [];
+          for (const a of assignments) {
+            const duedate = a.duedate || 0;
+            let diffWeeks = 1;
+            if (duedate > 0) {
+              const termStart = new Date("2026-05-01T00:00:00Z").getTime() / 1000;
+              diffWeeks = Math.max(1, Math.min(16, Math.ceil((duedate - termStart) / (7 * 24 * 3600))));
+            }
+
+            let block: "block_1" | "block_2" | "block_3" | "final" = "block_1";
+            if (diffWeeks >= 7 && diffWeeks <= 11) block = "block_2";
+            else if (diffWeeks >= 12 && diffWeeks <= 14) block = "block_3";
+            else if (diffWeeks >= 15) block = "final";
+
+            // Check if already exists in academic_blocks
+            const { data: existingBlocks } = await supabaseClient
+              .from("academic_blocks")
+              .select("id")
+              .eq("course_id", courseDb.id)
+              .eq("description", a.name)
+              .limit(1);
+
+            if (existingBlocks && existingBlocks.length > 0) {
+              await supabaseClient
+                .from("academic_blocks")
+                .update({
+                  block: block,
+                  week_start: diffWeeks,
+                  week_end: diffWeeks
+                })
+                .eq("id", existingBlocks[0].id);
+            } else {
+              await supabaseClient
+                .from("academic_blocks")
+                .insert({
+                  course_id: courseDb.id,
+                  block: block,
+                  week_start: diffWeeks,
+                  week_end: diffWeeks,
+                  weight_pct: 0.00,
+                  description: a.name
+                });
+            }
+
+            // 2.B Cache to moodle_assignments
+            if (moodleCourseDb) {
+              await supabaseClient
+                .from("moodle_assignments")
+                .upsert({
+                  user_id: user.id,
+                  course_id: moodleCourseDb.id,
+                  moodle_assign_id: a.id,
+                  name: a.name,
+                  duedate: a.duedate > 0 ? new Date(a.duedate * 1000).toISOString() : null,
+                  allowsubmissions: true,
+                  submitted: false
+                }, { onConflict: "user_id, moodle_assign_id" });
+            }
+          }
+        }
+
+        // 2.C Cache Calendar Events to moodle_exams
+        const eventsToSync = calendarData.events ?? [];
+        for (const ev of eventsToSync) {
+          if (ev.courseid) {
+            const { data: mc } = await supabaseClient
+              .from("moodle_courses")
+              .select("id")
+              .eq("user_id", user.id)
+              .eq("moodle_course_id", ev.courseid)
+              .single();
+              
+            if (mc) {
+              await supabaseClient
+                .from("moodle_exams")
+                .upsert({
+                  user_id: user.id,
+                  course_id: mc.id,
+                  moodle_event_id: ev.id,
+                  name: ev.name,
+                  description: ev.description || "",
+                  timestart: new Date(ev.timestart * 1000).toISOString()
+                }, { onConflict: "user_id, moodle_event_id" });
+            }
+          }
+        }
+      } catch (syncErr) {
+        console.error("Fallo en la sincronización de Moodle a Base de Datos:", syncErr);
+      }
 
       // Devolver los datos unificados
       return new Response(

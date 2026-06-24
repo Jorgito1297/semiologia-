@@ -404,8 +404,8 @@ def read_input_file(filepath):
         return f.read()
 
 def generate_with_gemini(api_key, text_content, syllabus_content=""):
-    print("Conectando con la API de Gemini (Modelo: gemini-2.5-flash)...")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    print("Conectando con la API de Gemini (Modelo: gemini-1.5-flash)...")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
     
     prompt = (
         "Tu rol y persona:\n"
@@ -532,9 +532,16 @@ def generate_with_gemini(api_key, text_content, syllabus_content=""):
     print("Reintentando con valores por defecto (Mock)...")
     return None
 
-def generate_with_openai(api_key, text_content, syllabus_content=""):
-    print("Conectando con la API de OpenAI (Modelo: gpt-4o-mini)...")
-    url = "https://api.openai.com/v1/chat/completions"
+def generate_with_openai(
+    api_key,
+    text_content,
+    syllabus_content="",
+    model="gpt-4o-mini",
+    base_url="https://api.openai.com/v1",
+    provider_label="OpenAI"
+):
+    print(f"Conectando con la API de {provider_label} (Modelo: {model})...")
+    url = f"{base_url.rstrip('/')}/chat/completions"
     
     prompt = (
         "Tu rol y persona:\n"
@@ -606,7 +613,7 @@ def generate_with_openai(api_key, text_content, syllabus_content=""):
     )
 
     data = {
-        "model": "gpt-4o-mini",
+        "model": model,
         "messages": [
             {"role": "system", "content": "Eres un asistente educativo médico experto en el rol y persona indicados, que devuelve únicamente respuestas en JSON estructurado y alineadas al currículum universitario."},
             {"role": "user", "content": prompt}
@@ -616,13 +623,16 @@ def generate_with_openai(api_key, text_content, syllabus_content=""):
     }
     
     req_body = json.dumps(data).encode("utf-8")
+    headers = {
+        "Content-Type": "application/json"
+    }
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+
     req = urllib.request.Request(
         url,
         data=req_body,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}"
-        }
+        headers=headers
     )
 
     max_retries = 3
@@ -643,7 +653,7 @@ def generate_with_openai(api_key, text_content, syllabus_content=""):
                 text = text.strip()
                 return json.loads(text, strict=False)
         except urllib.error.HTTPError as he:
-            print(f"Intento {attempt+1} de llamada a OpenAI falló: HTTP Error {he.code}: {he.reason}")
+            print(f"Intento {attempt+1} de llamada a {provider_label} falló: HTTP Error {he.code}: {he.reason}")
             if he.code in [429, 503, 504]:
                 if attempt < max_retries - 1:
                     print(f"Reintentando en {retry_delay} segundos...")
@@ -652,7 +662,7 @@ def generate_with_openai(api_key, text_content, syllabus_content=""):
                     continue
             break
         except Exception as e:
-            print(f"Intento {attempt+1} de llamada a OpenAI falló: {e}")
+            print(f"Intento {attempt+1} de llamada a {provider_label} falló: {e}")
             if attempt < max_retries - 1:
                 print(f"Reintentando en {retry_delay} segundos...")
                 time.sleep(retry_delay)
@@ -660,9 +670,27 @@ def generate_with_openai(api_key, text_content, syllabus_content=""):
                 continue
             break
 
-    print("Todos los intentos a la API de OpenAI fallaron.")
+    print(f"Todos los intentos a la API de {provider_label} fallaron.")
     print("Reintentando con valores por defecto (Mock)...")
     return None
+
+
+def generate_with_ollama(text_content, syllabus_content=""):
+    # Ollama ofrece endpoint compatible OpenAI en /v1.
+    ollama_base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
+    if not ollama_base_url.endswith("/v1"):
+        ollama_base_url = f"{ollama_base_url}/v1"
+    ollama_model = os.environ.get("OLLAMA_CHAT_MODEL") or os.environ.get("OLLAMA_MODEL") or "qwen3:8b"
+    ollama_api_key = os.environ.get("OLLAMA_API_KEY", "ollama")
+
+    return generate_with_openai(
+        api_key=ollama_api_key,
+        text_content=text_content,
+        syllabus_content=syllabus_content,
+        model=ollama_model,
+        base_url=ollama_base_url,
+        provider_label="Ollama"
+    )
 
 def load_env_file(filepath=".env"):
     if os.path.exists(filepath):
@@ -672,7 +700,9 @@ def load_env_file(filepath=".env"):
                 if line and not line.startswith("#"):
                     if "=" in line:
                         key, val = line.split("=", 1)
-                        os.environ[key.strip()] = val.strip()
+                        key = key.strip()
+                        if key not in os.environ:
+                            os.environ[key] = val.strip()
         print(f"Variables de entorno cargadas desde '{filepath}'.")
 
 def main():
@@ -680,7 +710,7 @@ def main():
     load_env_file(os.path.join(base_dir, ".env"))
     parser = argparse.ArgumentParser(description="MVP Local para el procesamiento de clases de semiología.")
     parser.add_argument("--input", default=DEFAULT_INPUT, help="Ruta al archivo txt con notas de la clase.")
-    parser.add_argument("--api", choices=["openai", "gemini", "mock", "auto"], default="auto", 
+    parser.add_argument("--api", choices=["openai", "gemini", "ollama", "mock", "auto"], default="auto", 
                         help="API a utilizar. 'auto' detectará variables de entorno.")
     parser.add_argument("--html", default=DEFAULT_HTML_OUTPUT, help="Ruta del archivo HTML de salida.")
     parser.add_argument("--md", default=DEFAULT_MD_OUTPUT, help="Ruta del archivo Markdown de salida.")
@@ -691,6 +721,12 @@ def main():
     # 1. Leer archivo de entrada y programa de clase
     notes = read_input_file(args.input)
     print(f"Leído exitosamente el archivo '{args.input}' ({len(notes)} caracteres).")
+    
+    # Evitar límites de tokens por minuto (TPM) en la API de Gemini/OpenAI truncando a un tamaño seguro
+    MAX_CHARACTERS = 100000
+    if len(notes) > MAX_CHARACTERS:
+        print(f"Advertencia: Las notas de clase superan los {MAX_CHARACTERS} caracteres. Truncando para evitar límites de API (HTTP 429 TPM)...")
+        notes = notes[:MAX_CHARACTERS] + "\n\n...[CONTENIDO TRUNCADO POR LÍMITE DE TASA DE LA API]..."
 
     syllabus = ""
     if os.path.exists(args.syllabus):
@@ -704,6 +740,8 @@ def main():
     api_to_use = args.api
     openai_key = os.environ.get("OPENAI_API_KEY")
     gemini_key = os.environ.get("GEMINI_API_KEY")
+    ollama_model = os.environ.get("OLLAMA_CHAT_MODEL") or os.environ.get("OLLAMA_MODEL")
+    ollama_base_url = os.environ.get("OLLAMA_BASE_URL")
 
     result = None
 
@@ -712,6 +750,8 @@ def main():
             api_to_use = "gemini"
         elif openai_key:
             api_to_use = "openai"
+        elif ollama_model or ollama_base_url:
+            api_to_use = "ollama"
         else:
             api_to_use = "mock"
 
@@ -727,6 +767,8 @@ def main():
             print("Error: OPENAI_API_KEY no encontrada en las variables de entorno.")
             sys.exit(1)
         result = generate_with_openai(openai_key, notes, syllabus)
+    elif api_to_use == "ollama":
+        result = generate_with_ollama(notes, syllabus)
     
     # Si falló la API o la estructura del JSON no contiene las llaves esperadas, cargamos el mock interactivo
     if not result or "markdown_content" not in result or "html_content" not in result:

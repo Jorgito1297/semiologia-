@@ -1,15 +1,19 @@
 'use client';
 
-import React, { useState, use } from 'react';
+import React, { useState, use, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { supabaseClient } from '@/services/supabase';
 import { calculateSM2, SM2State } from '@/utils/sm2';
+import { getMemoryRiskStatus } from '@/utils/cognitive_metrics';
+import { trackPrivateMetric } from '@/utils/private_metrics';
+import { SEMIOLOGIA_SEGUNDO_PARCIAL, SEMIOLOGIA_TERCER_PARCIAL } from './data';
 
 interface Flashcard {
   id: number;
   question: string;
   answer: string;
   domain: 'semantic' | 'procedural' | 'executive' | 'perceptual';
+  reference?: string;
 }
 
 interface QuizQuestion {
@@ -21,6 +25,12 @@ interface QuizQuestion {
   justification: string;
   pearl: string;
   competencies: string[];
+  reference?: string;
+}
+
+interface QuestionBankResponse {
+  questions: QuizQuestion[];
+  warning?: string;
 }
 
 // Datos de simulación locales por materia para Doble Modo
@@ -144,26 +154,38 @@ export default function RepasoCursoPage({ params }: { params: Promise<{ curso: s
 }
 
 function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
-  const courseData = COURSE_REVIEWS_MOCK[cursoKey] || COURSE_REVIEWS_MOCK.semiologia;
+  const [selectedParcial, setSelectedParcial] = useState<1 | 2 | 3>(3);
+  
+  const courseData = (cursoKey === 'semiologia' && selectedParcial === 2)
+    ? {
+        title: SEMIOLOGIA_SEGUNDO_PARCIAL.title,
+        code: SEMIOLOGIA_SEGUNDO_PARCIAL.code,
+        color: "blue",
+        syllabusObjective: SEMIOLOGIA_SEGUNDO_PARCIAL.syllabusObjective,
+        flashcards: SEMIOLOGIA_SEGUNDO_PARCIAL.flashcards,
+        quiz: SEMIOLOGIA_SEGUNDO_PARCIAL.quiz,
+      }
+    : (cursoKey === 'semiologia' && selectedParcial === 3)
+    ? {
+        title: SEMIOLOGIA_TERCER_PARCIAL.title,
+        code: SEMIOLOGIA_TERCER_PARCIAL.code,
+        color: "purple",
+        syllabusObjective: SEMIOLOGIA_TERCER_PARCIAL.syllabusObjective,
+        flashcards: SEMIOLOGIA_TERCER_PARCIAL.flashcards,
+        quiz: SEMIOLOGIA_TERCER_PARCIAL.quiz,
+      }
+    : (COURSE_REVIEWS_MOCK[cursoKey] || COURSE_REVIEWS_MOCK.semiologia);
+
   const [activeTab, setActiveTab] = useState<'flashcards' | 'quiz'>('flashcards');
-  const [isDemoMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('is_demo') !== 'false';
-    }
-    return true;
-  });
+  const [isDemoMode, setIsDemoMode] = useState(true);
   
   // Estado de Flashcards
   const [currentCardIdx, setCurrentCardIdx] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [cardStates, setCardStates] = useState<Record<number, SM2State>>(() => {
-    if (typeof window !== 'undefined') {
-      const savedStates = localStorage.getItem(`sm2_states_${cursoKey}`);
-      return savedStates ? JSON.parse(savedStates) : {};
-    }
-    return {};
-  });
+  const [cardStates, setCardStates] = useState<Record<number, SM2State>>({});
   const [cardMessage, setCardMessage] = useState('');
+  const [isRatingInProgress, setIsRatingInProgress] = useState(false);
+  const ratingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Estado de Quiz
   const [currentQuizIdx, setCurrentQuizIdx] = useState(0);
@@ -172,13 +194,114 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
   const [quizScore, setQuizScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+  const [generatedQuiz, setGeneratedQuiz] = useState<QuizQuestion[] | null>(null);
+  const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
+  const [quizGenerationError, setQuizGenerationError] = useState('');
 
   const activeCard = courseData.flashcards[currentCardIdx];
-  const activeQuiz = courseData.quiz[currentQuizIdx];
+  const quizItems = generatedQuiz && generatedQuiz.length > 0 ? generatedQuiz : courseData.quiz;
+  const activeQuiz = quizItems[currentQuizIdx];
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration: read demo mode flag from localStorage on mount
+    setIsDemoMode(localStorage.getItem('is_demo') !== 'false');
+    trackPrivateMetric({ event: 'page_view_repaso', course: cursoKey, userType: 'student' });
+
+    const savedStates = localStorage.getItem(`sm2_states_${cursoKey}_p${selectedParcial}`);
+    if (!savedStates) {
+      setCardStates({});
+      return;
+    }
+
+    try {
+      setCardStates(JSON.parse(savedStates));
+    } catch {
+      setCardStates({});
+    }
+  }, [cursoKey, selectedParcial]);
+
+  useEffect(() => {
+    trackPrivateMetric({ event: 'repaso_tab_changed', course: cursoKey, meta: { tab: activeTab } });
+  }, [activeTab, cursoKey]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadQuestionBank = async () => {
+      setIsGeneratingQuiz(true);
+      setQuizGenerationError('');
+
+      try {
+        const qty = (cursoKey === 'semiologia' && (selectedParcial === 2 || selectedParcial === 3)) ? 50 : 8;
+        const parcialParam = cursoKey === 'semiologia' ? `&parcial=${selectedParcial}` : '';
+        const response = await fetch(
+          `/api/question-bank?curso=${encodeURIComponent(cursoKey)}&qty=${qty}${parcialParam}`
+        );
+        if (!response.ok) {
+          throw new Error('No se pudo generar banco dinámico de preguntas.');
+        }
+
+        const data: QuestionBankResponse = await response.json();
+        if (cancelled) return;
+
+        if (data.warning) {
+          setQuizGenerationError(data.warning);
+          trackPrivateMetric({
+            event: 'quiz_bank_warning',
+            course: cursoKey,
+            meta: { warning: data.warning.slice(0, 180) },
+          });
+        }
+
+        if (Array.isArray(data.questions) && data.questions.length > 0) {
+          setGeneratedQuiz(data.questions);
+          trackPrivateMetric({
+            event: 'quiz_bank_dynamic_loaded',
+            course: cursoKey,
+            meta: { questions: data.questions.length },
+          });
+        } else {
+          setGeneratedQuiz(null);
+          trackPrivateMetric({ event: 'quiz_bank_empty_fallback_local', course: cursoKey });
+        }
+      } catch {
+        if (!cancelled) {
+          setGeneratedQuiz(null);
+          setQuizGenerationError('Usando banco local por falta de generación dinámica.');
+          trackPrivateMetric({ event: 'quiz_bank_error_fallback_local', course: cursoKey });
+        }
+      } finally {
+        if (!cancelled) {
+          setCurrentQuizIdx(0);
+          setSelectedOption(null);
+          setQuizSubmitted(false);
+          setQuizScore(0);
+          setQuizCompleted(false);
+          setQuizAnswers({});
+          setIsGeneratingQuiz(false);
+        }
+      }
+    };
+
+    loadQuestionBank();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [cursoKey, selectedParcial]);
+
+  useEffect(() => {
+    return () => {
+      if (ratingTimeoutRef.current) {
+        clearTimeout(ratingTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Lógica de calificación de Flashcard (SM-2)
   const handleRateCard = async (quality: number) => {
-    if (!activeCard) return;
+    if (!activeCard || isRatingInProgress) return;
+    setIsRatingInProgress(true);
     
     const currentState = cardStates[activeCard.id] || {
       repetitions: 0,
@@ -199,9 +322,11 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
     };
 
     setCardStates(updatedStates);
-    localStorage.setItem(`sm2_states_${cursoKey}`, JSON.stringify(updatedStates));
+    localStorage.setItem(`sm2_states_${cursoKey}_p${selectedParcial}`, JSON.stringify(updatedStates));
 
-    setCardMessage(`Calibrado: Intervalo ${nextState.intervalDays} día(s), EF: ${nextState.easeFactor.toFixed(2)}`);
+    const nextReviewDate = new Date(Date.now() + nextState.intervalDays * 24 * 60 * 60 * 1000).toISOString();
+    const riskInfo = getMemoryRiskStatus(nextReviewDate, nextState.easeFactor);
+    setCardMessage(`${riskInfo.label}: ${riskInfo.copywriting}`);
 
     // Sincronizar con Supabase si está en modo producción
     if (!isDemoMode && supabaseClient) {
@@ -244,14 +369,16 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
       }
     }
 
-    setTimeout(() => {
+    ratingTimeoutRef.current = setTimeout(() => {
       setCardMessage('');
       setIsFlipped(false);
-      if (currentCardIdx < courseData.flashcards.length - 1) {
-        setCurrentCardIdx(currentCardIdx + 1);
-      } else {
-        setCurrentCardIdx(0); // Reiniciar ciclo
-      }
+      setCurrentCardIdx((prev) => {
+        if (prev < courseData.flashcards.length - 1) {
+          return prev + 1;
+        }
+        return 0; // Reiniciar ciclo
+      });
+      setIsRatingInProgress(false);
     }, 1500);
   };
 
@@ -264,6 +391,17 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
   const handleSubimitQuizAnswer = () => {
     if (selectedOption === null || quizSubmitted) return;
     setQuizSubmitted(true);
+
+    trackPrivateMetric({
+      event: 'quiz_answer_validated',
+      course: cursoKey,
+      meta: {
+        questionIndex: currentQuizIdx,
+        selectedOption,
+        correctOption: activeQuiz.correctAnswer,
+        isCorrect: selectedOption === activeQuiz.correctAnswer,
+      },
+    });
     
     setQuizAnswers({
       ...quizAnswers,
@@ -279,15 +417,27 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
     setSelectedOption(null);
     setQuizSubmitted(false);
 
-    if (currentQuizIdx < courseData.quiz.length - 1) {
+    if (currentQuizIdx < quizItems.length - 1) {
       setCurrentQuizIdx(currentQuizIdx + 1);
     } else {
       setQuizCompleted(true);
+      trackPrivateMetric({
+        event: 'quiz_completed',
+        course: cursoKey,
+        score: quizScore,
+        meta: { totalQuestions: quizItems.length },
+      });
       
+      // BUG-FIX: quizAnswers[currentQuizIdx] is still empty for the last question
+      // because setQuizAnswers (called in handleSubimitQuizAnswer) is async.
+      // Build finalAnswers merging the committed state with the current answer.
+      const finalAnswers = { ...quizAnswers, [currentQuizIdx]: selectedOption };
+
       // Calcular progreso por competencias (CG)
       const competencyStats: Record<string, { attempted: number, correct: number }> = {};
-      courseData.quiz.forEach((q: QuizQuestion, idx: number) => {
-        const isCorrect = (quizAnswers[idx] !== undefined ? quizAnswers[idx] : selectedOption) === q.correctAnswer;
+      quizItems.forEach((q: QuizQuestion, idx: number) => {
+        const answer = finalAnswers[idx];
+        const isCorrect = answer !== undefined && answer === q.correctAnswer;
         q.competencies.forEach((comp: string) => {
           if (!competencyStats[comp]) {
             competencyStats[comp] = { attempted: 0, correct: 0 };
@@ -389,6 +539,59 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
           </div>
         </header>
 
+        {/* SELECTOR DE PARCIAL (Solo para Semiología Médica) */}
+        {cursoKey === 'semiologia' && (
+          <div className="flex justify-center mb-6">
+            <div className="bg-gray-900/50 p-1.5 rounded-full border border-gray-800/80 flex gap-1 shadow-inner">
+              <button
+                onClick={() => {
+                  setSelectedParcial(1);
+                  restartQuiz();
+                  setCurrentCardIdx(0);
+                  setIsFlipped(false);
+                }}
+                className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  selectedParcial === 1
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                1er Parcial (Semanas 1-6)
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedParcial(2);
+                  restartQuiz();
+                  setCurrentCardIdx(0);
+                  setIsFlipped(false);
+                }}
+                className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  selectedParcial === 2
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                2do Parcial (Semanas 7-10)
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedParcial(3);
+                  restartQuiz();
+                  setCurrentCardIdx(0);
+                  setIsFlipped(false);
+                }}
+                className={`px-5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  selectedParcial === 3
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                3er Parcial (Semanas 11-15)
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* NAVEGACIÓN TABS */}
         <div className="flex gap-4 mb-8 bg-gray-900/40 p-1.5 rounded-2xl border border-gray-800/80 max-w-sm">
           <button
@@ -433,26 +636,56 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
 
             {/* Flashcard Flip-Card Container */}
             <div 
-              onClick={() => setIsFlipped(!isFlipped)}
-              className="h-80 w-full relative cursor-pointer perspective-1000"
+              onClick={() => {
+                if (isRatingInProgress) return;
+                setIsFlipped(!isFlipped);
+              }}
+              className="h-80 w-full relative cursor-pointer"
+              style={{ perspective: '1000px' }}
             >
-              <div className={`w-full h-full duration-500 transform style-3d relative ${isFlipped ? 'rotate-y-180' : ''}`}>
+              <div
+                className="w-full h-full duration-500 relative"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transition: 'transform 500ms',
+                  transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                }}
+              >
                 
                 {/* LADO FRONTAL (Pregunta) */}
-                <div className="absolute inset-0 w-full h-full glass border border-gray-800 rounded-3xl p-8 flex flex-col justify-between backface-hidden shadow-2xl bg-[#0f1424]/90">
+                <div
+                  className="absolute inset-0 w-full h-full glass border border-gray-800 rounded-3xl p-8 flex flex-col justify-between shadow-2xl bg-[#0f1424]/90"
+                  style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+                >
                   <div className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">❓ Pregunta de Memorización Activa</div>
-                  <div className="text-lg md:text-xl font-bold text-gray-100 leading-relaxed text-center my-auto">
-                    {activeCard.question}
-                  </div>
+                  <div 
+                    className="text-lg md:text-xl font-bold text-gray-100 leading-relaxed text-center my-auto"
+                    dangerouslySetInnerHTML={{ __html: activeCard.question }}
+                  />
                   <div className="text-center text-xs text-gray-400 animate-pulse select-none">Haz clic para ver respuesta</div>
                 </div>
 
                 {/* LADO POSTERIOR (Respuesta) */}
-                <div className="absolute inset-0 w-full h-full glass border border-gray-800 rounded-3xl p-8 flex flex-col justify-between backface-hidden rotate-y-180 shadow-2xl bg-[#0b1b36]/90">
-                  <div className="text-[10px] uppercase font-bold text-green-400 tracking-wider">✅ Respuesta de la Cátedra</div>
-                  <div className="text-base md:text-lg text-gray-200 leading-relaxed text-center my-auto">
-                    {activeCard.answer}
+                <div
+                  className="absolute inset-0 w-full h-full glass border border-gray-800 rounded-3xl p-8 flex flex-col justify-between shadow-2xl bg-[#0b1b36]/90"
+                  style={{
+                    transform: 'rotateY(180deg)',
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden'
+                  }}
+                >
+                  <div className="flex justify-between items-center w-full">
+                    <span className="text-[10px] uppercase font-bold text-green-400 tracking-wider">✅ Respuesta de la Cátedra</span>
+                    {activeCard.reference && (
+                      <span className="text-[9px] font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20 max-w-[70%] truncate" title={activeCard.reference}>
+                        📚 {activeCard.reference}
+                      </span>
+                    )}
                   </div>
+                  <div 
+                    className="text-base md:text-lg text-gray-200 leading-relaxed text-center my-auto"
+                    dangerouslySetInnerHTML={{ __html: activeCard.answer }}
+                  />
                   <div className="text-center text-xs text-gray-400 select-none">Haz clic para ocultar</div>
                 </div>
 
@@ -467,43 +700,49 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
                 </h4>
                 <div className="grid grid-cols-6 gap-2.5 max-w-xl mx-auto">
                   <button
+                    disabled={isRatingInProgress}
                     onClick={() => handleRateCard(0)}
-                    className="py-2.5 bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 text-red-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                    className="py-2.5 bg-red-950/20 hover:bg-red-950/40 disabled:opacity-50 disabled:cursor-not-allowed border border-red-900/30 text-red-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                     title="Olvido total"
                   >
                     Olvido (0)
                   </button>
                   <button
+                    disabled={isRatingInProgress}
                     onClick={() => handleRateCard(1)}
-                    className="py-2.5 bg-orange-950/20 hover:bg-orange-950/40 border border-orange-900/30 text-orange-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                    className="py-2.5 bg-orange-950/20 hover:bg-orange-950/40 disabled:opacity-50 disabled:cursor-not-allowed border border-orange-900/30 text-orange-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                     title="Incorrecto, pero recordado"
                   >
                     Incorrecto (1)
                   </button>
                   <button
+                    disabled={isRatingInProgress}
                     onClick={() => handleRateCard(2)}
-                    className="py-2.5 bg-amber-950/20 hover:bg-amber-950/40 border border-amber-900/30 text-amber-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                    className="py-2.5 bg-amber-950/20 hover:bg-amber-950/40 disabled:opacity-50 disabled:cursor-not-allowed border border-amber-900/30 text-amber-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                     title="Incorrecto, fácil de recordar"
                   >
                     Dudoso (2)
                   </button>
                   <button
+                    disabled={isRatingInProgress}
                     onClick={() => handleRateCard(3)}
-                    className="py-2.5 bg-yellow-950/20 hover:bg-yellow-950/40 border border-yellow-900/30 text-yellow-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                    className="py-2.5 bg-yellow-950/20 hover:bg-yellow-950/40 disabled:opacity-50 disabled:cursor-not-allowed border border-yellow-900/30 text-yellow-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                     title="Recuerdo con dificultad"
                   >
                     Regular (3)
                   </button>
                   <button
+                    disabled={isRatingInProgress}
                     onClick={() => handleRateCard(4)}
-                    className="py-2.5 bg-blue-950/20 hover:bg-blue-950/40 border border-blue-900/30 text-blue-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                    className="py-2.5 bg-blue-950/20 hover:bg-blue-950/40 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-900/30 text-blue-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                     title="Buen recuerdo"
                   >
                     Bien (4)
                   </button>
                   <button
+                    disabled={isRatingInProgress}
                     onClick={() => handleRateCard(5)}
-                    className="py-2.5 bg-green-950/20 hover:bg-green-950/40 border border-green-900/30 text-green-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                    className="py-2.5 bg-green-950/20 hover:bg-green-950/40 disabled:opacity-50 disabled:cursor-not-allowed border border-green-900/30 text-green-400 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                     title="Perfecto"
                   >
                     Fácil (5)
@@ -525,6 +764,14 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
         {/* CONTENIDOS DE TAB 2: QUIZZES */}
         {activeTab === 'quiz' && activeQuiz && (
           <div className="space-y-6">
+            <div className="text-[11px] text-gray-400 bg-gray-900/30 border border-gray-800/70 rounded-xl px-3 py-2">
+              {isGeneratingQuiz
+                ? 'Generando banco dinámico desde notas del curso...'
+                : generatedQuiz && generatedQuiz.length > 0
+                  ? `Banco dinámico activo (${generatedQuiz.length} preguntas).`
+                  : 'Banco local activo.'}
+              {quizGenerationError ? ` ${quizGenerationError}` : ''}
+            </div>
             
             {!quizCompleted ? (
               <div className="glass rounded-3xl p-6 md:p-8 border border-gray-800/80 shadow-2xl space-y-6">
@@ -532,18 +779,20 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
                 {/* Cabecera de Pregunta */}
                 <div className="flex justify-between items-center text-[10px] font-bold text-blue-400 tracking-wider">
                   <span>VIÑETA CLÍNICA ESTILO USMLE</span>
-                  <span>PREGUNTA {currentQuizIdx + 1} DE {courseData.quiz.length}</span>
+                  <span>PREGUNTA {currentQuizIdx + 1} DE {quizItems.length}</span>
                 </div>
 
                 {/* Caso Clínico */}
-                <div className="p-4 rounded-2xl bg-gray-900/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic">
-                  &quot;{activeQuiz.scenario}&quot;
-                </div>
+                <div 
+                  className="p-4 rounded-2xl bg-gray-900/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic"
+                  dangerouslySetInnerHTML={{ __html: `"${activeQuiz.scenario}"` }}
+                />
 
                 {/* Pregunta */}
-                <h3 className="text-sm md:text-base font-bold text-gray-100 leading-snug">
-                  {activeQuiz.question}
-                </h3>
+                <h3 
+                  className="text-sm md:text-base font-bold text-gray-100 leading-snug"
+                  dangerouslySetInnerHTML={{ __html: activeQuiz.question }}
+                />
 
                 {/* Opciones */}
                 <div className="space-y-3">
@@ -574,7 +823,10 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
                         <span className="w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700 select-none">
                           {String.fromCharCode(65 + idx)}
                         </span>
-                        <span className="flex-1">{option}</span>
+                        <span 
+                          className="flex-1"
+                          dangerouslySetInnerHTML={{ __html: option }}
+                        />
                       </button>
                     );
                   })}
@@ -593,15 +845,24 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
                   <div className="space-y-4 pt-4 border-t border-gray-800/60">
                     <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 text-xs text-gray-300 leading-relaxed">
                       <p className="font-bold text-blue-400 mb-1">💡 Justificación Médica UCE:</p>
-                      <p>{activeQuiz.justification}</p>
-                      <p className="mt-2 text-green-400 font-semibold italic">⭐ Perla: {activeQuiz.pearl}</p>
+                      <p dangerouslySetInnerHTML={{ __html: activeQuiz.justification }} />
+                      <p 
+                        className="mt-2 text-green-400 font-semibold italic"
+                        dangerouslySetInnerHTML={{ __html: `⭐ Perla: ${activeQuiz.pearl}` }}
+                      />
+                      {activeQuiz.reference && (
+                        <p className="mt-2 text-blue-300/90 font-mono text-[10px] border-t border-gray-800/50 pt-2 flex items-center gap-1">
+                          <span>📚 Referencia oficial:</span>
+                          <span className="font-semibold">{activeQuiz.reference}</span>
+                        </p>
+                      )}
                     </div>
                     <div className="flex justify-end">
                       <button
                         onClick={handleNextQuiz}
                         className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-all cursor-pointer"
                       >
-                        {currentQuizIdx === courseData.quiz.length - 1 ? "Completar Quiz" : "Siguiente Caso"} ➔
+                        {currentQuizIdx === quizItems.length - 1 ? "Completar Quiz" : "Siguiente Caso"} ➔
                       </button>
                     </div>
                   </div>
@@ -621,10 +882,10 @@ function RepasoCursoContent({ cursoKey }: { cursoKey: string }) {
                 <div className="p-5 rounded-2xl bg-gray-900/40 border border-gray-800 max-w-xs mx-auto">
                   <p className="text-xs text-gray-400 uppercase font-semibold">Casos Correctos</p>
                   <p className="text-3xl font-mono font-bold text-blue-400 mt-1">
-                    {quizScore} / {courseData.quiz.length}
+                    {quizScore} / {quizItems.length}
                   </p>
                   <p className="text-[10px] text-gray-500 mt-2">
-                    Accuracy: <strong className="text-gray-300">{Math.round((quizScore / courseData.quiz.length) * 100)}%</strong>
+                    Tu memoria clínica mejora más rápido que tu fatiga cognitiva: <strong className="text-gray-300">{Math.round((quizScore / quizItems.length) * 100)}%</strong>
                   </p>
                 </div>
                 <div className="flex gap-3 justify-center max-w-sm mx-auto">

@@ -53,3 +53,55 @@ python reestructurar_directorios.py
 Este script se encargará de:
 1.  Mover los dos tomos de PDF de Semiología (`Llanio_Tomo_I_Semiologia.pdf` y `Llanio_Tomo_II_Semiologia.pdf`) desde `public/` hacia `public/semiologia/`.
 2.  Eliminar los archivos residuales de la raíz de `public/` que ya fueron migrados de forma segura a `public/semiologia/`.
+
+---
+
+## 🛡️ 4. Stability Sprint y Reliability Governance
+
+Se incorporó una capa formal de gobernanza para estabilización y confiabilidad clínica:
+
+*   **Política de Sprint Activo:** `STABILITY_SPRINT_POLICY.md`
+    *   Declara **FEATURE FREEZE**.
+    *   Fuerza despliegue manual de migraciones SQL en fase de estabilización.
+    *   Define criterios de salida para habilitar automatización.
+
+*   **Plan de Knowledge Reliability Sprint:** `KNOWLEDGE_RELIABILITY_SPRINT.md`
+    *   Establece validación multi-factor para retrieval.
+    *   Formaliza RLS penetration suite y Neuroadaptive Validation Suite.
+    *   Define entregables de readiness del corpus clínico.
+
+*   **Esquema técnico de validación retrieval:** `src/rag/schemas/retrieval_validation_schema.json`
+    *   Estandariza umbrales y campos de verificación docente.
+    *   Previene validación basada solo en similitud semántica.
+
+*   **Matriz de ejecución Día 1-10:** `STABILITY_EXECUTION_MATRIX_D1_D10.md`
+    *   Orquesta tareas, evidencia y criterios de salida diarios.
+    *   Convierte el sprint en una secuencia operativa auditable.
+
+*   **Gobernanza de merges y PR:** `MERGE_GOVERNANCE.md`, `.github/pull_request_template.md`, `.github/CODEOWNERS`
+    *   Impone validaciones mínimas antes de merge.
+    *   Define revisión obligatoria por dominios críticos.
+
+*   **Observabilidad y promoción de conocimiento:** `RETRIEVAL_OBSERVABILITY_SPEC.md`, `KNOWLEDGE_PROMOTION_PIPELINE.md`
+    *   Define eventos, alertas y métricas de confiabilidad clínica.
+    *   Estructura el flujo de promoción de chunks hasta producción.
+
+*   **Checklist de Branch Protection:** `GITHUB_BRANCH_PROTECTION_CHECKLIST.md`
+    *   Define configuración exacta de protección de ramas para `main`.
+    *   Alinea enforcement técnico con los gates de gobernanza.
+
+*   **Workflows de enforcement CI:** `.github/workflows/*.yml`
+    *   Checks requeridos: `lint`, `build`, `retrieval-validation`, `neuroadaptive-validation`, `rls-validation`, `rollback-validation`, `schema-validation`, `compliance-validation`, `security-validation`.
+    *   Estos checks se conectan a validaciones ejecutables en `scripts/ci/`.
+
+*   **Knowledge Incident Management y Versionado Clínico:** `KNOWLEDGE_INCIDENT_RESPONSE.md`, `KNOWLEDGE_VERSIONING_STANDARD.md`
+    *   Define clasificación P0-P3, respuesta operativa, RCA y criterios de cierre.
+    *   Establece historial append-only para chunks, embeddings y decisiones docentes.
+
+*   **Telemetría operativa cognitiva:** `OPERATIONAL_TELEMETRY_SPEC.md`
+    *   Define señales, alertas y tableros para detectar degradación de confiabilidad.
+    *   Refuerza observabilidad de retrieval, replay y seguridad neuroadaptativa.
+
+*   **Activación de gobernanza y sprint de evidencia:** `GOVERNANCE_ACTIVATION_CHECKLIST.md`, `EVIDENCE_GENERATION_SPRINT.md`
+    *   Define el checklist operativo para pasar de placeholders a evidencia real.
+    *   Estructura la ejecución por workstreams para cerrar readiness de confiabilidad.

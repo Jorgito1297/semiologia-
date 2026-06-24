@@ -107,13 +107,13 @@ export default function OnboardingPage() {
   // Particle burst para Dopamine reward button
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; color: string }[]>([]);
 
-  const [studentName] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const email = localStorage.getItem('study_email') || '';
-      return email.split('@')[0] || 'Estudiante';
-    }
-    return 'Estudiante';
-  });
+  const [studentName, setStudentName] = useState('Estudiante');
+
+  useEffect(() => {
+    const email = localStorage.getItem('study_email') || '';
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration: read student name from localStorage on mount
+    setStudentName(email.split('@')[0] || 'Estudiante');
+  }, []);
 
   const queueTelemetry = (stepName: string, data: { score?: number; easeFactor?: number }) => {
     if (typeof window === 'undefined') return;

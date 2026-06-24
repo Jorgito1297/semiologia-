@@ -57,8 +57,8 @@ export function calculateSM2(
     nextIntervalDays = 1;
   }
   
-  // Asegurar que el intervalo sea al menos 1 día
-  nextIntervalDays = Math.max(1, nextIntervalDays);
+  // Asegurar que el intervalo esté acotado entre 1 y 30 días según la especificación
+  nextIntervalDays = Math.max(1, Math.min(30, nextIntervalDays));
   
   return {
     repetitions: nextRepetitions,

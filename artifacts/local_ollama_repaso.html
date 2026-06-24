@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso Interactivo: Semiología Cardiovascular (MED-228-T-1)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .flashcard-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard-flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 pb-16">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Encabezado -->
+        <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl p-6 shadow-md mb-8">
+            <p class="text-sm font-semibold tracking-wider uppercase text-blue-100">PROPE DÉUTICA CLÍNICA Y SEMIOLOGÍA MÉDICA (MED-228-T-1)</p>
+            <h1 class="text-3xl font-bold mt-1">Estudio Interactivo: Semiología Cardiovascular</h1>
+            <p class="text-xs text-blue-200 mt-2">Basado en la sesión del miércoles, 3 de junio de 2026. Diseñado para Active Recall y Autoevaluación.</p>
+        </header>
+
+        <!-- Tarjetas de Flashcards (Active Recall) -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span>🎴</span> Tarjetas de Repaso (Haz clic para voltear)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tarjeta 1 -->
+                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
+                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
+                            <span class="text-blue-500 font-bold mb-2">DOLOR TORÁCICO</span>
+                            <p class="font-medium text-gray-700 text-sm">¿Cómo se comporta el dolor de la pericarditis aguda según la posición corporal del paciente?</p>
+                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
+                        </div>
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
+                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
+                            <p class="text-sm">Alivia al **inclinarse hacia adelante** (posición genupectoral o plegaria mahometana) y **empeora al acostarse boca arriba** (decúbito supino).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2 -->
+                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
+                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
+                            <span class="text-blue-500 font-bold mb-2">CLASIFICACIÓN DE DISNEA</span>
+                            <p class="font-medium text-gray-700 text-sm">Un paciente con disnea al bañarse o vestirse, ¿qué clase funcional de la NYHA representa?</p>
+                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
+                        </div>
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
+                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
+                            <p class="text-sm">Pertenece a la **NYHA Clase III** (limitación marcada de la actividad física, cómodo en reposo pero disnea con esfuerzos menores a la actividad ordinaria).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3 -->
+                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
+                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
+                            <span class="text-blue-500 font-bold mb-2">RUIDOS CARDÍACOS</span>
+                            <p class="font-medium text-gray-700 text-sm">¿Cuál es el significado clínico de auscultar un R3 en un paciente mayor de 40 años?</p>
+                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
+                        </div>
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
+                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
+                            <p class="text-sm">Indica **disfunción sistólica ventricular (insuficiencia cardíaca)** o sobrecarga de volumen diastólico. Genera el "ritmo de galope ventricular".</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4 -->
+                <div class="h-48 cursor-pointer group" onclick="toggleCard(this)">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-xl shadow-md bg-white border border-gray-100">
+                        <div class="backface-hidden absolute w-full h-full flex flex-col justify-center items-center p-6">
+                            <span class="text-blue-500 font-bold mb-2">EXAMEN FÍSICO CARDIOVASCULAR</span>
+                            <p class="font-medium text-gray-700 text-sm">¿Por qué el reflujo hepatojugular (RHJ) es indicativo de falla ventricular derecha?</p>
+                            <span class="text-xs text-gray-400 mt-4 group-hover:text-blue-500">Hacer clic para ver respuesta</span>
+                        </div>
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full flex flex-col justify-center items-center p-6 bg-blue-50 text-blue-900 rounded-xl">
+                            <p class="font-semibold text-xs uppercase text-blue-600 mb-1">Respuesta</p>
+                            <p class="text-sm">Porque al comprimir el hígado aumenta el retorno venoso a la cava inferior y aurícula derecha. Si el VD tiene falla y no puede bombear este exceso, se congestiona y se eleva la presión yugular en el cuello.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz de Autoevaluación -->
+        <section class="bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span>📝</span> Cuestionario de Autoevaluación (Self-Grading)
+            </h2>
+            <form id="quizForm" onsubmit="event.preventDefault(); gradeQuiz();">
+                <!-- Pregunta 1 -->
+                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                    <p class="font-semibold text-gray-800 mb-3">1. Paciente varón de 68 años con disnea al caminar plano media cuadra. Cómodo en reposo absoluto. ¿Clase NYHA?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q1" value="A" class="form-radio text-blue-600">
+                            <span>NYHA Clase I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q1" value="B" class="form-radio text-blue-600">
+                            <span>NYHA Clase II</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q1" value="C" class="form-radio text-blue-600">
+                            <span>NYHA Clase III</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q1" value="D" class="form-radio text-blue-600">
+                            <span>NYHA Clase IV</span>
+                        </label>
+                    </div>
+                    <p id="feedback-q1" class="hidden text-sm mt-2 font-medium"></p>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                    <p class="font-semibold text-gray-800 mb-3">2. Paciente de 54 años con HTA mal controlada de larga data. Ausculta un ruido de tono grave antes de R1 (presistólico). Ritmo sinusal. ¿Cuál es?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q2" value="A" class="form-radio text-blue-600">
+                            <span>Tercer Ruido (R3) fisiológico</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q2" value="B" class="form-radio text-blue-600">
+                            <span>Cuarto Ruido (R4) - galope auricular</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q2" value="C" class="form-radio text-blue-600">
+                            <span>Chasquido de apertura mitral</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q2" value="D" class="form-radio text-blue-600">
+                            <span>Clic de eyección aórtico</span>
+                        </label>
+                    </div>
+                    <p id="feedback-q2" class="hidden text-sm mt-2 font-medium"></p>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                    <p class="font-semibold text-gray-800 mb-3">3. ¿Qué dolor aumenta a la inspiración profunda y alivia al acostarse sobre el lado afectado?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q3" value="A" class="form-radio text-blue-600">
+                            <span>Dolor de disección aórtica</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q3" value="B" class="form-radio text-blue-600">
+                            <span>Dolor anginoso típico</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q3" value="C" class="form-radio text-blue-600">
+                            <span>Dolor pleurítico</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q3" value="D" class="form-radio text-blue-600">
+                            <span>Dolor pericardítico</span>
+                        </label>
+                    </div>
+                    <p id="feedback-q3" class="hidden text-sm mt-2 font-medium"></p>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="mb-6 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                    <p class="font-semibold text-gray-800 mb-3">4. Un soplo mesosistólico eyectivo, de forma creciente-decreciente, auscultado en el 2do espacio intercostal derecho e irradiado a carótidas, es característico de:</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q4" value="A" class="form-radio text-blue-600">
+                            <span>Insuficiencia mitral</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q4" value="B" class="form-radio text-blue-600">
+                            <span>Estenosis aórtica</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q4" value="C" class="form-radio text-blue-600">
+                            <span>Estenosis mitral</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q4" value="D" class="form-radio text-blue-600">
+                            <span>Insuficiencia aórtica</span>
+                        </label>
+                    </div>
+                    <p id="feedback-q4" class="hidden text-sm mt-2 font-medium"></p>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="mb-8 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                    <p class="font-semibold text-gray-800 mb-3">5. Paciente en urgencias con disnea. Al explorar el cuello acostado a 45 grados, observa ingurgitación yugular y se mantiene elevada por más de 3 cm al comprimir el hígado. ¿Qué signo confirma y qué indica?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q5" value="A" class="form-radio text-blue-600">
+                            <span>Pulso carotídeo dícroto, estenosis aórtica</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q5" value="B" class="form-radio text-blue-600">
+                            <span>Reflujo hepatojugular positivo, insuficiencia ventricular derecha</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q5" value="C" class="form-radio text-blue-600">
+                            <span>Signo de Kussmaul positivo, pericarditis constrictiva únicamente</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="radio" name="q5" value="D" class="form-radio text-blue-600">
+                            <span>Choque de punta desviado, insuficiencia aórtica severa</span>
+                        </label>
+                    </div>
+                    <p id="feedback-q5" class="hidden text-sm mt-2 font-medium"></p>
+                </div>
+
+                <!-- Botón de Envío y Resultado -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 border-t border-gray-100 pt-6">
+                    <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-colors">
+                        Calificar Cuestionario
+                    </button>
+                    <button type="button" onclick="resetQuiz()" class="w-full sm:w-auto px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg shadow-sm transition-colors">
+                        Reiniciar
+                    </button>
+                    <div id="quizResult" class="hidden font-bold text-lg text-gray-800"></div>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        function toggleCard(cardElement) {
+            cardElement.classList.toggle('flashcard-flipped');
+        }
+
+        const answers = {
+            q1: "C",
+            q2: "B",
+            q3: "C",
+            q4: "B",
+            q5: "B"
+        };
+
+        const explanations = {
+            q1: "Correcto: Actividades menores que las ordinarias como bañarse, vestirse o caminar menos de 100m plano que generen disnea corresponden a la Clase III de la NYHA.",
+            q2: "Correcto: El R4 se produce por la contracción auricular activa contra una cámara ventricular rígida o con sobrecarga de presión (hipertrofia ventricular por HTA). Requiere contracción auricular activa (ritmo sinusal).",
+            q3: "Correcto: El dolor pleurítico aumenta característicamente con movimientos respiratorios (tos, inspiración profunda) y alivia en decúbito lateral sobre el lado afectado, al 'ferular' la pleura inflamada contra la cama.",
+            q4: "Correcto: El soplo de estenosis aórtica es mesosistólico eyectivo, de tipo creciente-decreciente (romboidal), y se irradia característicamente a las carótidas en el cuello.",
+            q5: "Correcto: La presencia de reflujo hepatojugular persistente (>3 cm) bajo compresión hepática sostenida es un signo clave de congestión venosa pasiva y disfunción del ventrículo derecho."
+        };
+
+        function gradeQuiz() {
+            const form = document.getElementById('quizForm');
+            let score = 0;
+            const total = 5;
+
+            for (let i = 1; i <= total; i++) {
+                const qName = 'q' + i;
+                const selected = form.elements[qName].value;
+                const feedbackEl = document.getElementById('feedback-' + qName);
+                
+                feedbackEl.classList.remove('hidden', 'text-green-600', 'text-red-600');
+
+                if (selected === answers[qName]) {
+                    score++;
+                    feedbackEl.innerText = explanations[qName];
+                    feedbackEl.classList.add('text-green-600');
+                } else {
+                    const incorrectText = "Incorrecto. La respuesta correcta era la " + answers[qName] + ". " + 
+                                          (selected ? "Seleccionaste la " + selected + "." : "No respondiste.");
+                    feedbackEl.innerText = incorrectText + " Explicación: " + explanations[qName];
+                    feedbackEl.classList.add('text-red-600');
+                }
+            }
+
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerText = "Resultado: " + score + " de " + total + " respuestas correctas (" + Math.round((score/total)*100) + "%).";
+        }
+
+        function resetQuiz() {
+            const form = document.getElementById('quizForm');
+            form.reset();
+            const total = 5;
+            for (let i = 1; i <= total; i++) {
+                const feedbackEl = document.getElementById('feedback-q' + i);
+                feedbackEl.classList.add('hidden');
+            }
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

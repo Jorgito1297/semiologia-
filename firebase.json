@@ -4,7 +4,19 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/Llanio_Tomo_I_Semiologia.pdf",
+      "**/Llanio_Tomo_II_Semiologia.pdf",
+      "books/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "ssrstudywithme46f29",
+          "region": "us-central1"
+        }
+      }
     ]
   }
 }

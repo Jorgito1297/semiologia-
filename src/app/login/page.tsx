@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabaseClient, getSupabaseRawConfig } from '@/services/supabase';
+import { trackPrivateMetric } from '@/utils/private_metrics';
 
 const CLINICAL_PEARLS = [
   "\"El dolor de la pericarditis aguda típicamente se alivia al inclinarse hacia adelante.\"",
@@ -20,19 +21,26 @@ const SIMULATION_PHASES = [
 ];
 
 export default function LoginPage() {
-  const [university, setUniversity] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
-  
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loaderTitle, setLoaderTitle] = useState('Estableciendo conexión segura...');
   const [loaderSubtext, setLoaderSubtext] = useState('Cargando módulos médicos');
   const [loaderPercent, setLoaderPercent] = useState(5);
-  const [loaderQuote, setLoaderQuote] = useState(() => CLINICAL_PEARLS[Math.floor(Math.random() * CLINICAL_PEARLS.length)]);
+  const [loaderQuote, setLoaderQuote] = useState(CLINICAL_PEARLS[0]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration: randomize quote on mount, standard localStorage pattern
+    setLoaderQuote(CLINICAL_PEARLS[Math.floor(Math.random() * CLINICAL_PEARLS.length)]);
+    trackPrivateMetric({ event: 'page_view_login', userType: 'anonymous' });
+  }, []);
 
   const runDemoMode = (selectedUniv: string, userEmail: string) => {
+    trackPrivateMetric({
+      event: 'login_demo_start',
+      mode: 'demo',
+      userType: 'student',
+      meta: { university: selectedUniv },
+    });
+
     setIsLoading(true);
     setLoaderPercent(15);
     setLoaderTitle("Estableciendo entorno local demo...");
@@ -43,6 +51,7 @@ export default function LoginPage() {
     localStorage.setItem('study_email', userEmail);
     localStorage.setItem('study_user', userEmail.split('@')[0]);
     localStorage.setItem('is_demo', 'true');
+    document.cookie = "is_demo=true; path=/; max-age=86400; SameSite=Lax";
 
     let phaseIdx = 0;
     const interval = setInterval(() => {
@@ -65,81 +74,45 @@ export default function LoginPage() {
     }, 900);
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSSOLogin = async () => {
+    trackPrivateMetric({ event: 'login_sso_click', mode: 'azure', userType: 'student' });
+
     setIsLoading(true);
+    setLoaderPercent(20);
+    setLoaderTitle("Conectando con Microsoft Entra ID...");
+    setLoaderSubtext("Redireccionando a Portal UCE");
+
+    const isAzureSsoEnabled = process.env.NEXT_PUBLIC_ENABLE_AZURE_SSO === 'true';
+    if (!isAzureSsoEnabled) {
+      console.info('SSO Azure deshabilitado por configuración. Ingresando en modo demo.');
+      trackPrivateMetric({ event: 'login_sso_disabled_fallback_demo', mode: 'demo' });
+      runDemoMode("UCE", "estudiante.sim@uce.edu.do");
+      return;
+    }
 
     const config = getSupabaseRawConfig();
 
     if (supabaseClient && config.url && !config.anonKey.startsWith('YOUR_')) {
       try {
-        setLoaderPercent(20);
-        setLoaderTitle("Autenticando usuario en Supabase...");
-        setLoaderSubtext("Seguridad SSL Activa");
-
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-          email,
-          password
+        // Establecer cookie is_demo a false para producción
+        document.cookie = "is_demo=false; path=/; max-age=86400; SameSite=Lax";
+        
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'azure',
+          options: {
+            scopes: 'openid profile email offline_access',
+            redirectTo: `${window.location.origin}/`,
+          }
         });
-
         if (error) throw error;
-
-        setLoaderPercent(50);
-        setLoaderTitle("Invocando proxy Edge de Moodle...");
-        setLoaderSubtext("Sincronizando Aula");
-
-        const moodleUrls: Record<string, string> = {
-          UCE: "https://moodle.uce.edu.do",
-          UASD: "https://uasdvirtual.edu.do",
-          INTEC: "https://virtual.intec.edu.do",
-          UNIBE: "https://unibevirtual.edu.do",
-          PUCMM: "https://pucmmvirtual.edu.do"
-        };
-        const moodleUrl = moodleUrls[university] || "https://moodle.uce.edu.do";
-
-        const response = await fetch(`${config.url}/functions/v1/supabase_moodle_proxy`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${data.session.access_token}`
-          },
-          body: JSON.stringify({
-            action: 'login',
-            moodleUrl: moodleUrl,
-            username: email.split('@')[0],
-            password: password
-          })
-        });
-
-        if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.error || "Fallo en la comunicación con el Edge Function Proxy");
-        }
-
-        setLoaderPercent(80);
-        setLoaderTitle("Sincronizando base de datos...");
-        setLoaderSubtext("Alineando Syllabus");
-
-        // Almacenar credenciales del estudiante en sesión de producción
-        localStorage.setItem('study_university', university);
-        localStorage.setItem('study_email', email);
-        localStorage.setItem('study_user', email.split('@')[0]);
-        localStorage.setItem('is_demo', 'false');
-
-        setLoaderPercent(100);
-        setLoaderTitle("¡Acceso concedido exitosamente!");
-        setLoaderSubtext("Cargando Aula Virtual");
-
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 500);
-
       } catch (err) {
-        console.warn("Fallo de autenticación en Supabase, ingresando en modo demo. Detalles:", err);
-        runDemoMode(university, email);
+        console.warn("Fallo de autenticación SSO, ingresando en modo demo:", err);
+        trackPrivateMetric({ event: 'login_sso_error_fallback_demo', mode: 'demo' });
+        runDemoMode("UCE", "estudiante.sim@uce.edu.do");
       }
     } else {
-      runDemoMode(university, email);
+      trackPrivateMetric({ event: 'login_missing_supabase_config_fallback_demo', mode: 'demo' });
+      runDemoMode("UCE", "estudiante.sim@uce.edu.do");
     }
   };
 
@@ -169,111 +142,43 @@ export default function LoginPage() {
         <div className="glass rounded-3xl p-8 md:p-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400"></div>
 
-          <h2 className="text-xl font-display font-bold text-gray-100 mb-6 text-center">Acceso Estudiantil</h2>
+          <h2 className="text-xl font-display font-bold text-gray-100 mb-2 text-center">Acceso Estudiantil</h2>
+          <p className="text-xs text-gray-400 mb-8 text-center">Inicia sesión de forma segura con tu cuenta universitaria</p>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            
-            {/* Selector de Universidad */}
-            <div>
-              <label htmlFor="university" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                Universidad de Origen
-              </label>
-              <div className="relative">
-                <select
-                  id="university"
-                  required
-                  value={university}
-                  onChange={(e) => setUniversity(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl glass-input text-gray-200 text-sm focus:outline-none appearance-none cursor-pointer"
-                >
-                  <option value="" disabled className="bg-[#0f172a] text-gray-400">Selecciona tu institución</option>
-                  <option value="UCE" className="bg-[#0f172a] text-gray-200">Universidad Central del Este (UCE)</option>
-                  <option value="UASD" className="bg-[#0f172a] text-gray-200">Universidad Autónoma de Santo Domingo (UASD)</option>
-                  <option value="INTEC" className="bg-[#0f172a] text-gray-200">Instituto Tecnológico de Santo Domingo (INTEC)</option>
-                  <option value="UNIBE" className="bg-[#0f172a] text-gray-200">Universidad Iberoamericana (UNIBE)</option>
-                  <option value="PUCMM" className="bg-[#0f172a] text-gray-200">Pontificia Universidad Católica Madre y Maestra (PUCMM)</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            {/* Input Correo */}
-            <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                Correo Institucional
-              </label>
-              <input
-                type="email"
-                id="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="ejemplo@universidad.edu"
-                className="w-full px-4 py-3 rounded-xl glass-input text-gray-200 text-sm placeholder-gray-500 focus:outline-none"
-              />
-            </div>
-
-            {/* Input Contraseña */}
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <label htmlFor="password" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                  Contraseña
-                </label>
-                <a href="#" className="text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors">
-                  ¿La olvidaste?
-                </a>
-              </div>
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl glass-input text-gray-200 text-sm placeholder-gray-500 focus:outline-none pr-20"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-200 transition-colors text-xs font-semibold select-none"
-                >
-                  {showPassword ? 'OCULTAR' : 'MOSTRAR'}
-                </button>
-              </div>
-            </div>
-
-            {/* Recordar Sesión */}
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="remember"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-700 bg-gray-800 text-blue-600 focus:ring-blue-500 focus:ring-offset-gray-900 focus:ring-offset-2"
-              />
-              <label htmlFor="remember" className="ml-2 text-xs text-gray-400 select-none cursor-pointer">
-                Mantener sesión iniciada en este equipo
-              </label>
-            </div>
-
-            {/* Botón de Envío */}
+          <div className="space-y-6">
+            {/* Botón Microsoft Entra ID SSO */}
             <button
-              type="submit"
-              className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-300 transform active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+              type="button"
+              onClick={handleSSOLogin}
+              className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-300 transform active:scale-[0.98] flex items-center justify-center gap-3 cursor-pointer border border-blue-400/20"
             >
-              <span>Entrar al Aula Virtual</span> ➔
+              <span className="text-lg">🔑</span>
+              <span>Continuar con Correo Institucional UCE</span>
             </button>
-          </form>
+
+            {/* Separador visual */}
+            <div className="flex items-center justify-center gap-3 py-2">
+              <div className="h-px bg-gray-800 flex-1"></div>
+              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">o también</span>
+              <div className="h-px bg-gray-800 flex-1"></div>
+            </div>
+
+            {/* Acceso Demo Comercial */}
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => runDemoMode("UCE", "estudiante.sim@uce.edu.do")}
+                className="w-full py-3 bg-gray-900/50 hover:bg-gray-800/50 text-gray-300 border border-gray-800 hover:border-gray-700 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer"
+              >
+                Acceder en Modo Demo Comercial (Prueba Offline)
+              </button>
+            </div>
+          </div>
 
           <div className="mt-8 pt-6 border-t border-gray-800 text-center">
-            <p className="text-xs text-gray-400">
-              ¿No tienes una cuenta aún? 
-              <a href="#" className="text-blue-400 hover:text-blue-300 font-bold transition-colors ml-1">Solicita acceso institucional</a>
+            <p className="text-[11px] text-gray-500">
+              ¿Problemas para ingresar?
+              <a href="#" className="text-blue-400 hover:text-blue-300 font-bold transition-colors ml-1">Contactar a Soporte UCE</a>
             </p>
           </div>
         </div>

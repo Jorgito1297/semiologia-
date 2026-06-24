@@ -1,155 +1,1578 @@
-<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Semiología Respiratoria: Derrame Pleural y Neumotórax</title><link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'><link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap' rel='stylesheet'><style>
-      body { font-family: 'Inter', 'Roboto', sans-serif; background-color: hsl(210, 20%, 98%); color: hsl(210, 10%, 20%); }
-      .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
-      .card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; margin-bottom: 1.5rem; transition: all 0.2s ease-in-out; border: 1px solid hsl(210, 10%, 90%); }
-      .card-header { font-size: 1.25rem; font-weight: 600; color: hsl(200, 70%, 30%); margin-bottom: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-      .card-header::after { content: '\25BC'; transition: transform 0.3s ease; }
-      .card-header.active::after { transform: rotate(-180deg); }
-      .card-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-      .card-content.show { max-height: 1000px; /* Adjust as needed */ }
-      .highlight-blue { color: hsl(200, 70%, 30%); font-weight: 600; }
-      .perla-catedra { border-left: 4px solid hsl(40, 90%, 60%); background-color: hsl(40, 100%, 95%); padding: 1rem; margin-top: 1.5rem; border-radius: 0.375rem; color: hsl(40, 70%, 30%); }
-      .quiz-container { background-color: hsl(200, 50%, 95%); border-radius: 0.75rem; padding: 2rem; margin-top: 2rem; border: 1px solid hsl(200, 50%, 90%); }
-      .quiz-question { margin-bottom: 2rem; }
-      .quiz-options label { display: block; margin-bottom: 0.75rem; padding: 0.75rem; border: 1px solid hsl(210, 10%, 80%); border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s; }
-      .quiz-options label:hover { background-color: hsl(200, 20%, 96%); }
-      .quiz-options input[type='radio'] { margin-right: 0.75rem; }
-      .quiz-feedback { margin-top: 1rem; padding: 1rem; border-radius: 0.5rem; }
-      .quiz-feedback.correct { background-color: hsl(120, 60%, 90%); color: hsl(120, 80%, 30%); border: 1px solid hsl(120, 60%, 80%); }
-      .quiz-feedback.incorrect { background-color: hsl(0, 60%, 90%); color: hsl(0, 80%, 30%); border: 1px solid hsl(0, 60%, 80%); }
-      .quiz-button { background-color: hsl(200, 70%, 40%); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s; border: none; }
-      .quiz-button:hover { background-color: hsl(200, 70%, 30%); }
-      table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-      th, td { border: 1px solid hsl(210, 10%, 80%); padding: 0.75rem; text-align: left; }
-      th { background-color: hsl(200, 50%, 95%); font-weight: 600; color: hsl(200, 70%, 30%); }
-      .info-box { background-color: hsl(210, 30%, 95%); border-left: 4px solid hsl(200, 70%, 40%); padding: 1rem; margin-top: 1.5rem; border-radius: 0.375rem; color: hsl(210, 10%, 25%); }
-      .socratic-question { font-style: italic; color: hsl(200, 70%, 30%); font-weight: 500; margin-top: 1rem; padding: 0.75rem; background-color: hsl(200, 100%, 97%); border-left: 3px solid hsl(200, 70%, 40%); border-radius: 0.375rem; }
-      .question-vignette { background-color: hsl(210, 20%, 96%); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px dashed hsl(210, 10%, 85%); }
-    </style></head><body class='text-gray-800'><div class='container'><h1 class='text-4xl font-bold text-center mb-6 text-blue-800'>Propedéutica Clínica y Semiología Médica (MED-228)</h1><p class='text-center text-xl mb-8 font-medium text-blue-700'>Dr. Elías Peralta, Catedrático de Semiología Clínica</p><p class='text-lg mb-6 leading-relaxed'>¡Buenas tardes, distinguidos estudiantes de tercer año de Medicina! Soy el Dr. Elías Peralta, su Catedrático de Propedéutica Clínica y Semiología Médica. Es un honor guiarles en este fascinante viaje hacia el dominio del arte diagnóstico. Como siempre les digo: <span class='font-semibold italic text-blue-600'>"El médico que sabe escuchar ya ha hecho la mitad del diagnóstico."</span></p><p class='text-lg mb-8 leading-relaxed'>Nos adentraremos hoy en un segmento crítico del Módulo IV, enfocado en la semiología del sistema respiratorio, específicamente los <span class='highlight-blue'>síndromes pleuropulmonares de derrame pleural y neumotórax</span>. La precisión semiológica es su mejor herramienta.</p><h2 class='text-2xl font-semibold mb-4 text-blue-700'>FASE 1: Anamnesis Académica 🩺</h2><p class='text-lg mb-6'>Antes de iniciar, me gustaría escucharles. ¿En qué bloque o parcial se sienten más desafiados actualmente? ¿Encuentran mayor dificultad en el enfoque teórico o en la aplicación práctica de las maniobras semiológicas? Sus respuestas nos ayudarán a orientar mejor la discusión de hoy.</p><h2 class='text-2xl font-semibold mb-4 text-blue-700'>FASE 2: Planificación del Módulo 🗓️</h2><p class='text-lg mb-6'>Excelente. Dada la importancia de dominar estas patologías, he estructurado nuestro encuentro de hoy para que cubramos los siguientes puntos clave:</p><ul class='list-disc list-inside ml-4 text-lg mb-6'><li><span class='font-medium'>Concepto Anclaje:</span> Definición de los síndromes pleuropulmonares.</li><li><span class='font-medium'>Repaso Detallado:</span> Semiología del Derrame Pleural (Inspección, Palpación, Percusión, Auscultación).</li><li><span class='font-medium'>Repaso Detallado:</span> Semiología del Neumotórax (Inspección, Palpación, Percusión, Auscultación).</li><li><span class='font-medium'>Tabla Comparativa:</span> Diferenciación esencial entre ambos síndromes.</li><li><span class='font-medium'>Cuestionario Interactivo:</span> Aplicación de conocimientos a través de viñetas clínicas.</li></ul><h2 class='text-2xl font-semibold mb-4 text-blue-700'>FASE 3: Ejecución Activa — El Método IPPAA ✨</h2><h3 class='text-xl font-semibold mb-3 text-blue-600'>Concepto Anclaje: Los Síndromes Pleuropulmonares</h3><p class='text-lg mb-4'>Los <span class='highlight-blue'>síndromes pleuropulmonares</span> se refieren a conjuntos de signos y síntomas que se originan por alteraciones en la pleura o el pulmón, manifestándose a través de patrones característicos en el examen físico. Hoy nos centraremos en el <span class='font-medium'>derrame pleural</span>, una acumulación anormal de líquido en el espacio pleural, y el <span class='font-medium'>neumotórax</span>, la presencia de aire en este mismo espacio. La clave está en cómo estas sustancias (líquido o aire) modifican la transmisión de las vibraciones y el sonido a través del tórax. Para una revisión exhaustiva, les remito a <span class='italic'>Llanio Navarro, Tomo I, Capítulos 29-31</span> y <span class='italic'>Argente-Álvarez, Semiología Médica, Capítulos relevantes sobre tórax</span>.</p><h3 class='text-xl font-semibold mb-3 text-blue-600'>Inmersión Sensorial: La Semiología Torácica 🌬️</h3><p class='text-lg mb-4'>Imaginemos que estamos frente a un paciente con dificultad respiratoria. ¿Qué buscaríamos?</p><ul class='list-disc list-inside ml-4 text-lg mb-6'><li><span class='font-medium'>👁️ Lo que VE (Inspección):</span> La simetría del tórax, la expansión de los hemitórax durante la respiración, la presencia de abombamientos o retracciones. ¿Hay cianosis, taquipnea?</li><li><span class='font-medium'>🤲 Lo que TOCA (Palpación):</span> La sensibilidad torácica, la expansión pulmonar y, fundamentalmente, las <span class='highlight-blue'>vibraciones vocales</span>. ¿Cómo se sienten al pedirle al paciente que diga "treinta y tres"?</li><li><span class='font-medium'>👂 Lo que OYE (Percusión y Auscultación):</span> Los sonidos que produce el tórax al ser percutido (¿sonoridad, matidez, timpanismo?) y los ruidos respiratorios al auscultar (¿murmullo vesicular normal, abolido, o ruidos agregados como sibilancias o estertores?).</li></ul><div class='card mb-6'><div class='card-header' onclick='toggleCard(this)'>Gancho Clínico y Pregunta Socrática<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><div class='question-vignette'><p class='text-lg font-medium mb-3'>**Escenario Clínico:** Llega a la sala de emergencias un paciente de 68 años con antecedente de insuficiencia cardíaca descompensada, refiriendo disnea progresiva de 3 días de evolución y un dolor torácico pleurítico en el lado derecho. Al examen físico, se observa disminución de la expansión de ese hemitórax.</p><div class='socratic-question'><p class='text-lg font-medium mb-2'>**Pregunta Socrática:** Basándose en los hallazgos iniciales, ¿qué alteraciones <span class='italic'>esperaría</span> encontrar en la palpación, percusión y auscultación del hemitórax afectado? Y, más importante aún, ¿cómo nos ayudarían esos hallazgos a diferenciar un derrame pleural de, por ejemplo, un neumotórax si el cuadro clínico fuera diferente? Razonen su respuesta usando los principios semiológicos.</p></div></div></div></div><h3 class='text-2xl font-semibold mb-4 text-blue-700'>REPASO: Derrame Pleural y Neumotórax</h3><div class='card'><div class='card-header' onclick='toggleCard(this)'>📚 DERRAPLE PLEURAL: ACUMULACIÓN DE LÍQUIDO<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><p class='text-lg mb-4'>El derrame pleural se presenta cuando hay un exceso de líquido en el espacio pleural, que puede ser exudado o trasudado. Este líquido interfiere con la mecánica respiratoria y la transmisión de sonidos.</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>A. Gancho Clínico</h4><p class='text-lg mb-4'>Imagine a una paciente de 55 años, con antecedentes de neumonía, que consulta por disnea, tos seca y dolor punzante en el hemitóax izquierdo al respirar profundamente. Refiere que la disnea empeora al acostarse. Al observarla, su respiración es superficial y su hemitórax izquierdo parece tener menos movilidad.</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>B. El Trío Semiológico en el Derrame Pleural</h4><ul class='list-disc list-inside ml-4 mb-4 text-lg'><li><span class='font-medium'>👁️ Lo que VE (Inspección):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Forma y simetría:</span> Puede haber <span class='highlight-blue'>abombamiento</span> o <span class='highlight-blue'>distensión del hemitórax</span> afectado si el derrame es grande.</li><li><span class='font-medium'>Movimiento:</span> <span class='highlight-blue'>Disminución o abolición de la movilidad</span> respiratoria del lado afectado. Puede observarse taquipnea.</li><li><span class='italic'>(Referencia: Argente-Álvarez, 2ª ed., Capítulos de Aparato Respiratorio; Bickley, 12ª ed., Capítulo de Tórax y Pulmones).</span></li></ul></li><li><span class='font-medium'>🤲 Lo que TOCA (Palpación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Expansión:</span> <span class='highlight-blue'>Disminución de la expansibilidad</span> del hemitórax afectado.</li><li><span class='font-medium'>Vibraciones Vocales (VV):</span> Clásicamente, hay <span class='highlight-blue'>abolición o marcada disminución de las vibraciones vocales</span> sobre el área del derrame. El líquido actúa como una barrera que no transmite el sonido. En raras ocasiones, sobre el borde superior de un derrame masivo, puede haber egofonía.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 29; Argente-Álvarez, 2ª ed.; Surós, 8ª ed.).</span></li></ul></li><li><span class='font-medium'>👂 Lo que OYE (Percusión y Auscultación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Percusión:</span> Se obtiene <span class='highlight-blue'>matidez</span> o <span class='highlight-blue'>submatidez</span> sobre la zona del derrame. Esta matidez es típicamente desplazable si el paciente cambia de posición y forma una curva parabólica (curva de Damoiseau) si el derrame es libre.</li><li><span class='font-medium'>Auscultación:</span> El hallazgo cardinal es la <span class='highlight-blue'>abolición o marcada disminución del murmullo vesicular</span> sobre el derrame. En el borde superior, a veces se puede escuchar un soplo pleural o broncofonía/egofonía si la compresión pulmonar es significativa.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 30; Bickley, 12ª ed., Capítulo de Tórax y Pulmones; Goic-Chamorro-Reyes, 3ª ed.).</span></li></ul></li></ul><div class='perla-catedra'><p class='font-semibold'>D. Perla de la Cátedra</p><p>"Recuerden la 'M' de Matidez y Murmullo disminuido para el derrame pleural. El líquido es el gran silenciador del tórax."</p></div></div></div><div class='card'><div class='card-header' onclick='toggleCard(this)'>📚 NEUMOTÓRAX: AIRE EN LA PLEURA<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><p class='text-lg mb-4'>El neumotórax es la presencia de aire en el espacio pleural, lo que provoca el colapso pulmonar. Puede ser espontáneo, traumático o a tensión (una emergencia médica grave).</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>A. Gancho Clínico</h4><p class='text-lg mb-4'>Un joven de 22 años, delgado y alto, llega a la consulta refiriendo dolor torácico súbito y agudo en el lado derecho, acompañado de dificultad para respirar, que apareció mientras jugaba baloncesto. Se le ve ansioso y con respiración rápida y superficial. Su hemitórax derecho parece ligeramente más abombado y se mueve menos que el izquierdo.</p><h4 class='text-xl font-semibold mb-3 text-blue-600'>B. El Trío Semiológico en el Neumotórax</h4><ul class='list-disc list-inside ml-4 mb-4 text-lg'><li><span class='font-medium'>👁️ Lo que VE (Inspección):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Forma y simetría:</span> Puede haber <span class='highlight-blue'>abombamiento</span> o <span class='highlight-blue'>distensión del hemitórax</span> afectado (especialmente en neumotórax a tensión).</li><li><span class='font-medium'>Movimiento:</span> <span class='highlight-blue'>Disminución o abolición de la movilidad</span> respiratoria del lado afectado. Puede observarse taquipnea y, en casos graves, desviación traqueal contralateral.</li><li><span class='italic'>(Referencia: Argente-Álvarez, 2ª ed., Capítulos de Aparato Respiratorio; Bickley, 12ª ed., Capítulo de Tórax y Pulmones).</span></li></ul></li><li><span class='font-medium'>🤲 Lo que TOCA (Palpación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Expansión:</span> <span class='highlight-blue'>Disminución de la expansibilidad</span> del hemitórax afectado.</li><li><span class='font-medium'>Vibraciones Vocales (VV):</span> Típicamente <span class='highlight-blue'>abolición o marcada disminución de las vibraciones vocales</span> sobre el área afectada. El aire en el espacio pleural es un pobre transmisor de sonido.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 29; Argente-Álvarez, 2ª ed.; Surós, 8ª ed.).</span></li></ul></li><li><span class='font-medium'>👂 Lo que OYE (Percusión y Auscultación):</span><ul class='list-disc list-inside ml-6'><li><span class='font-medium'>Percusión:</span> Se obtiene <span class='highlight-blue'>timpanismo</span> o <span class='highlight-blue'>hipersonoridad</span> sobre la zona del neumotórax. Esto se debe a la presencia de aire libre en el espacio pleural.</li><li><span class='font-medium'>Auscultación:</span> El hallazgo cardinal es la <span class='highlight-blue'>abolición o marcada disminución del murmullo vesicular</span> sobre el área afectada. En ocasiones, si es un neumotórax pequeño, el murmullo puede estar solo disminuido.</li><li><span class='italic'>(Referencia: Llanio Navarro, Tomo I, Cap. 30; Bickley, 12ª ed., Capítulo de Tórax y Pulmones; Goic-Chamorro-Reyes, 3ª ed.).</span></li></ul></li></ul><div class='perla-catedra'><p class='font-semibold'>D. Perla de la Cátedra</p><p>"Para el neumotórax, piensen en la 'T' de Timpanismo y la 'A' de Abolición del murmullo. El aire no suena, y no deja que el pulmón suene."</p></div></div></div><div class='card'><div class='card-header' onclick='toggleCard(this)'>C. Tabla Comparativa: Derrame Pleural vs. Neumotórax<span class='toggle-icon'>&#9660;</span></div><div class='card-content'><div class='overflow-x-auto'><table class='min-w-full bg-white'><thead><tr><th class='py-3 px-4 text-left'>Característica</th><th class='py-3 px-4 text-left'>Derrame Pleural (Líquido)</th><th class='py-3 px-4 text-left'>Neumotórax (Aire)</th><th class='py-3 px-4 text-left'>Fuente Principal</th></tr></thead><tbody><tr><td class='py-3 px-4 font-medium'>Sintomatología Común</td><td class='py-3 px-4'>Disnea, dolor pleurítico, tos (seca)</td><td class='py-3 px-4'>Disnea súbita, dolor pleurítico agudo, tos (seca)</td><td class='py-3 px-4'>Argente-Álvarez, Goic-Chamorro-Reyes</td></tr><tr><td class='py-3 px-4 font-medium'>Inspección</td><td class='py-3 px-4'>Disminución movilidad, abombamiento del hemitórax</td><td class='py-3 px-4'>Disminución movilidad, abombamiento del hemitórax (más notorio en tensión)</td><td class='py-3 px-4'>Bickley, Llanio Navarro Tomo I</td></tr><tr><td class='py-3 px-4 font-medium'>Palpación</td><td class='py-3 px-4'>Disminución/abolición de vibraciones vocales (VV)</td><td class='py-3 px-4'>Disminución/abolición de vibraciones vocales (VV)</td><td class='py-3 px-4'>Llanio Navarro Tomo I, Argente-Álvarez</td></tr><tr><td class='py-3 px-4 font-medium'>Percusión</td><td class='py-3 px-4'><span class='highlight-blue'>Matidez</span></td><td class='py-3 px-4'><span class='highlight-blue'>Timpanismo</span> o hipersonoridad</td><td class='py-3 px-4'>Llanio Navarro Tomo I, Bickley, Surós</td></tr><tr><td class='py-3 px-4 font-medium'>Auscultación</td><td class='py-3 px-4'>Disminución/abolición del murmullo vesicular</td><td class='py-3 px-4'>Disminución/abolición del murmullo vesicular</td><td class='py-3 px-4'>Argente-Álvarez, Goic-Chamorro-Reyes, Llanio Navarro Tomo I</td></tr><tr><td class='py-3 px-4 font-medium'>Desviación Traqueal</td><td class='py-3 px-4'>Hacia el lado contralateral (derrame masivo)</td><td class='py-3 px-4'>Hacia el lado contralateral (Neumotórax a tensión)</td><td class='py-3 px-4'>Argente-Álvarez</td></tr></tbody></table></div><div class='perla-catedra'><p class='font-semibold'>D. Perla de la Cátedra (Integración)</p><p>"Para diferenciar rápidamente entre un derrame pleural y un neumotórax, las <span class='font-medium'>Vibraciones Vocales</span> y la <span class='font-medium'>Percusión</span> son sus mejores aliados. Ambas condiciones silencian el pulmón a la auscultación y disminuyen las VV, ¡pero solo el líquido da <span class='highlight-blue'>matidez</span> y el aire da <span class='highlight-blue'>timpanismo</span>!" Este es un principio semiológico fundamental, extraído de <span class='italic'>Argente-Álvarez</span> y <span class='italic'>Llanio Navarro</span>.</p></div></div></div><h2 class='text-2xl font-semibold mb-4 mt-8 text-blue-700'>FASE 4: Evaluación y Retroalimentación — Cuestionario Clínico Interactivo</h2><p class='text-lg mb-6'>Ahora, es momento de poner a prueba sus conocimientos. Responderán a estas viñetas clínicas. Recuerden: el objetivo no es solo acertar, sino <span class='font-semibold'>razonar</span> cada respuesta con precisión semiológica.</p><div id='quiz' class='quiz-container'></div></div><script>
-      function toggleCard(header) {
-        header.classList.toggle('active');
-        const content = header.nextElementSibling;
-        if (content.classList.contains('show')) {
-          content.classList.remove('show');
-          content.style.maxHeight = null;
-        } else {
-          content.classList.add('show');
-          content.style.maxHeight = content.scrollHeight + 'px';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso Interactivo: Semiología Médica (MED-228) — Primer Parcial UCE</title>
+    <!-- Google Fonts Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
         }
-      }
-
-      const quizData = [
-        {
-          question: "Un paciente de 62 años, con historial de cirrosis hepática, acude a la emergencia por disnea progresiva, tos seca y dolor torácico en el hemitórax derecho que aumenta con la inspiración. A la inspección, se observa una disminución de la expansión de dicho hemitórax. Al realizar la palpación, las vibraciones vocales están abolidas en la base pulmonar derecha. ¿Cuál es el hallazgo más probable en la percusión del área afectada?",
-          options: {
-            A: "Hipersonoridad.",
-            B: "Timpanismo.",
-            C: "Matidez.",
-            D: "Sonoridad normal.",
-            E: "Claridad pulmonar."
-          },
-          answer: "C",
-          explanation: "El cuadro clínico describe un paciente con factores de riesgo para derrame pleural (cirrosis hepática con posible hidrotórax derecho) y síntomas consistentes como disnea, tos seca y dolor pleurítico. Los hallazgos semiológicos clave incluyen disminución de la expansión del hemitórax afectado y abolición de las vibraciones vocales. Según Llanio Navarro (Tomo I, Cap. 29-30) y Argente-Álvarez (Semiología Médica), la presencia de líquido en el espacio pleural (derrame pleural) interrumpe la transmisión de las vibraciones sonoras y amortigua el sonido de la percusión. Por lo tanto, el hallazgo característico a la percusión en un derrame pleural es la <span class='font-semibold'>matidez</span>. Esta matidez refleja la interposición de líquido entre la pared torácica y el pulmón, impidiendo la resonancia normal del aire pulmonar. Las opciones A y B (Hipersonoridad y Timpanismo) son hallazgos típicos de la presencia de aire en el tórax, como en el neumotórax o enfisema, no en un derrame pleural. La sonoridad normal o claridad pulmonar (D y E) indicarían un parénquima pulmonar y espacio pleural libres de alteraciones significativas. Por tanto, la matidez es el hallazgo percutorio que mejor se correlaciona con la acumulación de líquido. (Prioridad: Práctica semiológica 45%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> 'Líquido = Matidez'. Recuerden que el líquido no vibra y no resuena, lo que silencia el tórax al percutir."
-        },
-        {
-          question: "Un joven de 19 años, delgado y fumador, acude a la emergencia con dolor torácico agudo de inicio súbito en el hemitórax izquierdo y disnea intensa, que empeoró rápidamente. Se le observa taquipneico, con cianosis leve y una discreta protrusión del hemitórax afectado. Las vibraciones vocales están abolidas. ¿Cuál es la alteración esperada a la auscultación y percusión que confirmaría su sospecha diagnóstica?",
-          options: {
-            A: "Murmullo vesicular disminuido y matidez.",
-            B: "Murmullo vesicular abolido y timpanismo.",
-            C: "Estertores crepitantes y matidez.",
-            D: "Soplo tubárico y egofonía.",
-            E: "Roncus diseminados y sonoridad normal."
-          },
-          answer: "B",
-          explanation: "El cuadro clínico de un joven, delgado y fumador con dolor torácico súbito, disnea intensa y cianosis, junto con disminución de la movilidad torácica y abolición de las vibraciones vocales en el hemitórax izquierdo, es altamente sugestivo de un <span class='font-semibold'>neumotórax</span>. En el neumotórax, hay aire en el espacio pleural que impide la transmisión de los ruidos respiratorios y de la percusión. Según Argente-Álvarez (Semiología Médica) y Llanio Navarro (Tomo I, Cap. 30), la acumulación de aire en el espacio pleural produce <span class='font-semibold'>timpanismo o hipersonoridad</span> a la percusión y una <span class='font-semibold'>abolición o marcada disminución del murmullo vesicular</span> a la auscultación. La opción A (matidez) y C (crepitantes y matidez) son características del derrame pleural o síndromes de condensación con líquido, no de aire. La opción D (soplo tubárico y egofonía) se asocia más con síndromes de condensación pulmonar. La opción E (roncus diseminados y sonoridad normal) sugeriría una bronquitis o asma sin alteración del espacio pleural. La combinación de murmullo vesicular abolido y timpanismo es el sello semiológico del neumotórax. (Prioridad: Práctica semiológica 45%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> 'Aire = Timpanismo'. Recuerden que el aire libre en una cavidad resuena como un tambor al ser percutido, y aísla los sonidos pulmonares."
-        },
-        {
-          question: "Durante la realización de la Historia Clínica a un paciente con disnea, tos y dolor torácico, el médico recopila información sobre antecedentes personales, como tabaquismo, exposición ocupacional y enfermedades crónicas. Este proceso forma parte fundamental de la anamnesis. Según la estructura de la Historia Clínica, ¿cuál de los siguientes elementos es esencial en la redacción para conectar los síntomas actuales con la cronología y evolución del cuadro?",
-          options: {
-            A: "Datos de filiación.",
-            B: "Revisión por sistemas y aparatos.",
-            C: "Historia de la Enfermedad Actual (HEA).",
-            D: "Antecedentes familiares.",
-            E: "Impresión diagnóstica."
-          },
-          answer: "C",
-          explanation: "La pregunta se centra en la importancia de un elemento de la Historia Clínica para <span class='font-semibold'>conectar los síntomas actuales con la cronología y evolución del cuadro</span>. Según el programa de la asignatura (MÓDULO I, Semana 2) y la bibliografía como Argente-Álvarez y Bickley (Capítulos de Historia Clínica), la <span class='font-semibold'>Historia de la Enfermedad Actual (HEA)</span> es la sección de la anamnesis donde se detalla de forma ordenada y cronológica el motivo de consulta, la aparición de cada síntoma, su evolución, intensidad, factores agravantes o atenuantes, y los tratamientos previos recibidos. Es el relato exhaustivo que permite al médico comprender la dinámica de la enfermedad y establecer hipótesis diagnósticas. Los datos de filiación (A) son información demográfica. La revisión por sistemas y aparatos (B) es una indagación sistemática de síntomas en cada sistema, pero no la narrativa cronológica de la enfermedad actual. Los antecedentes familiares (D) son relevantes para factores de riesgo genéticos o hereditarios, no para la evolución del cuadro actual del paciente. La impresión diagnóstica (E) es una conclusión provisional que se obtiene después de la anamnesis y el examen físico, no una parte de la anamnesis en sí misma. Por lo tanto, la HEA es la clave para la coherencia narrativa de la enfermedad. (Prioridad: Historia Clínica 30%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> La HEA es como un 'cuento médico', donde cada síntoma es un personaje y la cronología es la trama. Una buena historia es la base de un buen diagnóstico."
-        },
-        {
-          question: "Un paciente con un gran derrame pleural izquierdo presenta matidez a la percusión y abolición del murmullo vesicular en el hemitórax afectado. ¿Cuál es el principal mecanismo fisiopatológico que explica la matidez a la percusión en este síndrome?",
-          options: {
-            A: "Aumento de la resonancia del aire en el espacio pleural.",
-            B: "Disminución de la elasticidad pulmonar.",
-            C: "Interposición de un medio denso (líquido) que amortigua las vibraciones.",
-            D: "Presencia de aire atrapado en los bronquiolos.",
-            E: "Consolidación del parénquima pulmonar adyacente."
-          },
-          answer: "C",
-          explanation: "La pregunta aborda el mecanismo fisiopatológico de un hallazgo clave en el derrame pleural: la matidez a la percusión. Según Argente-Álvarez (Semiología Médica, Fisiopatología, Semiotecnia y Propedéutica) y Goic-Chamorro-Reyes (Semiología Médica), la percusión produce sonidos que varían según la densidad del tejido subyacente. En el caso del pulmón normal, el aire presente permite una sonoridad resonante. Cuando hay un derrame pleural, el espacio entre la pared torácica y el pulmón se llena de líquido, que es un <span class='font-semibold'>medio mucho más denso que el aire</span>. Esta interposición de líquido actúa como una barrera que <span class='font-semibold'>amortigua o absorbe las vibraciones</span> generadas por la percusión, impidiendo que el sonido resuene y se propague. El resultado es un sonido sordo, conocido como <span class='font-semibold'>matidez</span>. La opción A describe un mecanismo que llevaría a hipersonoridad o timpanismo. La opción B y D describen alteraciones pulmonares intrínsecas que no son la causa directa de la matidez pleural. La opción E, la consolidación, también produce matidez, pero el mecanismo principal es un cambio en la densidad del parénquima pulmonar por ocupación alveolar de exudado, no por líquido en el espacio pleural directamente interponiéndose entre el tórax y el pulmón. En el contexto de un derrame pleural, el factor decisivo es el líquido en el espacio pleural. (Prioridad: Bases fisiopatológicas 25%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> Imaginen un tambor: si le echas agua dentro, el sonido se vuelve sordo. Así, el líquido en la pleura 'apaga' el sonido del tórax al percutir."
-        },
-        {
-          question: "Un paciente con neumotórax a tensión presenta desviación de la tráquea hacia el lado contralateral. Fisiopatológicamente, ¿cuál es la razón principal de esta desviación traqueal?",
-          options: {
-            A: "Inflamación de los ganglios linfáticos mediastínicos.",
-            B: "Aumento de la presión intratorácica en el hemitórax afectado.",
-            C: "Colapso pulmonar ipsilateral que tira de la tráquea.",
-            D: "Hipertrofia compensatoria del pulmón contralateral.",
-            E: "Debilidad de los músculos del cuello en el lado afectado."
-          },
-          answer: "B",
-          explanation: "La desviación de la tráquea es un signo clínico grave, particularmente en el <span class='font-semibold'>neumotórax a tensión</span>. En esta condición, el aire entra al espacio pleural durante la inspiración pero no puede salir durante la espiración, lo que lleva a una <span class='font-semibold'>acumulación progresiva de aire y un aumento masivo de la presión intratorácica</span> en el hemitórax afectado. Esta presión positiva extrema comprime el pulmón ipsilateral, empuja el mediastino (que incluye la tráquea, el corazón y los grandes vasos) hacia el lado opuesto (contralateral) y compromete severamente el retorno venoso al corazón. Este mecanismo está bien descrito en textos como Argente-Álvarez (Semiología Médica) y Goic-Chamorro-Reyes (Semiología Médica), resaltando la fisiopatología de la compresión. La opción A no es un mecanismo directo. La opción C es incorrecta, ya que el colapso pulmonar ocurre en el lado afectado, pero es la presión del aire la que empuja, no el pulmón colapsado el que 'tira'. La opción D y E no tienen relación directa con la desviación traqueal en el neumotórax a tensión. La desviación traqueal es, por tanto, un signo de una emergencia médica que requiere intervención inmediata para descomprimir el tórax. (Prioridad: Bases fisiopatológicas 25%)<br><br><span class='perla-catedra'>Perla de la Cátedra:</span> Un neumotórax a tensión es como un globo descontrolado dentro del tórax: infla tanto que empuja todo a su paso, incluyendo la tráquea. Es una señal de alarma crítica."
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
         }
-      ];
+        .glass {
+            background: rgba(15, 20, 36, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .flashcard-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flashcard-flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-16 relative overflow-x-hidden">
+    <!-- Background blurred blobs -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl -z-10 opacity-10 bg-blue-500 animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl -z-10 opacity-10 bg-indigo-500"></div>
 
-      const quizContainer = document.getElementById('quiz');
-      let score = 0;
-
-      function loadQuiz() {
-        quizData.forEach((q, index) => {
-          const questionDiv = document.createElement('div');
-          questionDiv.classList.add('quiz-question');
-          questionDiv.innerHTML = `
-            <p class='text-lg font-semibold mb-3 text-blue-800'>Pregunta ${index + 1}:</p>
-            <div class='question-vignette'>${q.question}</div>
-            <div class='quiz-options'>
-              ${Object.keys(q.options).map(key => `
-                <label>
-                  <input type='radio' name='question${index}' value='${key}'>
-                  ${key}: ${q.options[key]}
-                </label>
-              `).join('')}
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Encabezado -->
+        <header class="glass rounded-3xl p-6 mb-8 border-l-4 border-l-blue-500 shadow-xl relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded border border-blue-500/20">
+                            MED-228 — UCE
+                        </span>
+                        <span class="text-xs text-gray-400">• Primer Parcial / Temario Oficial</span>
+                    </div>
+                    <h1 class="text-3xl font-display font-extrabold mt-2 tracking-tight text-white">
+                        Simulador y Repaso del Primer Parcial
+                    </h1>
+                    <p class="text-gray-400 text-xs mt-1">
+                        Semanas 1 a 6: Conceptos, Historia Clínica, Examen Físico (IPPA), Cabeza y Cuello.
+                    </p>
+                </div>
             </div>
-            <button class='quiz-button mt-4' onclick='checkAnswer(${index})'>Verificar Respuesta</button>
-            <div id='feedback-${index}' class='quiz-feedback hidden'></div>
-          `;
-          quizContainer.appendChild(questionDiv);
-        });
-      }
+        </header>
 
-      function checkAnswer(questionIndex) {
-        const selectedOption = document.querySelector(`input[name='question${questionIndex}']:checked`);
-        const feedbackDiv = document.getElementById(`feedback-${questionIndex}`);
+        <!-- Navegación Tabs -->
+        <div class="flex gap-4 mb-8 bg-gray-900/40 p-1.5 rounded-2xl border border-gray-800/80 max-w-sm">
+            <button id="tab-flashcards-btn" onclick="switchTab('flashcards')" class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer bg-blue-600 text-white shadow-md">
+                📇 Flashcards (20)
+            </button>
+            <button id="tab-quiz-btn" onclick="switchTab('quiz')" class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-gray-400 hover:text-gray-200">
+                📋 Simulador Examen (20)
+            </button>
+        </div>
 
-        if (!selectedOption) {
-          feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
-          feedbackDiv.classList.add('incorrect');
-          feedbackDiv.innerHTML = 'Por favor, selecciona una opción.';
-          return;
+        <!-- TAB 1: FLASHCARDS -->
+        <div id="tab-flashcards" class="space-y-6">
+            <div class="flex justify-between items-center bg-gray-900/30 border border-gray-800/60 p-4 rounded-2xl text-xs">
+                <div class="text-gray-400">
+                    Tarjetas cargadas: <strong class="text-blue-400 font-mono">20 Conceptos Clave</strong>
+                </div>
+                <div class="text-gray-400 font-medium hidden sm:block">
+                    Haz clic en cada tarjeta para voltearla
+                </div>
+            </div>
+
+            <!-- Grid de Flashcards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tarjeta 1 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Concepto Semiológico</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cuál es la diferencia conceptual básica entre un signo y un síntoma?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                El <strong>signo</strong> es una manifestación objetiva física o química que es observada y medida por el médico durante el examen físico (ej. ictericia, esplenomegalia, fiebre). El <strong>síntoma</strong> es una manifestación subjetiva percibida únicamente por el paciente y referida durante la anamnesis (ej. dolor, náuseas, astenia).
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Semántico (Concepto)</span>
+                                <span>ID: #1</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 2 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Concepto Semiológico</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es un signo patognomónico y cuál es su relevancia clínica?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Es un signo clínico cuya presencia establece de forma absoluta, inequívoca e incuestionable el diagnóstico de una determinada enfermedad (ej. las manchas de Koplik para el sarampión o el eritema migratorio para la enfermedad de Lyme).
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Semántico (Concepto)</span>
+                                <span>ID: #2</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 3 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Historia Clínica</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cuál es la regla de oro para la redacción de la Historia de la Enfermedad Actual (HEA)?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Debe ser redactada de manera <strong>cronológica, descriptiva y formal</strong>. Se deben usar términos médicos apropiados, evitar el lenguaje popular del paciente (traducirlo al lenguaje técnico) y narrar detalladamente la evolución del síntoma principal aplicando la semiología del dolor (ALICIA) u otras características según corresponda.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Metodológico (Redacción)</span>
+                                <span>ID: #3</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 4 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Historia Clínica</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cómo debe registrarse correctamente el 'Motivo de Consulta' en la Historia Clínica?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Debe consistir en la <strong>queja o síntoma principal</strong> que obligó al paciente a buscar atención médica, expresado en pocas palabras y de forma breve (ej. 'dolor de cabeza' o 'cefalea'). Nunca debe escribirse un diagnóstico preestablecido (ej. 'crisis de migraña' o 'apendicitis') a menos que sea una referencia formal.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Metodológico (Redacción)</span>
+                                <span>ID: #4</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 5 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Técnica de Exploración</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cómo se realiza y qué evalúa la maniobra de Quervain en el cuello?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                El médico se sitúa detrás del paciente sentado, rodea el cuello con ambas manos colocando los pulgares en la nuca y las puntas de los dedos índice y medio en la cara anterior debajo del cricoides. Se le pide al paciente que trague para palpar el ascenso del istmo y los lóbulos tiroideos. Evalúa tamaño, simetría, movilidad y consistencia de la tiroides.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Maniobra)</span>
+                                <span>ID: #5</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 6 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Técnica de Exploración</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿En qué consiste la maniobra de Lahey para palpar la glándula tiroides?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                El médico se sitúa delante del paciente. Con el pulgar de una mano desplaza la tráquea y la tiroides hacia el lado opuesto, mientras que con los dedos de la otra mano palpa el lóbulo tiroideo que sobresale. Permite evaluar de manera individualizada el lóbulo contralateral al desplazamiento.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Maniobra)</span>
+                                <span>ID: #6</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 7 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cuello</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es el ganglio de Virchow (Troisier o Centinela) y qué sospecha clínica plantea?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Es un ganglio supraclavicular izquierdo aumentado de tamaño, de consistencia pétrea, indoloro y no móvil. Su presencia sugiere fuertemente metástasis linfática de una neoplasia maligna oculta de la cavidad abdominal (principalmente adenocarcinoma gástrico) o pélvica, debido a la vecindad con el conducto torácico.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Diagnóstico)</span>
+                                <span>ID: #7</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 8 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Técnicas de Percusión</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cuál es la diferencia semiológica entre matidez, sonoridad pulmonar y timpanismo?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                <strong>Sonoridad:</strong> ruido de tono bajo y resonancia clara, típico del pulmón normal. <strong>Matidez:</strong> ruido corto, sordo y de tono alto, producido al percutir órganos sólidos (hígado) o áreas consolidadas (neumonía). <strong>Timpanismo:</strong> ruido musical y de tono alto, característico de órganos huecos que contienen aire (estómago, colon).
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Diferenciación)</span>
+                                <span>ID: #8</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 9 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Técnicas de Percusión</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cómo se define la percusión dígito-digital de Gerhardt?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Se apoya firmemente el dedo medio de la mano no dominante (dedo plexímetro) sobre la piel del paciente en un espacio intercostal. Con el dedo medio de la mano dominante (dedo percutor), doblado en ángulo recto, se realiza un golpe seco, rápido y perpendicular sobre la articulación interfalángica distal del plexímetro, usando solo la articulación de la muñeca.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Percusión)</span>
+                                <span>ID: #9</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 10 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Técnicas de Auscultación</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Para qué tipos de ruidos se utiliza el diafragma y para cuáles la campana del estetoscopio?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                El <strong>diafragma</strong> (membrana rígida) se usa para ruidos de alta frecuencia o tonos agudos (ruido laringotraqueal, murmullo vesicular, soplos sistólicos eyectivos, frotis pericárdico). La <strong>campana</strong> (cúpula abierta) se usa para ruidos de baja frecuencia o tonos graves (R3, R4, soplo de estenosis mitral).
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Auscultación)</span>
+                                <span>ID: #10</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 11 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cabeza</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es el papiledema en el fondo de ojo y qué indica?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Es la inflamación y sobreelevación de la papila o disco óptico. Se caracteriza semiológicamente por borramiento de sus límites, desaparición de la pulsación venosa normal, sobreelevación del disco y congestión o microhemorragias retinianas. Indica de forma directa <strong>hipertensión endocraneal</strong>.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Fondo de Ojo)</span>
+                                <span>ID: #11</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 12 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cabeza</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es la pupila de Argyll Robertson y en qué patología es característica?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Es una alteración pupilar caracterizada por pupilas pequeñas, desiguales e irregulares que <strong>no reaccionan a la luz directa (reflejo fotomotor abolido)</strong>, pero que <strong>conservan la contracción con la acomodación y convergencia</strong>. Es un signo clásico de la <strong>neurosífilis (tabes dorsal)</strong>.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Pupila)</span>
+                                <span>ID: #12</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 13 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cabeza</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cómo se realiza y cómo se interpreta la prueba de Weber auditiva?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Se coloca el pie de un diapasón vibrando en la línea media de la frente o el vértice del cráneo del paciente. Se le pregunta dónde escucha el sonido. En personas normales se escucha igual. Si <strong>lateraliza al oído enfermo</strong> indica sordera de conducción. Si <strong>lateraliza al oído sano</strong> indica sordera neurosensorial.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Weber)</span>
+                                <span>ID: #13</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 14 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cabeza</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cómo se interpreta una prueba de Rinne positiva y una negativa?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Se coloca el diapasón en la mastoides hasta que deje de vibrar y luego frente al conducto auditivo. <strong>Rinne Positivo:</strong> el sonido se escucha por aire más tiempo que por hueso (normal o hipoacusia neurosensorial). <strong>Rinne Negativo:</strong> el sonido se escucha por hueso igual o más tiempo que por aire (hipoacusia de conducción).
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Rinne)</span>
+                                <span>ID: #14</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 15 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cuello</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Cómo diferenciar clínicamente un soplo carotídeo verdadero de un soplo irradiado de estenosis aórtica?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                El soplo carotídeo es habitualmente unilateral, de carácter soplante y mayor intensidad en la bifurcación carotídea alta. El soplo irradiado de estenosis aórtica es bilateral, disminuye de intensidad a medida que sube por el cuello, se acompaña de frémito carotídeo y coincide temporalmente con el soplo áspero eyectivo en el foco aórtico.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Diferenciación)</span>
+                                <span>ID: #15</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 16 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cuello</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿A qué inclinación se evalúa la presión venosa yugular y qué altura es patológica?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Se evalúa con el paciente recostado a <strong>45 grados</strong> de inclinación del torso. Se mide verticalmente desde la parte superior de la oscilación yugular interna hasta el ángulo esternal (ángulo de Louis). Una medición superior a <strong>3-4 cm</strong> por encima del ángulo esternal se considera patológica (sugiere falla del ventrículo derecho, taponamiento o sobrecarga).
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Evaluación)</span>
+                                <span>ID: #16</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 17 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cabeza</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es la facies hipocrática o peritoneal y en qué patologías se observa?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Se caracteriza por piel pálida, sudorosa o grisácea, ojos hundidos y rodeados de ojeras oscuras, sienes deprimidas, nariz afilada y expresión de sufrimiento extremo. Es típica de cuadros abdominales agudos graves como la peritonitis generalizada o en etapas agónicas.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Facies)</span>
+                                <span>ID: #17</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 18 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cabeza</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es la glositis de Hunter, cómo se ve y a qué déficit se asocia?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Es una inflamación de la lengua que se observa lisa, brillante, depapilada (atrofia de las papilas filiformes) y de color rojo intenso o escarlata. A menudo el paciente refiere ardor o dolor (glosodinia). Se asocia clásicamente al déficit de <strong>vitamina B12 (anemia perniciosa)</strong> o de ácido fólico.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Boca)</span>
+                                <span>ID: #18</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 19 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología General</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es el signo de Musset y con qué valvulopatía se asocia?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Consiste en la presencia de movimientos oscilatorios y rítmicos de flexión y extensión de la cabeza ('asentimientos') sincrónicos con los latidos cardíacos. Es provocado por el aumento masivo del volumen sistólico y se asocia típicamente a la <strong>insuficiencia aórtica severa</strong>.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Perceptual (Signo)</span>
+                                <span>ID: #19</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta 20 -->
+                <div class="h-60 cursor-pointer group" onclick="this.classList.toggle('flashcard-flipped')" style="perspective: 1000px;">
+                    <div class="flashcard-inner relative w-full h-full text-center rounded-2xl shadow-xl bg-[#0f1424]/90 border border-gray-800">
+                        <!-- Frontal -->
+                        <div class="backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-between">
+                            <span class="text-[9px] uppercase font-mono font-bold text-blue-400 tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full self-start">Semiología de Cuello</span>
+                            <p class="font-semibold text-gray-100 text-xs sm:text-sm leading-relaxed my-auto">
+                                ¿Qué es la maniobra de Marañón (signo de Pemberton) y qué evalúa?
+                            </p>
+                            <span class="text-[10px] text-gray-500 group-hover:text-blue-400 transition-colors">Haz clic para voltear</span>
+                        </div>
+                        <!-- Posterior -->
+                        <div class="backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-5 bg-[#0a1830]/95 border border-blue-900/40 rounded-2xl flex flex-col justify-between text-left">
+                            <span class="text-[9px] uppercase font-mono font-bold text-green-400 tracking-wider bg-green-500/10 px-2 py-0.5 rounded-full self-start">Respuesta Oficial</span>
+                            <p class="text-gray-300 text-xs leading-relaxed my-auto overflow-y-auto pr-1">
+                                Se le pide al paciente que levante ambos brazos extendidos verticalmente tocando sus orejas y que incline la cabeza hacia atrás durante 1 minuto. Es <strong>positivo</strong> si presenta congestión facial progresiva, plétora, cianosis o disnea, indicando la compresión de la vena cava superior por un bocio intratorácico.
+                            </p>
+                            <span class="text-[9px] font-mono text-blue-400 border-t border-gray-800/80 pt-2 w-full mt-2 flex justify-between">
+                                <span>Procedimental (Maniobra)</span>
+                                <span>ID: #20</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: QUIZ -->
+        <div id="tab-quiz" class="hidden space-y-6">
+            <div class="text-[11px] text-gray-400 bg-gray-900/30 border border-gray-800/70 rounded-xl px-3 py-2 flex justify-between items-center">
+                <span>Simulador del examen parcial UCE (MED-228). 20 Casos Clínicos integrales.</span>
+                <span class="font-mono text-blue-400" id="quiz-progress-text">Pregunta 1 de 20</span>
+            </div>
+
+            <!-- Quiz Questions Container -->
+            <div id="quiz-container" class="glass rounded-3xl p-6 md:p-8 border border-gray-800/80 shadow-2xl space-y-6">
+                <!-- Question Block 1 -->
+                <div class="question-block " id="question-1">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 1 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Varón de 58 años acude por pérdida de peso inexplicable de 10 kg y saciedad temprana. Al examen físico segmentario del cuello, con el paciente sentado y la cabeza levemente inclinada hacia la izquierda, se palpa un ganglio linfático de consistencia pétrea, indoloro y móvil, de 2.5 cm, ubicado en la fosa supraclavicular izquierda, justo detrás de la inserción del esternocleidomastoideo."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se denomina semiológicamente este hallazgo y qué patología subyacente sugiere con mayor probabilidad?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(1, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Ganglio de Grotton - Tuberculosis ganglionar (escrófula)</span>
+                        </button>
+                        <button onclick="selectOption(1, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Síndrome Óculo-ganglionar de Parinaud - Carcinoma de laringe</span>
+                        </button>
+                        <button onclick="selectOption(1, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Ganglio de Virchow (Troisier/Centinela) - Neoplasia maligna intraabdominal (cáncer gástrico)</span>
+                        </button>
+                        <button onclick="selectOption(1, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Quiste Tirogloso - Quiste branquial infectado</span>
+                        </button>
+                        <button onclick="selectOption(1, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Ganglio de Aschoff - Linfoma de Hodgkin supraclavicular</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 2 -->
+                <div class="question-block hidden" id="question-2">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 2 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Paciente de 54 años con antecedentes de hipertensión arterial crónica mal controlada ingresa por disnea progresiva de esfuerzo. Al examen físico, en el ápex cardíaco, se ausculta un ruido de tono grave, presistólico, que ocurre justo antes del primer ruido (R1). El electrocardiograma muestra ritmo sinusal e hipertrofia ventricular izquierda."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuál es el mecanismo fisiopatológico que explica la producción de este ruido cardíaco adicional (R4)?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(2, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Llenado diastólico rápido pasivo de un ventrículo con sobrecarga de volumen</span>
+                        </button>
+                        <button onclick="selectOption(2, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Cierre retrasado de la válvula pulmonar debido a un aumento del retorno venoso inspiratorio</span>
+                        </button>
+                        <button onclick="selectOption(2, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Vibración de la pared ventricular durante la contracción auricular forzada contra un ventrículo rígido (hipertrofiado)</span>
+                        </button>
+                        <button onclick="selectOption(2, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Roce de las hojas pericárdicas inflamadas durante la sístole ventricular</span>
+                        </button>
+                        <button onclick="selectOption(2, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Flujo turbulento a través de una válvula mitral estenosada durante el llenado rápido pasivo</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 3 -->
+                <div class="question-block hidden" id="question-3">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 3 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un lactante de 14 meses presenta una erupción máculo-papular eritematosa generalizada que inició detrás de las orejas y se extendió al tronco. Durante la exploración física de la mucosa oral, se identifican en la mucosa yugal contraria a los molares inferiores unas lesiones puntiformes de 1 mm, blanco-grisáceas con una areola eritematosa."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se denominan estas lesiones de la mucosa oral y qué concepto semiológico representan?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(3, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Manchas de Forchheimer - Síntoma prodrómico de la rubéola</span>
+                        </button>
+                        <button onclick="selectOption(3, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Manchas de Koplik - Signo patognomónico del sarampión</span>
+                        </button>
+                        <button onclick="selectOption(3, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Aftas de Bednar - Lesión patognomónica de estomatitis</span>
+                        </button>
+                        <button onclick="selectOption(3, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Manchas de Koplik - Síntoma inespecífico del sarampión</span>
+                        </button>
+                        <button onclick="selectOption(3, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Líneas de Filatov - Signo inespecífico de escarlatina</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 4 -->
+                <div class="question-block hidden" id="question-4">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 4 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un estudiante de medicina redacta la Historia de la Enfermedad Actual de un paciente que ingresó por dolor abdominal: 'Paciente siente un dolor feo en la barriga desde ayer, que le dio después de cenar un pica-pollo. Le duele mucho y cree que es porque comió algo dañado. Tomó una Buscapina que le dio su vecina y mejoró un poco, pero luego le dolió más'."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuál es el principal error semiotécnico en la redacción de este fragmento?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(4, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Haber incluido la marca comercial del medicamento (Buscapina)</span>
+                        </button>
+                        <button onclick="selectOption(4, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Haber redactado en orden cronológico en lugar de empezar por el estado actual</span>
+                        </button>
+                        <button onclick="selectOption(4, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Utilizar lenguaje popular, juicios de valor del paciente ('dolor feo') y opiniones subjetivas en vez de terminología científica y descriptiva</span>
+                        </button>
+                        <button onclick="selectOption(4, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Describir la mejoría del dolor con la medicación en lugar de omitirla</span>
+                        </button>
+                        <button onclick="selectOption(4, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Haber omitido el nombre de la vecina que suministró la medicación</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 5 -->
+                <div class="question-block hidden" id="question-5">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 5 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un paciente varón de 45 años ingresa al servicio de urgencias tras sufrir un traumatismo craneoencefálico en un accidente automovilístico. A la evaluación neurológica pupilar en una habitación oscura, se observa que la pupila derecha tiene un diámetro de 6 mm y no responde al estímulo lumínico directo ni consensual, mientras que la pupila izquierda mide 3 mm y reacciona de manera normal."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se describe semiológicamente este hallazgo y cuál es su correlación fisiopatológica más probable?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(5, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Isocoria con reflejo fotomotor ausente; lesión del nervio óptico derecho (II par)</span>
+                        </button>
+                        <button onclick="selectOption(5, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Anisocoria por midriasis derecha; compresión del tercer par craneal (motor ocular común) ipsilateral por una hernia uncal</span>
+                        </button>
+                        <button onclick="selectOption(5, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Miosis derecha reactiva; estimulación simpática cervical bilateral por el trauma</span>
+                        </button>
+                        <button onclick="selectOption(5, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Anisocoria por miosis izquierda; lesión del sistema parasimpático del ojo izquierdo</span>
+                        </button>
+                        <button onclick="selectOption(5, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Discoria pupilar derecha; rotura del esfínter del iris por trauma directo ocular</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 6 -->
+                <div class="question-block hidden" id="question-6">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 6 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Una mujer de 29 años acude a consulta por cefalea pulsátil que ha empeorado en la última semana, acompañada de diplopía y ruidos rítmicos en los oídos (tinnitus pulsátil). Al realizar el examen de fondo de ojo con el oftalmoscopio directo, usted identifica borramiento de los bordes del disco óptico, ausencia de la pulsación venosa espontánea y sobreelevación de la papila con algunas microhemorragias retinianas radiales."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuál es el hallazgo semiológico descrito y cuál es su significado principal?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(6, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Retinopatía hipertensiva grado IV; crisis hipertensiva oculta</span>
+                        </button>
+                        <button onclick="selectOption(6, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Atrofia del nervio óptico; esclerosis múltiple en fase activa</span>
+                        </button>
+                        <button onclick="selectOption(6, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Papiledema bilateral; elevación patológica de la presión intracraneana (hipertensión endocraneal)</span>
+                        </button>
+                        <button onclick="selectOption(6, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Neuritis óptica unilateral anterior; esclerosis múltiple desmielinizante</span>
+                        </button>
+                        <button onclick="selectOption(6, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Excavación glaucoma papilar; glaucoma de ángulo abierto no controlado</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 7 -->
+                <div class="question-block hidden" id="question-7">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 7 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un paciente acude por cefalea en la región frontal, rinorrea purulenta unilateral y fiebre de 38.2°C de 5 días de evolución. Al realizar la palpación facial, usted ejerce presión firme sobre la región del ángulo superior e interno de la órbita (debajo del reborde superciliar) y el paciente refiere un dolor lancinante agudo unilateral."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Qué punto doloroso se está evaluando y qué diagnóstico apoya?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(7, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Punto infraorbitario; neuralgia del nervio trigémino (rama maxilar)</span>
+                        </button>
+                        <button onclick="selectOption(7, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Punto suborbitario de Ewing; otitis media aguda</span>
+                        </button>
+                        <button onclick="selectOption(7, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Punto frontal o de Ewing; sinusitis frontal aguda</span>
+                        </button>
+                        <button onclick="selectOption(7, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Punto maxilar de Quervain; sinusitis maxilar crónica</span>
+                        </button>
+                        <button onclick="selectOption(7, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Punto mentoniano de Lahey; osteomielitis mandibular anterior</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 8 -->
+                <div class="question-block hidden" id="question-8">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 8 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Mujer de 35 años acude por temblor en manos, palpitaciones y pérdida de peso a pesar de un apetito aumentado. Al realizar el examen del cuello, usted coloca sus manos alrededor del cuello del paciente desde atrás, situando sus dedos índices y medios debajo del cricoides, y siente una glándula de tamaño incrementado, consistencia elástica y uniforme, que asciende suavemente al pedirle a la paciente que degluta saliva."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se llama la maniobra realizada y cuál es la técnica semiológica correcta descrita?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(8, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Maniobra de Lahey; palpación bimanual anterior de los lóbulos</span>
+                        </button>
+                        <button onclick="selectOption(8, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Maniobra de Quervain; palpación bimanual posterior con pulgares en la nuca e índice/medio palpan lóbulos</span>
+                        </button>
+                        <button onclick="selectOption(8, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Maniobra de Marañón; palpación anterior monomanual de la tiroides</span>
+                        </button>
+                        <button onclick="selectOption(8, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Maniobra de Crile; palpación anterior bimanual donde una mano fija y la otra palpa activamente</span>
+                        </button>
+                        <button onclick="selectOption(8, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Maniobra de Pemberton; elevación pasiva de los brazos para visualizar bocio</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 9 -->
+                <div class="question-block hidden" id="question-9">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 9 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un paciente varón de 65 años acude por ronquera de 3 meses. Al examinar el cuello por palpación, se detecta una masa nodular de 2.0 cm en el tercio inferior del cuello, adyacente a la tráquea, que es dura, inmóvil a la deglución y firmemente adherida a los planos profundos, no dolorosa al tacto."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuáles características de esta masa cervical sugieren fuertemente sospecha de malignidad tiroidea?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(9, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Tamaño menor a 3 cm y consistencia blanda</span>
+                        </button>
+                        <button onclick="selectOption(9, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Movilidad conservada a la deglución e hipersensibilidad al tacto</span>
+                        </button>
+                        <button onclick="selectOption(9, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Consistencia dura (pétrea), fijeza a los planos profundos y falta de ascenso con la deglución</span>
+                        </button>
+                        <button onclick="selectOption(9, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Ubicación en el tercio superior del cuello y presencia de calor local</span>
+                        </button>
+                        <button onclick="selectOption(9, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Ausencia de ganglios satélites e hipersensibilidad al tacto</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 10 -->
+                <div class="question-block hidden" id="question-10">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 10 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Durante la rotación médica en la UCE, el docente presenta a una paciente femenina de 56 años con bocio multinodular de gran tamaño. El docente le pide a la paciente que levante ambos brazos extendidos verticalmente y pegados a las orejas por 60 segundos. A los 40 segundos, la paciente desarrolla plétora facial marcada, ingurgitación venosa yugular severa y estridor laríngeo."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se llama este signo semiológico y qué fenómeno fisiopatológico representa?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(10, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Signo de Pemberton positivo; obstrucción del estrecho torácico superior por bocio intratorácico (endotorácico)</span>
+                        </button>
+                        <button onclick="selectOption(10, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Maniobra de Marañón negativa; insuficiencia cardíaca derecha en fase congestiva descompensada</span>
+                        </button>
+                        <button onclick="selectOption(10, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Maniobra de Quervain; compresión carotídea bilateral por estenosis intrínseca</span>
+                        </button>
+                        <button onclick="selectOption(10, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Signo de Troisier; metástasis tumoral linfática apical pulmonar obstructiva</span>
+                        </button>
+                        <button onclick="selectOption(10, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Signo de Horner positivo; compresión de la cadena simpática cervical estrellada</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 11 -->
+                <div class="question-block hidden" id="question-11">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 11 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un paciente varón de 48 años acude por hipoacusia izquierda progresiva. A la exploración física con el diapasón de 512 Hz, usted realiza la prueba de Rinne colocando el pie del diapasón en la mastoides izquierda; el paciente deja de escuchar el sonido a los 10 segundos, pero al colocarlo frente al conducto auditivo de inmediato, no escucha nada (Rinne negativo). En la prueba de Weber, el sonido se percibe con mayor intensidad en el oído izquierdo."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Qué tipo de hipoacusia y en qué oído presenta el paciente?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(11, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Hipoacusia neurosensorial en el oído izquierdo</span>
+                        </button>
+                        <button onclick="selectOption(11, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Hipoacusia de conducción en el oído derecho</span>
+                        </button>
+                        <button onclick="selectOption(11, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Hipoacusia de conducción en el oído izquierdo</span>
+                        </button>
+                        <button onclick="selectOption(11, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Hipoacusia neurosensorial en el oído derecho</span>
+                        </button>
+                        <button onclick="selectOption(11, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Audición normal en el oído izquierdo con alteración psicógena</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 12 -->
+                <div class="question-block hidden" id="question-12">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 12 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Paciente femenino de 42 años acude por parálisis facial. Al examen físico se observa asimetría facial al hablar, desviación de la comisura bucal hacia el lado izquierdo, imposibilidad para cerrar el párpado derecho (lagoftalmos) con desviación del globo ocular hacia arriba al intentarlo (signo de Bell) y borramiento completo de las arrugas de la mitad derecha de la frente."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Qué diagnóstico semiológico plantea y dónde se localiza anatómicamente la lesión nerviosa?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(12, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Parálisis facial central derecha; lesión de la corteza motora primaria izquierda</span>
+                        </button>
+                        <button onclick="selectOption(12, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Parálisis facial periférica derecha; lesión del núcleo o axón periférico del VII par craneal (facial) derecho</span>
+                        </button>
+                        <button onclick="selectOption(12, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Parálisis facial periférica izquierda; lesión del nervio facial izquierdo</span>
+                        </button>
+                        <button onclick="selectOption(12, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Parálisis facial central izquierda; lesión capsular interna derecha</span>
+                        </button>
+                        <button onclick="selectOption(12, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Neuralgia del trigémino derecho; compromiso de la rama motora mandibular</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 13 -->
+                <div class="question-block hidden" id="question-13">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 13 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Durante la auscultación cardíaca de un varón de 23 años con sospecha de miocardiopatía hipertrófica obstructiva, usted detecta un soplo sistólico eyectivo rudo en el foco aórtico. Al pedirle al paciente que realice una maniobra de espiración forzada contra la glotis cerrada (Maniobra de Valsalva), la intensidad del soplo aumenta de grado II/VI a IV/VI."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuál es la explicación fisiopatológica de este fenómeno?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(13, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Aumento del retorno venoso que incrementa el llenado del ventrículo izquierdo</span>
+                        </button>
+                        <button onclick="selectOption(13, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Disminución del retorno venoso que reduce el volumen del ventrículo izquierdo, aumentando la obstrucción dinámica y la turbulencia en el tracto de salida</span>
+                        </button>
+                        <button onclick="selectOption(13, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Vasodilatación periférica refleja que reduce la poscarga sistólica del ventrículo</span>
+                        </button>
+                        <button onclick="selectOption(13, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Aumento del tono parasimpático que disminuye la frecuencia cardíaca de forma brusca</span>
+                        </button>
+                        <button onclick="selectOption(13, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Cierre prematuro de la válvula mitral que reduce el área de paso de sangre en sístole</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 14 -->
+                <div class="question-block hidden" id="question-14">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 14 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un varón de 64 años acude por aumento progresivo del diámetro del cuello y disnea. Al examen físico segmentario del cuello, con el paciente recostado a 45°, se aprecia una ingurgitación venosa yugular bilateral que llega hasta el lóbulo de la oreja. Al presionar firmemente el cuadrante superior derecho del abdomen por 15 segundos, la altura del pulso yugular en el cuello asciende 4 cm y se mantiene elevada durante toda la compresión."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se denomina este signo clínico y qué alteración subyacente indica?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(14, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Signo de Kussmaul; pericarditis constrictiva</span>
+                        </button>
+                        <button onclick="selectOption(14, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Reflujo hepatojugular positivo; incapacidad del ventrículo derecho para manejar un aumento del retorno venoso (insuficiencia cardíaca derecha)</span>
+                        </button>
+                        <button onclick="selectOption(14, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Signo de Pemberton; bocio endotorácico obstructivo</span>
+                        </button>
+                        <button onclick="selectOption(14, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Signo de Troisier; adenocarcinoma gástrico metastásico</span>
+                        </button>
+                        <button onclick="selectOption(14, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Reflujo hepatojugular negativo; taponamiento cardíaco severo</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 15 -->
+                <div class="question-block hidden" id="question-15">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 15 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Al realizar la percusión del tórax anterior derecho en un paciente de 25 años con neumonía lobar del lóbulo medio, usted progresa de arriba hacia abajo sobre la línea medioclavicular. Identifica un cambio del tono claro y resonante por un ruido sordo, seco y de corta duración en el 4to y 5to espacio intercostal, seguido por un tono timpánico y musical en el hipocondrio."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuáles son los términos semiológicos de los ruidos percutorios en secuencia descendente y a qué corresponden?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(15, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Timpanismo (pulmón neumónico), Matidez (hígado), Sonoridad (estómago)</span>
+                        </button>
+                        <button onclick="selectOption(15, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Sonoridad (pulmón normal), Matidez (consolidación neumónica del lóbulo medio/hígado), Timpanismo (colon/estómago)</span>
+                        </button>
+                        <button onclick="selectOption(15, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Sonoridad (derrame pleural), Resonancia (neumotórax), Matidez (hígado)</span>
+                        </button>
+                        <button onclick="selectOption(15, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Matidez (neumonía), Timpanismo (derrame pleural), Sonoridad (hígado)</span>
+                        </button>
+                        <button onclick="selectOption(15, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Sonoridad (pulmón normal), Timpanismo (derrame pleural), Matidez (colon)</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 16 -->
+                <div class="question-block hidden" id="question-16">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 16 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Paciente masculino de 62 años con antecedentes de tabaquismo pesado acude por presentar dolor torácico sordo. Al examen físico del cuello, se palpa un ganglio linfático de 1.8 cm en la fosa supraclavicular derecha, duro, inmóvil y no doloroso. El resto de la exploración abdominal es normal."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se llama este ganglio, qué sospecha clínica plantea y en qué difiere del ganglio homónimo izquierdo?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(16, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Ganglio de Virchow izquierdo; metástasis de cáncer gástrico</span>
+                        </button>
+                        <button onclick="selectOption(16, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Ganglio supraclavicular derecho o Centinela derecho; sugiere metástasis de neoplasia intratorácica (cáncer de pulmón o esófago)</span>
+                        </button>
+                        <button onclick="selectOption(16, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Ganglio de Troisier; es patognomónico de esofagitis péptica severa</span>
+                        </button>
+                        <button onclick="selectOption(16, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Ganglio de Grotton; indica tuberculosis pulmonar cavitada activa</span>
+                        </button>
+                        <button onclick="selectOption(16, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Ganglio de Aschoff; metástasis de carcinoma de próstata</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 17 -->
+                <div class="question-block hidden" id="question-17">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 17 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Durante una clase práctica de semiología, usted examina la cavidad bucal de un paciente de 52 años diagnosticado con anemia severa. Al observar la lengua, nota que carece de papilas filiformes en su dorso, viéndose completamente roja, lisa, brillante y como 'depilada'. El paciente refiere ardor doloroso con alimentos ácidos."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cuál es la denominación semiológica de esta lengua y qué causa específica sugiere?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(17, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Lengua geográfica o glositis migratoria - Infección por Candida albicans</span>
+                        </button>
+                        <button onclick="selectOption(17, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Glositis de Hunter - Deficiencia de Vitamina B12 (anemia perniciosa) o ácido fólico</span>
+                        </button>
+                        <button onclick="selectOption(17, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Lengua escrotal o fisurada - Síndrome de Down o anomalía congénita</span>
+                        </button>
+                        <button onclick="selectOption(17, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Lengua vellosa negra - Uso prolongado de antibióticos de amplio espectro</span>
+                        </button>
+                        <button onclick="selectOption(17, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Lengua de frambuesa - Escarlatina estreptocócica aguda</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 18 -->
+                <div class="question-block hidden" id="question-18">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 18 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Paciente varón de 72 años con antecedentes de disnea de esfuerzo y síncope. A la palpación de las arterias carótidas en el cuello, usted percibe una pulsación de amplitud notablemente pequeña y con un retraso evidente en alcanzar su pico máximo en comparación con el primer ruido cardíaco auscultado simultáneamente."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se clasifica semiológicamente este tipo de pulso y qué patología valvular subyacente indica?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(18, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Pulso celer o salto de agua; insuficiencia mitral severa</span>
+                        </button>
+                        <button onclick="selectOption(18, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Pulso tardus et parvus; estenosis aórtica severa</span>
+                        </button>
+                        <button onclick="selectOption(18, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Pulso alternante; insuficiencia cardíaca izquierda avanzada</span>
+                        </button>
+                        <button onclick="selectOption(18, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Pulso bisferiens; miocardiopatía hipertrófica obstructiva</span>
+                        </button>
+                        <button onclick="selectOption(18, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Pulso dicróto; fiebre tifoidea severa</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 19 -->
+                <div class="question-block hidden" id="question-19">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 19 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Paciente femenino de 40 años presenta temblor distal fino, exoftalmos bilateral evidente y aumento de volumen difuso en la región anterior del cuello. Al auscultar directamente sobre la glándula tiroides usando el diafragma del estetoscopio, usted percibe un ruido continuo (soplante) con acentuación sistólica."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se denomina este hallazgo y qué mecanismo fisiopatológico lo explica en el contexto de la enfermedad del paciente?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(19, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">Soplo laringotraqueal transmitido; estenosis traqueal obstructiva</span>
+                        </button>
+                        <button onclick="selectOption(19, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">Soplo tiroideo; hipervascularización y aumento masivo del flujo sanguíneo glandular (Enfermedad de Graves-Basedow)</span>
+                        </button>
+                        <button onclick="selectOption(19, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Frote tiroideo; inflamación de la cápsula glandular por tiroiditis de Hashimoto</span>
+                        </button>
+                        <button onclick="selectOption(19, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">Soplo carotídeo transmitido; placa de ateroma carotídea obstructiva</span>
+                        </button>
+                        <button onclick="selectOption(19, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">Ruido de galope glandular; hipertiroidismo subclínico</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Question Block 20 -->
+                <div class="question-block hidden" id="question-20">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-blue-400 tracking-wider mb-3">
+                        <span>VIÑETA CLÍNICA ESTILO UCE / USMLE</span>
+                        <span>PREGUNTA 20 DE 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-950/40 border border-gray-800/60 text-xs text-gray-300 leading-relaxed italic mb-4">
+                        "Un paciente acude a consulta refiriendo dolor de cabeza y fiebre. Al realizar el interrogatorio, el paciente señala: 'Doctor, me duele toda la cabeza, es como si me apretaran con una banda muy fuerte. Empezó hace dos días de forma leve y ha ido aumentando, no tolero el ruido ni la luz'."
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-gray-100 leading-snug mb-5">
+                        ¿Cómo se clasifican semiológicamente el dolor de cabeza (cefalea) y la molestia ante la luz (fotofobia) en este relato?
+                    </h3>
+                    <div class="space-y-3 options-container">
+                        <button onclick="selectOption(20, 0)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">A</span>
+                            <span class="option-text flex-1">La cefalea es un signo objetivo y la fotofobia es un signo reflejo</span>
+                        </button>
+                        <button onclick="selectOption(20, 1)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">B</span>
+                            <span class="option-text flex-1">La cefalea es un síntoma (subjetivo) y la fotofobia es un síntoma (sensibilidad subjetiva)</span>
+                        </button>
+                        <button onclick="selectOption(20, 2)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">C</span>
+                            <span class="option-text flex-1">Ambas manifestaciones son signos patognomónicos de meningitis bacteriana</span>
+                        </button>
+                        <button onclick="selectOption(20, 3)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">D</span>
+                            <span class="option-text flex-1">La cefalea es un síntoma y la fotofobia es un signo físico verificable</span>
+                        </button>
+                        <button onclick="selectOption(20, 4)" class="option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3">
+                            <span class="letter-badge w-5 h-5 rounded-full flex items-center justify-center bg-gray-800 text-[10px] font-bold text-gray-400 border border-gray-700">E</span>
+                            <span class="option-text flex-1">La cefalea es un síndrome y la fotofobia es un pródromo clínico</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Action Button -->
+                <div class="flex justify-between items-center border-t border-gray-800/80 pt-6 mt-6">
+                    <button id="validate-btn" onclick="validateAnswer()" disabled class="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-850 disabled:text-gray-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer">
+                        Validar Respuesta
+                    </button>
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer">
+                        Siguiente Pregunta ➔
+                    </button>
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="feedback-area" class="hidden p-5 rounded-2xl border text-xs leading-relaxed transition-all">
+                    <!-- Dynamic feedback will render here -->
+                </div>
+            </div>
+
+            <!-- Quiz Results Area -->
+            <div id="results-area" class="hidden glass rounded-3xl p-8 text-center space-y-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-500/10 text-green-400 border border-green-500/20 text-3xl select-none">
+                    🎓
+                </div>
+                <div>
+                    <h2 class="text-2xl font-display font-bold text-gray-150">Simulación Completada</h2>
+                    <p class="text-xs text-gray-400 mt-1">Evaluación oficial del material del Primer Parcial UCE</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-gray-900/40 border border-gray-800 max-w-xs mx-auto">
+                    <p class="text-xs text-gray-400 uppercase font-semibold">Puntaje Final</p>
+                    <p id="score-text" class="text-4xl font-mono font-bold text-blue-400 mt-1">0 / 20</p>
+                    <p id="percent-text" class="text-[10px] text-gray-500 mt-2">0%</p>
+                </div>
+                <div class="flex gap-3 justify-center max-w-sm mx-auto">
+                    <button onclick="restartQuiz()" class="flex-1 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold text-xs rounded-xl border border-gray-700 transition-colors cursor-pointer">
+                        Reiniciar
+                    </button>
+                    <button onclick="switchTab('flashcards')" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-lg transition-all cursor-pointer">
+                        Ver Flashcards
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            const flashcardTab = document.getElementById('tab-flashcards');
+            const quizTab = document.getElementById('tab-quiz');
+            const flashcardBtn = document.getElementById('tab-flashcards-btn');
+            const quizBtn = document.getElementById('tab-quiz-btn');
+
+            if (tabId === 'flashcards') {
+                flashcardTab.classList.remove('hidden');
+                quizTab.classList.add('hidden');
+                flashcardBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer bg-blue-600 text-white shadow-md";
+                quizBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-gray-400 hover:text-gray-200";
+            } else {
+                flashcardTab.classList.add('hidden');
+                quizTab.classList.remove('hidden');
+                flashcardBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-gray-400 hover:text-gray-200";
+                quizBtn.className = "flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer bg-blue-600 text-white shadow-md";
+            }
         }
 
-        const userAnswer = selectedOption.value;
-        const correctAnswer = quizData[questionIndex].answer;
-        const explanation = quizData[questionIndex].explanation;
+        // Quiz State
+        let currentQuestion = 1;
+        let selectedIdx = null;
+        let score = 0;
+        const totalQuestions = 20;
+        
+        const answers = {
+            1: 2,
+            2: 2,
+            3: 1,
+            4: 2,
+            5: 1,
+            6: 2,
+            7: 2,
+            8: 1,
+            9: 2,
+            10: 0,
+            11: 2,
+            12: 1,
+            13: 1,
+            14: 1,
+            15: 1,
+            16: 1,
+            17: 1,
+            18: 1,
+            19: 1,
+            20: 1,
+        };
 
-        feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
-        if (userAnswer === correctAnswer) {
-          feedbackDiv.classList.add('correct');
-          feedbackDiv.innerHTML = `✅ <span class='font-semibold'>¡Correcto!</span> Excelente razonamiento. <br><br> ${explanation}`;
-        } else {
-          feedbackDiv.classList.add('incorrect');
-          feedbackDiv.innerHTML = `❌ <span class='font-semibold'>Incorrecto.</span> Analicemos juntos: <br><br> ${explanation}`;
+        const justifications = {
+            1: {
+                correct: `El compromiso del ganglio supraclavicular izquierdo (Ganglio de Virchow o Centinela) indica metástasis de una neoplasia maligna intraabdominal, siendo el cáncer gástrico la causa más clásica. El conducto torácico drena la linfa abdominal y desemboca en el ángulo venoso yugulosubclavio izquierdo, facilitando la siembra tumoral en este sitio.`,
+                pearl: `Virchow izquierdo = Alarma abdominal (estómago, colon, páncreas, ovario). Virchow derecho = Alarma torácica (pulmón, esófago).`
+            },
+            2: {
+                correct: `El cuarto ruido cardíaco (R4) es un ruido presistólico provocado por la contracción auricular contra un ventrículo rígido (con distensibilidad o complianza disminuida), típico de la hipertrofia ventricular izquierda inducida por HTA. Como requiere una sístole auricular mecánica coordinada, desaparece en presencia de fibrilación auricular.`,
+                pearl: `R4 es el galope auricular de la rigidez. Recuerda: ¡NUNCA lo escucharás en un paciente con Fibrilación Auricular!`
+            },
+            3: {
+                correct: `Las manchas de Koplik son pequeñas lesiones blanco-azuladas con halo rojo en la cara interna de las mejillas. Son patognomónicas del sarampión (su presencia confirma el diagnóstico sin necesidad de pruebas adicionales).`,
+                pearl: `Signo Patognomónico = Diagnóstico absoluto instantáneo. Koplik es al Sarampión lo que la rigidez de nuca al Síndrome Meníngeo.`
+            },
+            4: {
+                correct: `La Historia de la Enfermedad Actual debe redactarse con rigor formal y terminología científica. Palabras vulgares o explicaciones de opinión del paciente ('dolor feo', 'barriga', 'pica-pollo') deben traducirse a terminología semiológica (ej. dolor sordo, molestia opresiva, epigastralgia, ingesta de alimentos ricos en grasas). Se deben documentar hechos clínicos objetivos.`,
+                pearl: `El paciente aporta la narrativa clínica; el médico la traduce en semiología científica estructurada.`
+            },
+            5: {
+                correct: `La anisocoria (diferencia de tamaño de las pupilas) por midriasis (dilatación) derecha arrefléctica indica compromiso de las fibras parasimpáticas constrictoras del III par craneal derecho. Frecuentemente es causada por la hernia del uncus temporal secundaria a hipertensión endocraneal severa ipsilateral.`,
+                pearl: `Pupila dilatada fija post-trauma = Herniación cerebral inminente (compresión ipsilateral del III par). ¡Emergencia neuroquirúrgica!`
+            },
+            6: {
+                correct: `El papiledema es la tumefacción de la papila óptica secundaria a hipertensión endocraneal. El borramiento de los límites de la papila, la pérdida de la pulsación venosa fisiológica y la sobreelevación del disco óptico son signos diagnósticos característicos.`,
+                pearl: `Papiledema = Alarma neurológica de Hipertensión Endocraneal. Nunca realices una punción lumbar sin descartar papiledema previo por riesgo de herniación.`
+            },
+            7: {
+                correct: `La presión firme sobre el punto de Ewing (ángulo superior e interno de la órbita) evalúa la sensibilidad del seno frontal. Si despierta dolor exquisito, es altamente sugestivo de sinusitis frontal aguda, debido a la inflamación de la mucosa y la retención de secreciones purulentas.`,
+                pearl: `Sinusitis frontal = Punto frontal/Ewing sensible; Sinusitis maxilar = Punto infraorbitario/maxilar sensible.`
+            },
+            8: {
+                correct: `La maniobra de Quervain es la técnica bimanual posterior clásica para palpar tiroides. El médico se sitúa detrás del paciente, abraza el cuello colocando los pulgares en la nuca y el resto de los dedos palpan los lóbulos laterales de la tiroides a cada lado de la tráquea mientras el paciente traga.`,
+                pearl: `Quervain = Desde atrás (bimanual posterior). Lahey y Crile = Desde adelante (bimanual anterior).`
+            },
+            9: {
+                correct: `Un nódulo tiroideo o masa cervical dura, de consistencia pétrea, que no se desplaza con la deglución (fijeza por invasión local) y está adherida a los planos profundos es altamente sospechosa de carcinoma tiroideo invasivo (ej. anaplásico o folicular avanzado).`,
+                pearl: `Masa maligna = Pétrea + Indolora + Adherida a planos profundos (inmóvil).`
+            },
+            10: {
+                correct: `La maniobra de Marañón (o signo de Pemberton) es positiva si al levantar los brazos se produce plétora facial, cianosis y dificultad respiratoria. Esto ocurre porque el bocio intratorácico es forzado hacia el estrecho torácico superior, actuando como un tapón que comprime la vena cava superior e interrumpe el retorno venoso de la cabeza y el cuello.`,
+                pearl: `Pemberton = Diagnóstico clínico rápido de bocio sumergido o intratorácico. Evita el uso innecesario de estudios caros de inmediato.`
+            },
+            11: {
+                correct: `El Rinne negativo en el oído izquierdo (audición por hueso mayor que por aire) y el Weber que lateraliza al oído izquierdo (oído enfermo) confirman un defecto en el aparato de conducción (cadena de huesecillos o membrana timpánica) del oído izquierdo.`,
+                pearl: `Sordera de conducción: Rinne negativo ipsilateral + Weber lateraliza a oído enfermo (el tapón o daño óseo impide que el ruido exterior enmascare el sonido interno).`
+            },
+            12: {
+                correct: `La parálisis facial periférica compromete toda la hemicara (tanto el sector superior -frente y orbicular del ojo- como el inferior -boca-), debido a lesión del núcleo o trayecto del VII par ipsilateral. En cambio, la parálisis facial central respeta la musculatura de la frente por tener doble inervación cortical contralateral.`,
+                pearl: `Parálisis Facial Periférica = Compromiso de la Frente (arrugas borradas en hemicara afectada). Parálisis Central = Frente preservada (arrugas simétricas al levantar cejas).`
+            },
+            13: {
+                correct: `La maniobra de Valsalva aumenta la presión intratorácica, disminuyendo el retorno venoso al corazón y reduciendo el volumen diastólico del ventrículo izquierdo (VI). En la miocardiopatía hipertrófica obstructiva, un VI más pequeño exacerba la obstrucción del tracto de salida, aumentando la turbulencia y la intensidad del soplo sistólico.`,
+                pearl: `Valsalva = Menos volumen cardíaco. La mayoría de los soplos disminuyen de intensidad con Valsalva, excepto: Miocardiopatía Hipertrófica y Prolapso Mitral, que aumentan.`
+            },
+            14: {
+                correct: `El reflujo hepatojugular es positivo cuando la presión yugular aumenta más de 3 cm de forma sostenida (>10 segundos) durante la compresión hepática. Es un signo clásico de insuficiencia cardíaca derecha, indicando congestión pasiva y la incapacidad del ventrículo derecho de bombear el volumen de sobrecarga.`,
+                pearl: `Reflujo hepatojugular = Sobrecarga del Ventrículo Derecho. Ayuda a diferenciar la disnea de causa cardíaca de la de causa respiratoria.`
+            },
+            15: {
+                correct: `El pulmón sano produce sonoridad. La condensación alveolar (neumonía) o la masa del hígado producen matidez (ausencia de aire). El estómago o colon producen timpanismo por su contenido de gas.`,
+                pearl: `Matidez = Ruido de sólido (sin aire). Timpanismo = Ruido de hueco con gas. Sonoridad = Ruido de pulmón con aire distribuido en alvéolos.`
+            },
+            16: {
+                correct: `El ganglio supraclavicular derecho drena preferentemente la linfa de la cavidad torácica, mediastino y pulmones. Un ganglio duro e indoloro en esta región en un fumador crónico sugiere fuertemente metástasis de cáncer de pulmón o esófago. Difiere del izquierdo (Virchow), que drena el conducto torácico abdominal.`,
+                pearl: `Supraclavicular Derecho = Pulmón o Mediastino; Supraclavicular Izquierdo (Virchow) = Abdomen o Pelvis.`
+            },
+            17: {
+                correct: `La glositis de Hunter se presenta como una lengua lisa, depapilada y roja. Es el hallazgo clásico bucal de la anemia perniciosa por déficit de cobalamina (vitamina B12) o deficiencia de ácido fólico.`,
+                pearl: `Lengua depapilada y brillante = Glositis de Hunter por déficit de B12/Ácido Fólico. ¡Evalúa siempre hemograma y frotis de sangre periférica!`
+            },
+            18: {
+                correct: `El pulso 'tardus et parvus' (lento y pequeño) se debe al vaciado ventricular izquierdo obstruido y prolongado. Es el hallazgo clásico carotídeo de la estenosis valvular aórtica severa.`,
+                pearl: `Estenosis Aórtica = Soplo sistólico eyectivo irradiado a cuello + Pulso carotídeo Tardus et Parvus + Clic de eyección.`
+            },
+            19: {
+                correct: `El soplo tiroideo audible es causado por el aumento masivo de la vascularización y el flujo arterial continuo (neovascularización) característico del bocio difuso tóxico (hipertiroidismo de Graves-Basedow). A menudo se acompaña de un frémito palpable.`,
+                pearl: `Tiroides hiperactiva (Graves) = Soplo tiroideo audible + Frémito palpable. Indica flujo hiperdinámico patológico.`
+            },
+            20: {
+                correct: `Tanto el dolor de cabeza (cefalea) como el fastidio o molestia ocular ante la luz (fotofobia) son manifestaciones subjetivas referidas por el paciente que el médico no puede verificar u observar directamente de forma física o química. Por lo tanto, ambos se clasifican semiológicamente como síntomas.`,
+                pearl: `Todo dolor, molestia sensitiva o alteración del estado de ánimo es un síntoma (subjetivo). La verificación física directa (ej. rigidez de nuca) es el signo (objetivo).`
+            },
+        };
+
+        function selectOption(qIdx, optIdx) {
+            if (document.getElementById('validate-btn').disabled && selectedIdx !== null) return;
+            
+            selectedIdx = optIdx;
+            
+            const qBlock = document.getElementById('question-' + qIdx);
+            const buttons = qBlock.getElementsByClassName('option-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].className = "option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3";
+            }
+            
+            buttons[optIdx].className = "option-btn w-full text-left p-3.5 rounded-xl border border-blue-500/40 bg-blue-500/10 text-blue-300 text-xs font-medium transition-all flex items-start gap-3";
+            
+            document.getElementById('validate-btn').disabled = false;
         }
-      }
 
-      loadQuiz();
-    </script></body></html>
+        function validateAnswer() {
+            const correctIdx = answers[currentQuestion];
+            const qBlock = document.getElementById('question-' + currentQuestion);
+            const buttons = qBlock.getElementsByClassName('option-btn');
+            const feedbackArea = document.getElementById('feedback-area');
+            const validateBtn = document.getElementById('validate-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            validateBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                if (i === correctIdx) {
+                    buttons[i].className = "option-btn w-full text-left p-3.5 rounded-xl border border-green-500/30 bg-green-500/10 text-green-400 text-xs font-medium transition-all flex items-start gap-3";
+                } else if (i === selectedIdx) {
+                    buttons[i].className = "option-btn w-full text-left p-3.5 rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 text-xs font-medium transition-all flex items-start gap-3";
+                } else {
+                    buttons[i].className = "option-btn w-full text-left p-3.5 rounded-xl border border-gray-900 bg-gray-950/20 text-gray-500 pointer-events-none text-xs font-medium transition-all flex items-start gap-3";
+                }
+            }
+
+            feedbackArea.classList.remove('hidden');
+
+            if (selectedIdx === correctIdx) {
+                score++;
+                feedbackArea.className = "p-5 rounded-2xl border text-xs leading-relaxed transition-all bg-green-500/5 border-green-500/15 text-green-400 mt-4";
+                feedbackArea.innerHTML = `<p class="font-bold mb-1">✅ CORRECTO — EXPLICACIÓN CATEDRÁTICA UCE:</p>
+                                          <p>${justifications[currentQuestion].correct}</p>
+                                          <p class="mt-3 font-semibold text-green-300 italic">⭐ Perla: ${justifications[currentQuestion].pearl}</p>`;
+            } else {
+                feedbackArea.className = "p-5 rounded-2xl border text-xs leading-relaxed transition-all bg-red-500/5 border-red-500/15 text-red-400 mt-4";
+                feedbackArea.innerHTML = `<p class="font-bold mb-1">❌ INCORRECTO — RETROALIMENTACIÓN CLÍNICA UCE:</p>
+                                          <p>La opción correcta era la <strong>${String.fromCharCode(65 + correctIdx)}</strong>. ${justifications[currentQuestion].correct}</p>
+                                          <p class="mt-3 font-semibold text-red-300 italic">⭐ Perla: ${justifications[currentQuestion].pearl}</p>`;
+            }
+        }
+
+        function nextQuestion() {
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('validate-btn').classList.remove('hidden');
+            document.getElementById('validate-btn').disabled = true;
+
+            document.getElementById('question-' + currentQuestion).classList.add('hidden');
+
+            selectedIdx = null;
+
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                document.getElementById('question-' + currentQuestion).classList.remove('hidden');
+                document.getElementById('quiz-progress-text').innerText = `Pregunta ${currentQuestion} de ${totalQuestions}`;
+            } else {
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('results-area').classList.remove('hidden');
+                document.getElementById('quiz-progress-text').innerText = "Simulación Completada";
+
+                document.getElementById('score-text').innerText = `${score} / ${totalQuestions}`;
+                const pct = Math.round((score / totalQuestions) * 100);
+                document.getElementById('percent-text').innerText = `${pct}% de aciertos clínicos`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            selectedIdx = null;
+            score = 0;
+
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('results-area').classList.add('hidden');
+            document.getElementById('quiz-progress-text').innerText = `Pregunta 1 de ${totalQuestions}`;
+
+            for (let q = 1; q <= totalQuestions; q++) {
+                const qBlock = document.getElementById('question-' + q);
+                if (q === 1) {
+                    qBlock.classList.remove('hidden');
+                } else {
+                    qBlock.classList.add('hidden');
+                }
+
+                const buttons = qBlock.getElementsByClassName('option-btn');
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].disabled = false;
+                    buttons[i].className = "option-btn w-full text-left p-3.5 rounded-xl border border-gray-800/80 bg-gray-900/10 text-gray-300 hover:bg-gray-900/50 hover:border-gray-700 text-xs font-medium transition-all flex items-start gap-3";
+                }
+            }
+
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('validate-btn').classList.remove('hidden');
+            document.getElementById('validate-btn').disabled = true;
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

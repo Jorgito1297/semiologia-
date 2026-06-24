@@ -1,7 +1,10 @@
 -- ============================================
 -- MIGRATION: 003_students_neuro
 -- Description: Student profiles and memory tracking per domain
--- Rollback: DROP TABLE IF EXISTS student_memory_states, students CASCADE;
+-- Rollback:
+--   DROP TABLE IF EXISTS public.student_memory_states CASCADE;
+--   DROP TABLE IF EXISTS public.student_competency_progress CASCADE;
+--   DROP TABLE IF EXISTS public.students CASCADE;
 -- ============================================
 
 BEGIN;
