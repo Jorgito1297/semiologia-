@@ -1,5 +1,6 @@
 import { HeartSynth } from './HeartSynth';
 import { LungSynth } from './LungSynth';
+import { useSimulationStore } from '../stores/simulation.store';
 
 export class AudioEngine {
   private static instance: AudioEngine | null = null;
@@ -115,7 +116,23 @@ export class AudioEngine {
         if (!this.isPlaying || !this.ctx || !this.mainGain) return;
 
         const currentTime = this.ctx.currentTime;
-        const interval = this.focusType === 'heart' ? 0.833 : 4.0; // 72 BPM vs 15 breaths/min
+        
+        // Dynamically read heart rate and respiratory rate from Zustand store
+        const currentVitals = useSimulationStore.getState().currentVitals;
+        let hr = 72;
+        let rr = 15;
+        if (currentVitals) {
+          hr = currentVitals.hr;
+          rr = currentVitals.rr;
+        }
+
+        const interval = this.focusType === 'heart'
+          ? (hr > 0 ? 60 / hr : 999999) // Infinite interval if HR is 0 (flatline)
+          : (rr > 0 ? 60 / rr : 999999);
+
+        // If heart rate or respiratory rate is zero, do not schedule sounds
+        if (this.focusType === 'heart' && hr === 0) return;
+        if (this.focusType === 'lung' && rr === 0) return;
 
         while (this.nextEventTime < currentTime + scheduleAheadTime) {
           const timeToSchedule = this.nextEventTime;

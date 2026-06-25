@@ -21,7 +21,8 @@ import { PersistenceManager } from '@/modules/auscultation/persistence/Persisten
 import { TorsoAnterior } from '@/modules/auscultation/anatomy/TorsoAnterior';
 import { TorsoPosterior } from '@/modules/auscultation/anatomy/TorsoPosterior';
 import { AnatomyLegend } from '@/modules/auscultation/anatomy/AnatomyLegend';
-import { OscilloscopeCanvas } from '@/modules/auscultation/waveform/OscilloscopeCanvas';
+import { ECGStreamRenderer } from '@/modules/auscultation/waveform/ECGStreamRenderer';
+import { InterventionsPanel } from '@/modules/auscultation/simulation/InterventionsPanel';
 import { QuizComponent } from '@/modules/auscultation/quizzes/QuizComponent';
 import { TutorFeedback } from '@/modules/auscultation/ai/TutorFeedback';
 
@@ -50,6 +51,7 @@ export default function AuscultacionPage() {
   const activeScenarioId = useSimulationStore((state) => state.activeScenarioId);
   const setSimulationMode = useSimulationStore((state) => state.setSimulationMode);
   const setActiveScenarioId = useSimulationStore((state) => state.setActiveScenarioId);
+  const initializeSimulation = useSimulationStore((state) => state.initializeSimulation);
 
   // Register network sync listeners
   useEffect(() => {
@@ -104,7 +106,7 @@ export default function AuscultacionPage() {
       return;
     }
 
-    setActiveScenarioId(scId);
+    initializeSimulation(sc);
     setSoundMode(sc.soundModeOverride);
     setSelectedHotspotId(sc.activeHotspotId);
 
@@ -114,6 +116,17 @@ export default function AuscultacionPage() {
       setSelectedLayer(hs.type);
     }
   };
+
+  // Vital signs tick loop when audio is playing and a scenario is active
+  useEffect(() => {
+    let timer: ReturnType<typeof setInterval>;
+    if (isPlaying && activeScenarioId) {
+      timer = setInterval(() => {
+        useSimulationStore.getState().tickVitals();
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isPlaying, activeScenarioId]);
 
   const activeHotspot = selectedHotspotId ? HOTSPOTS[selectedHotspotId] : null;
   const activeScenario = CLINICAL_SCENARIOS.find((s) => s.id === activeScenarioId);
@@ -293,30 +306,8 @@ export default function AuscultacionPage() {
             {/* Monitor de Sonido y Osciloscopio */}
             <div className="glass rounded-3xl p-6 border border-gray-800 bg-gray-950/10 shadow-2xl space-y-5">
               
-              {/* Patient Vitals Card (if scenario is selected) */}
-              {activeScenario && (
-                <div className="grid grid-cols-4 gap-2 bg-[#090d16]/80 p-3 rounded-2xl border border-emerald-500/10 text-center select-none font-mono">
-                  <div className="p-1">
-                    <span className="text-[8px] text-gray-500 block">F.C. (HR)</span>
-                    <span className="text-xs font-bold text-emerald-400 animate-pulse">{activeScenario.vitalSigns.hr} lpm</span>
-                  </div>
-                  <div className="p-1">
-                    <span className="text-[8px] text-gray-500 block">F.R. (RR)</span>
-                    <span className="text-xs font-bold text-cyan-400">{activeScenario.vitalSigns.rr} rpm</span>
-                  </div>
-                  <div className="p-1">
-                    <span className="text-[8px] text-gray-500 block">P.A. (BP)</span>
-                    <span className="text-xs font-bold text-emerald-400">{activeScenario.vitalSigns.bp} mmHg</span>
-                  </div>
-                  <div className="p-1">
-                    <span className="text-[8px] text-gray-500 block">SpO2</span>
-                    <span className="text-xs font-bold text-cyan-400">{activeScenario.vitalSigns.spo2}%</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Osciloscopio de Onda en Canvas */}
-              <OscilloscopeCanvas />
+              {/* ECG Stream Renderer and Vital Signs Monitor */}
+              <ECGStreamRenderer />
 
               {/* Controles de Reproducción y Sonido */}
               {activeHotspot ? (
@@ -401,6 +392,11 @@ export default function AuscultacionPage() {
                 </div>
               </div>
             </div>
+
+            {/* Panel de Intervenciones Médicas (solo si hay un caso clínico activo) */}
+            {activeScenario && (
+              <InterventionsPanel />
+            )}
 
             {/* Ficha Clínica y Retroalimentación RAG */}
             {activeHotspot && simulationMode === 'training' && (

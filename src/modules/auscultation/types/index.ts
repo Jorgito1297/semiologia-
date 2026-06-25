@@ -37,6 +37,10 @@ export interface AuscultationSession {
   created_at?: string;
 }
 
+export type ECGPattern = 'NSR' | 'AFib' | 'VTac' | 'Flatline';
+export type ConsciousnessState = 'conscious' | 'somnolent' | 'unconscious';
+export type InterventionType = 'oxygen' | 'atropine' | 'amiodarone' | 'defib';
+
 export interface Scenario {
   id: string;
   title: string;
@@ -54,4 +58,9 @@ export interface Scenario {
   activeHotspotId: string;
   soundModeOverride: SoundMode;
   notes: string;
+  // Scenario Engine extensions (optional to maintain backward compatibility)
+  initialECG?: ECGPattern;
+  initialConsciousness?: ConsciousnessState;
+  difficulty?: 'easy' | 'medium' | 'hard';
 }
+
